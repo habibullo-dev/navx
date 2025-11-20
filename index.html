@@ -3,1219 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NavX - Vehicle AutoRoute Navigator</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #2c3e50;
-            background: #ffffff;
-        }
-        
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s;
-        }
-        
-        .nav-links a:hover {
-            opacity: 0.8;
-        }
-        
-        /* Mobile menu toggle */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        /* Sections */
-        section {
-            padding: 6rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        section:first-of-type {
-            margin-top: 70px;
-        }
-        
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        h2 {
-            font-size: 2.5rem;
-            color: #667eea;
-            margin-bottom: 2rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid #e9ecef;
-        }
-        
-        h3 {
-            font-size: 1.8rem;
-            color: #764ba2;
-            margin: 2rem 0 1rem 0;
-        }
-        
-        /* Hero Section */
-        #hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 8rem 2rem 6rem;
-            margin-top: 0;
-        }
-        
-        #hero h1 {
-            color: white;
-            background: none;
-            -webkit-text-fill-color: white;
-            font-size: 3.5rem;
-        }
-        
-        #hero .tagline {
-            font-size: 1.3rem;
-            opacity: 0.95;
-            max-width: 900px;
-            margin: 1.5rem auto;
-            font-style: italic;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 1rem 2.5rem;
-            background: white;
-            color: #667eea;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        
-        /* Content Boxes */
-        .problem-box, .solution-box, .info-box {
-            padding: 2rem;
-            margin: 2rem 0;
-            border-radius: 10px;
-        }
-        
-        .problem-box {
-            background: #fff5f5;
-            border-left: 5px solid #e53e3e;
-        }
-        
-        .solution-box {
-            background: #f0fff4;
-            border-left: 5px solid #38a169;
-        }
-        
-        .info-box {
-            background: #ebf8ff;
-            border-left: 5px solid #3182ce;
-        }
-        
-        /* Feature Grid */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .feature-card {
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 2rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
-        }
-        
-        .feature-number {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        /* Diagrams */
-        .diagram-container {
-            margin: 3rem 0;
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .diagram-container svg {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        /* Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-        }
-        
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-        
-        /* Metrics Grid */
-        .metric-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .metric-card {
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .metric-value {
-            font-size: 3rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .metric-label {
-            color: #718096;
-            font-size: 0.95rem;
-            margin-top: 0.5rem;
-        }
-        
-        /* Tech Stack */
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        
-        .tech-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        
-        /* Roles Grid */
-        .roles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .role-item {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .role-item strong {
-            color: #667eea;
-            display: block;
-            margin-bottom: 0.75rem;
-            font-size: 1.1rem;
-        }
-        
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 3rem 2rem;
-        }
-        
-        footer a {
-            color: #667eea;
-            text-decoration: none;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-            
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: #667eea;
-                flex-direction: column;
-                padding: 1rem;
-                gap: 1rem;
-            }
-            
-            .nav-links.active {
-                display: flex;
-            }
-            
-            #hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            h2 {
-                font-size: 1.8rem;
-            }
-            
-            section {
-                padding: 4rem 1rem;
-            }
-        }
-        
-        ul {
-            margin-left: 2rem;
-            margin-top: 1rem;
-        }
-        
-        li {
-            margin: 0.75rem 0;
-        }
-        
-        p {
-            margin: 1rem 0;
-        }
-    </style>
+    <title>NavX // A.R.N. System</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation -->
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="loader-text-container">
+            <span id="typewriter-text"></span><span class="cursor"></span>
+        </div>
+    </div>
+
     <nav>
         <div class="nav-container">
-            <a href="#hero" class="logo">🚗 NavX</a>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <a href="#hero" class="logo">NAV//X</a>
+            <button class="menu-toggle" onclick="toggleMenu()">///</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#problem">Problem</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#architecture">Architecture</a></li>
-                <li><a href="#comparison">Route Comparison</a></li>
-                <li><a href="#replanning">Re-Planning</a></li>
-                <li><a href="#ui">Interface</a></li>
-                <li><a href="#metrics">Metrics</a></li>
-                <li><a href="#team">Team</a></li>
+                <li><a href="#hero">00_Home</a></li>
+                <li><a href="#features">01_Core</a></li>
+                <li><a href="#architecture">02_System</a></li>
+                <li><a href="#comparison">03_Data</a></li>
+                <li><a href="#team">04_Team</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section id="hero">
-        <h1>Vehicle AutoRoute Navigator</h1>
+        <div style="margin-bottom: 1rem; font-size: 0.8rem; color: #555;">SYSTEM STATUS: ONLINE // V 2.0</div>
+        <h1>Vehicle<br>AutoRoute<br>Navigator</h1>
         <div class="tagline">
-            An intelligent route planner that chooses not just the fastest route, but the safest and most comfortable, 
-            using real-time context and onboard sensing—executed through ROS 2 + Nav2 on TurtleBot3.
+            > An intelligent route planner prioritizing safety context and onboard sensing.<br>
+            > Executed via ROS 2 + Nav2 on TurtleBot3.
         </div>
-        <a href="#problem" class="cta-button">Learn More ↓</a>
+        <a href="#features" class="cta-button">Initialize System_</a>
     </section>
 
-    <!-- Problem Section -->
     <section id="problem">
-        <h2>The Problem We're Solving</h2>
-        <div class="problem-box">
-            <p><strong>Navigation systems today are stuck in the past.</strong> Whether it's Google Maps, Tesla's Autopilot, or industrial robotics, they all share one fatal flaw: they optimize purely for speed. Get from A to B as fast as possible, consequences be damned.</p>
-            <p style="margin-top: 1rem;">But real-world travel isn't one-dimensional. A parent driving with kids values safety over shaving off two minutes. A delivery driver on a 12-hour shift needs comfort to avoid fatigue. A tourist wants scenic routes, not just efficient ones. Current systems ignore these human needs entirely.</p>
-        </div>
-        
-        <div class="solution-box">
-            <h3>Our Solution: Context-Aware, Multi-Criteria Routing</h3>
-            <p>Vehicle AutoRoute Navigator introduces a paradigm shift. Instead of blindly chasing the fastest route, we evaluate paths across multiple dimensions—time, safety, comfort, and scenic value—then dynamically adapt as conditions change. When our robot encounters unexpected obstacles, rough terrain, or hazardous conditions, it doesn't just stop or fail—it intelligently re-routes to a better path.</p>
-            <p style="margin-top: 1rem;">This isn't theoretical. We're demonstrating it live on a TurtleBot3, using only onboard sensors. No external cameras, no cloud processing—just smart algorithms running at the edge.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
+            <div class="problem-box">
+                <h3>// CRITICAL ERROR</h3>
+                <p style="margin-top: 1rem;">Navigation systems typically optimize strictly for <strong>T_min (Time)</strong>.</p>
+                <p style="margin-top: 1rem;">This ignores multi-dimensional human constraints: Safety, Comfort, and Visual Experience. Current industrial stacks are blind to these variables.</p>
+            </div>
+            
+            <div class="solution-box">
+                <h3>// PATCH APPLIED</h3>
+                <p style="margin-top: 1rem;">NavX introduces <strong>Multi-Criteria Path Scoring</strong>.</p>
+                <p style="margin-top: 1rem;">Dynamic re-routing based on real-time edge sensing. No cloud dependency. Pure onboard computation.</p>
+            </div>
         </div>
     </section>
 
-    <!-- Features Section -->
     <section id="features">
-        <h2>Five Core Capabilities</h2>
+        <h2>Core Capabilities</h2>
         <div class="feature-grid">
             <div class="feature-card">
-                <div class="feature-number">1</div>
-                <h4>Multi-Criteria Path Scoring</h4>
-                <p>Every route is evaluated using a transparent cost function that balances time, risk, comfort, and scenic value. No black boxes—you can see exactly why the system chose this path over that one.</p>
+                <div class="feature-number">01</div>
+                <h4>Transparent Scoring</h4>
+                <p>Route transparency via explicit cost functions. User visibility into decision logic.</p>
             </div>
             
             <div class="feature-card">
-                <div class="feature-number">2</div>
-                <h4>Closed-Loop Re-Planning</h4>
-                <p>When the robot detects obstacles, rough surfaces, or simulated weather hazards, it doesn't wait for human input. It automatically calculates and switches to a better route in under 2 seconds.</p>
+                <div class="feature-number">02</div>
+                <h4>Closed-Loop Logic</h4>
+                <p>Automatic re-planning triggers < 2000ms upon obstacle detection or roughness thresholds.</p>
             </div>
             
             <div class="feature-card">
-                <div class="feature-number">3</div>
-                <h4>ROS 2 Nav2 Execution</h4>
-                <p>The chosen path is converted to waypoints and executed using Nav2's battle-tested navigation stack. When re-planning occurs, the old path is cancelled and the new one begins immediately—no jarring stops.</p>
+                <div class="feature-number">03</div>
+                <h4>ROS 2 Native</h4>
+                <p>Seamless integration with Nav2 stack. Waypoint execution and cancellation handling.</p>
             </div>
             
             <div class="feature-card">
-                <div class="feature-number">4</div>
+                <div class="feature-number">04</div>
                 <h4>Explainable UI</h4>
-                <p>A mobile-friendly web interface shows live robot position and explains every routing decision. See statements like "−18% risk from obstacles, +0.3 scenic boost" so you understand the trade-offs.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-number">5</div>
-                <h4>Hybrid Demo Environment</h4>
-                <p>Works seamlessly in both Gazebo simulation and real-world "mini-roads" setup with tape lanes, traffic cones, and rough surface mats. This proves the concept scales from lab to street.</p>
+                <p>Real-time readout: "−18% risk, +0.3 scenic". Quantifiable trade-offs.</p>
             </div>
         </div>
 
-        <h3>The Math Behind the Magic</h3>
-        <div class="info-box">
-            <p>Our routing algorithm uses a modified A* search that scores each candidate path with a weighted cost function:</p>
-            <p style="text-align: center; font-family: 'Courier New', monospace; font-size: 1.1rem; margin: 1.5rem 0; font-weight: bold;">
-                Cost = w<sub>time</sub> × Time + w<sub>risk</sub> × Risk + w<sub>comfort</sub> × Comfort − w<sub>scenic</sub> × Scenic
+        <div class="info-box" style="margin-top: 4rem; border: 1px dashed #333;">
+            <h4 style="color: #fff;">ALGORITHM_COST_FUNCTION</h4>
+            <p style="font-family: 'Space Mono', monospace; margin-top: 1rem; color: white;">
+                $$ C = (w_t \times Time) + (w_r \times Risk) + (w_c \times Comfort) - (w_s \times Scenic) $$
             </p>
         </div>
-        
-        <p><strong>Breaking it down:</strong></p>
-        <ul>
-            <li><strong>Time:</strong> Traditional routing distance/speed calculation</li>
-            <li><strong>Risk:</strong> Obstacles detected by LIDAR, simulated weather hazards, and historical incident data</li>
-            <li><strong>Comfort:</strong> Computed from IMU vertical acceleration variance (rough roads show high variance)</li>
-            <li><strong>Scenic:</strong> Pre-tagged routes or areas marked as visually appealing (subtracted because it's a benefit)</li>
-        </ul>
-        
-        <p style="margin-top: 1.5rem;">The weights change based on user profile. A "Fastest" profile weights time heavily while a "Safest" profile prioritizes minimizing risk. Users can blend profiles on the fly with a simple slider.</p>
 
-        <h3>User Profiles: Different Priorities, Different Routes</h3>
+        <h3>Profile Configuration</h3>
         <table>
             <thead>
                 <tr>
-                    <th>Profile</th>
-                    <th>Time Weight</th>
-                    <th>Risk Weight</th>
-                    <th>Comfort Weight</th>
-                    <th>Scenic Weight</th>
-                    <th>Best For</th>
+                    <th>MODE</th>
+                    <th>T_Weight</th>
+                    <th>R_Weight</th>
+                    <th>C_Weight</th>
+                    <th>S_Weight</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Fastest</strong></td>
+                    <td><strong>VELOCITY</strong></td>
                     <td>1.0</td>
                     <td>0.2</td>
                     <td>0.1</td>
                     <td>0.0</td>
-                    <td>Time-critical deliveries, emergency response</td>
                 </tr>
                 <tr>
-                    <td><strong>Safest</strong></td>
+                    <td><strong>SECURITY</strong></td>
                     <td>0.5</td>
                     <td>1.0</td>
                     <td>0.3</td>
                     <td>0.0</td>
-                    <td>Family travel, hazardous conditions, new drivers</td>
                 </tr>
                 <tr>
-                    <td><strong>Scenic/Comfort</strong></td>
+                    <td><strong>COMFORT</strong></td>
                     <td>0.6</td>
                     <td>0.3</td>
                     <td>0.4</td>
                     <td>0.4</td>
-                    <td>Tourism, long-haul driving, wellness-focused trips</td>
                 </tr>
             </tbody>
         </table>
     </section>
 
-    <!-- Architecture Section -->
     <section id="architecture">
         <h2>System Architecture</h2>
-        <div class="info-box">
-            <p>We've designed this as a distributed system with clear separation of concerns. Each component can be upgraded or replaced without breaking the whole stack—critical for production robotics systems.</p>
-        </div>
+        <p style="margin-bottom: 2rem;">Distributed nodes. Modular design. Fail-safe.</p>
         
         <div class="diagram-container">
             <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
-    </linearGradient>
-    <filter id="shadow">
-      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
-    </filter>
-  </defs>
-  
-  <text x="600" y="40" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#2c3e50" text-anchor="middle">
-    NavX System Architecture
-  </text>
-  
-  <rect x="50" y="80" width="300" height="180" rx="10" fill="#f8f9fa" stroke="#667eea" stroke-width="3" filter="url(#shadow)"/>
-  <text x="200" y="110" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#667eea" text-anchor="middle">
-    TurtleBot3 Hardware
-  </text>
-  
-  <circle cx="120" cy="170" r="35" fill="url(#grad1)"/>
-  <text x="120" y="175" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">LIDAR</text>
-  <text x="120" y="220" font-family="Arial, sans-serif" font-size="11" fill="#495057" text-anchor="middle">360° Obstacle</text>
-  <text x="120" y="235" font-family="Arial, sans-serif" font-size="11" fill="#495057" text-anchor="middle">Detection</text>
-  
-  <circle cx="280" cy="170" r="35" fill="url(#grad1)"/>
-  <text x="280" y="175" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">IMU</text>
-  <text x="280" y="220" font-family="Arial, sans-serif" font-size="11" fill="#495057" text-anchor="middle">Roughness</text>
-  <text x="280" y="235" font-family="Arial, sans-serif" font-size="11" fill="#495057" text-anchor="middle">Index</text>
-  
-  <path d="M 120 210 L 120 310" stroke="#667eea" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-  <path d="M 280 210 L 280 310" stroke="#667eea" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-  
-  <rect x="50" y="310" width="300" height="100" rx="10" fill="#e3f2fd" stroke="#3182ce" stroke-width="3" filter="url(#shadow)"/>
-  <text x="200" y="340" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#3182ce" text-anchor="middle">
-    Signals Aggregation Node
-  </text>
-  <text x="200" y="365" font-family="Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle">
-    Risk Scores • Comfort Metrics
-  </text>
-  <text x="200" y="385" font-family="Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle">
-    Context Signals (Weather/Hazards)
-  </text>
-  
-  <path d="M 200 410 L 200 480" stroke="#667eea" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-  
-  <rect x="50" y="480" width="300" height="120" rx="10" fill="url(#grad1)" filter="url(#shadow)"/>
-  <text x="200" y="510" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
-    Router Module (A* Planning)
-  </text>
-  <text x="200" y="540" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle">
-    Multi-Criteria Cost Function
-  </text>
-  <text x="200" y="565" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">
-    C = w_t·Time + w_r·Risk + w_c·Comfort - w_s·Scenic
-  </text>
-  
-  <path d="M 350 540 L 450 540" stroke="#667eea" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-  
-  <rect x="450" y="480" width="280" height="120" rx="10" fill="#fff5f5" stroke="#e53e3e" stroke-width="3" filter="url(#shadow)"/>
-  <text x="590" y="510" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#e53e3e" text-anchor="middle">
-    Waypoint Client
-  </text>
-  <text x="590" y="540" font-family="Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle">
-    Interfaces with Nav2
-  </text>
-  <text x="590" y="560" font-family="Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle">
-    FollowWaypoints Action Server
-  </text>
-  <text x="590" y="580" font-family="Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle">
-    Cancel/Reissue on Re-plan
-  </text>
-  
-  <path d="M 590 600 L 590 650" stroke="#e53e3e" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-  
-  <rect x="450" y="650" width="280" height="80" rx="10" fill="#2c3e50" filter="url(#shadow)"/>
-  <text x="590" y="680" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">
-    ROS 2 Nav2 Stack
-  </text>
-  <text x="590" y="705" font-family="Arial, sans-serif" font-size="12" fill="#a0aec0" text-anchor="middle">
-    Path Execution • Motor Control
-  </text>
-  
-  <rect x="820" y="310" width="330" height="120" rx="10" fill="#f0fff4" stroke="#38a169" stroke-width="3" filter="url(#shadow)"/>
-  <text x="985" y="340" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#38a169" text-anchor="middle">
-    Web Gateway (FastAPI)
-  </text>
-  <text x="985" y="365" font-family="Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle">
-    WebSocket: Live Pose Streaming
-  </text>
-  <text x="985" y="385" font-family="Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle">
-    REST API: Set Destination/Profile
-  </text>
-  <text x="985" y="405" font-family="Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle">
-    Explainability Data
-  </text>
-  
-  <path d="M 350 360 L 820 360" stroke="#667eea" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-  
-  <path d="M 985 430 L 985 480" stroke="#38a169" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-  
-  <rect x="820" y="480" width="330" height="120" rx="10" fill="url(#grad2)" filter="url(#shadow)"/>
-  <text x="985" y="510" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
-    Web UI (Leaflet Map)
-  </text>
-  <text x="985" y="540" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle">
-    Live Robot Position
-  </text>
-  <text x="985" y="560" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle">
-    Profile Slider • Route Display
-  </text>
-  <text x="985" y="580" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle">
-    "Why This Route" Panel
-  </text>
-  
-  <path d="M 820 540 L 400 540 L 400 470" stroke="#f5576c" stroke-width="2" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowhead-dash)"/>
-  <text x="600" y="565" font-family="Arial, sans-serif" font-size="11" fill="#f5576c">User Commands</text>
-  
-  <text x="125" y="290" font-family="Arial, sans-serif" font-size="10" fill="#667eea">Obstacle Data</text>
-  <text x="260" y="290" font-family="Arial, sans-serif" font-size="10" fill="#667eea">Accel Data</text>
-  <text x="210" y="450" font-family="Arial, sans-serif" font-size="10" fill="#667eea">Aggregate Scores</text>
-  <text x="380" y="530" font-family="Arial, sans-serif" font-size="10" fill="#667eea">Waypoints</text>
-  <text x="600" y="630" font-family="Arial, sans-serif" font-size="10" fill="#e53e3e">Nav Goals</text>
-  <text x="850" y="350" font-family="Arial, sans-serif" font-size="10" fill="#667eea">Route + Metrics</text>
-  
-  <rect x="50" y="650" width="200" height="80" rx="5" fill="#f8f9fa" stroke="#cbd5e0" stroke-width="2"/>
-  <text x="150" y="670" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2c3e50" text-anchor="middle">
-    Data Flow
-  </text>
-  <line x1="70" y1="690" x2="100" y2="690" stroke="#667eea" stroke-width="3"/>
-  <text x="110" y="695" font-family="Arial, sans-serif" font-size="11" fill="#495057">Sensor/Processing</text>
-  <line x1="70" y1="710" x2="100" y2="710" stroke="#f5576c" stroke-width="2" stroke-dasharray="5,5"/>
-  <text x="110" y="715" font-family="Arial, sans-serif" font-size="11" fill="#495057">User Feedback</text>
-  
-  <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <polygon points="0 0, 10 3, 0 6" fill="#667eea" />
-    </marker>
-    <marker id="arrowhead-dash" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <polygon points="0 0, 10 3, 0 6" fill="#f5576c" />
-    </marker>
-  </defs>
-</svg>
+              <defs>
+                <marker id="arrowhead-w" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                  <polygon points="0 0, 10 3, 0 6" fill="#ffffff" />
+                </marker>
+                 <marker id="arrowhead-g" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                  <polygon points="0 0, 10 3, 0 6" fill="#555" />
+                </marker>
+              </defs>
+              
+              <rect x="50" y="80" width="300" height="180" fill="none" stroke="#555" stroke-width="1" stroke-dasharray="5,5"/>
+              <text x="200" y="110" fill="#fff" text-anchor="middle" font-weight="bold">HARDWARE_LAYER</text>
+              
+              <circle cx="120" cy="170" r="35" fill="none" stroke="#fff" stroke-width="2"/>
+              <text x="120" y="175" fill="#fff" text-anchor="middle" font-size="12">LIDAR</text>
+              
+              <circle cx="280" cy="170" r="35" fill="none" stroke="#fff" stroke-width="2"/>
+              <text x="280" y="175" fill="#fff" text-anchor="middle" font-size="12">IMU</text>
+              
+              <line x1="120" y1="205" x2="120" y2="310" stroke="#fff" stroke-width="1" />
+              <line x1="280" y1="205" x2="280" y2="310" stroke="#fff" stroke-width="1" />
+              
+              <rect x="50" y="310" width="300" height="100" fill="#000" stroke="#fff" stroke-width="2"/>
+              <text x="200" y="340" fill="#fff" text-anchor="middle" font-weight="bold">SIGNAL_AGGREGATOR</text>
+              <text x="200" y="370" fill="#888" text-anchor="middle" font-size="12">> Risk / Comfort Calc</text>
+              
+              <line x1="200" y1="410" x2="200" y2="480" stroke="#fff" stroke-width="1" marker-end="url(#arrowhead-w)"/>
+              
+              <rect x="50" y="480" width="300" height="120" fill="#000" stroke="#fff" stroke-width="2"/>
+              <text x="200" y="510" fill="#fff" text-anchor="middle" font-weight="bold">ROUTER (A*)</text>
+              <text x="200" y="550" fill="#888" text-anchor="middle" font-size="12">Cost Function Processing</text>
+              
+              <line x1="350" y1="540" x2="450" y2="540" stroke="#fff" stroke-width="1" marker-end="url(#arrowhead-w)"/>
+              
+              <rect x="450" y="480" width="280" height="120" fill="#111" stroke="#fff" stroke-width="1"/>
+              <text x="590" y="510" fill="#fff" text-anchor="middle" font-weight="bold">WAYPOINT_CLIENT</text>
+              
+              <line x1="590" y1="600" x2="590" y2="650" stroke="#fff" stroke-width="1" marker-end="url(#arrowhead-w)"/>
+              
+              <rect x="450" y="650" width="280" height="80" fill="#222" stroke="#555" stroke-width="1"/>
+              <text x="590" y="695" fill="#fff" text-anchor="middle" font-weight="bold">ROS2 NAV_STACK</text>
+              
+              <rect x="820" y="310" width="330" height="120" fill="#000" stroke="#fff" stroke-width="1"/>
+              <text x="985" y="350" fill="#fff" text-anchor="middle" font-weight="bold">FASTAPI_GATEWAY</text>
+              <text x="985" y="380" fill="#888" text-anchor="middle" font-size="12">WebSocket Stream</text>
+              
+              <line x1="350" y1="360" x2="820" y2="360" stroke="#555" stroke-width="1" stroke-dasharray="2,2"/>
+              
+              <line x1="985" y1="430" x2="985" y2="480" stroke="#fff" stroke-width="1" marker-end="url(#arrowhead-w)"/>
+              
+              <rect x="820" y="480" width="330" height="120" fill="#000" stroke="#fff" stroke-width="2"/>
+              <text x="985" y="510" fill="#fff" text-anchor="middle" font-weight="bold">UI_INTERFACE</text>
+              <text x="985" y="550" fill="#888" text-anchor="middle" font-size="12">Leaflet Map / Control</text>
+            </svg>
         </div>
 
         <div class="roles-grid">
             <div class="role-item">
-                <strong>Router Module</strong>
-                <p>Python-based A* implementation. Builds candidate paths, applies cost function, re-ranks on condition changes.</p>
+                <strong>> Router_Mod</strong>
+                <p>Python A* implementation. Matrix evaluation.</p>
             </div>
-            
             <div class="role-item">
-                <strong>Signals Node</strong>
-                <p>ROS 2 node that aggregates LIDAR obstacles, IMU roughness metrics, and external context signals.</p>
+                <strong>> Signals_Node</strong>
+                <p>Sensor fusion aggregation point.</p>
             </div>
-            
             <div class="role-item">
-                <strong>Waypoint Client</strong>
-                <p>Interfaces with Nav2's FollowWaypoints action server. Monitors progress, cancels/reissues when re-planning triggers.</p>
-            </div>
-            
-            <div class="role-item">
-                <strong>Web Gateway</strong>
-                <p>FastAPI server with WebSocket support. Streams live robot pose to the UI, accepts destination commands.</p>
+                <strong>> Waypoint_Client</strong>
+                <p>Nav2 interface and action management.</p>
             </div>
         </div>
     </section>
 
-    <!-- Route Comparison Section -->
     <section id="comparison">
-        <h2>Multi-Criteria Route Selection</h2>
-        <div class="info-box">
-            <p><strong>Same origin and destination, three different optimal paths.</strong> Each profile weights the cost function differently, resulting in fundamentally different route choices.</p>
-        </div>
-        
+        <h2>Route Logic Visualized</h2>
         <div class="diagram-container">
-            <svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="fastGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="safeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#48bb78;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#38a169;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="scenicGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
-    </linearGradient>
-    <filter id="shadow2">
-      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
-    </filter>
-  </defs>
-  
-  <text x="600" y="40" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#2c3e50" text-anchor="middle">
-    Multi-Criteria Route Selection
-  </text>
-  <text x="600" y="70" font-family="Arial, sans-serif" font-size="16" fill="#718096" text-anchor="middle">
-    Same origin and destination, three different optimal paths
-  </text>
-  
-  <rect x="50" y="100" width="700" height="500" rx="10" fill="#f8f9fa" stroke="#cbd5e0" stroke-width="2"/>
-  
-  <g stroke="#e2e8f0" stroke-width="1" opacity="0.5">
-    <line x1="50" y1="200" x2="750" y2="200"/>
-    <line x1="50" y1="300" x2="750" y2="300"/>
-    <line x1="50" y1="400" x2="750" y2="400"/>
-    <line x1="50" y1="500" x2="750" y2="500"/>
-    <line x1="150" y1="100" x2="150" y2="600"/>
-    <line x1="300" y1="100" x2="300" y2="600"/>
-    <line x1="450" y1="100" x2="450" y2="600"/>
-    <line x1="600" y1="100" x2="600" y2="600"/>
-  </g>
-  
-  <circle cx="100" cy="250" r="15" fill="#667eea" filter="url(#shadow2)"/>
-  <text x="100" y="256" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">A</text>
-  <text x="100" y="230" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2c3e50" text-anchor="middle">START</text>
-  
-  <circle cx="700" cy="350" r="15" fill="#e53e3e" filter="url(#shadow2)"/>
-  <text x="700" y="356" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">B</text>
-  <text x="700" y="375" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2c3e50" text-anchor="middle">END</text>
-  
-  <rect x="280" y="180" width="80" height="80" rx="5" fill="#fed7d7" opacity="0.7"/>
-  <text x="320" y="215" font-family="Arial, sans-serif" font-size="12" fill="#c53030" text-anchor="middle">⚠️</text>
-  <text x="320" y="235" font-family="Arial, sans-serif" font-size="10" fill="#c53030" text-anchor="middle">Construction</text>
-  <text x="320" y="250" font-family="Arial, sans-serif" font-size="10" fill="#c53030" text-anchor="middle">Zone</text>
-  
-  <rect x="250" y="470" width="200" height="50" rx="5" fill="#feebc8" opacity="0.7"/>
-  <text x="350" y="500" font-family="Arial, sans-serif" font-size="11" fill="#c05621" text-anchor="middle">🔸 Rough Pavement</text>
-  
-  <ellipse cx="550" cy="480" rx="100" ry="70" fill="#c6f6d5" opacity="0.5"/>
-  <text x="550" y="480" font-family="Arial, sans-serif" font-size="11" fill="#22543d" text-anchor="middle">🌳 Park View</text>
-  
-  <path d="M 100 250 L 250 250 L 320 250 L 450 250 L 700 350" 
-        stroke="#667eea" stroke-width="6" fill="none" opacity="0.8" stroke-dasharray="10,5"/>
-  <text x="350" y="270" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#667eea">
-    FASTEST ROUTE
-  </text>
-  
-  <path d="M 100 250 L 150 250 L 150 350 L 400 350 L 700 350" 
-        stroke="#38a169" stroke-width="6" fill="none" opacity="0.8"/>
-  <text x="250" y="370" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#38a169">
-    SAFEST ROUTE
-  </text>
-  
-  <path d="M 100 250 L 150 250 L 150 450 L 550 450 L 700 350" 
-        stroke="#f5576c" stroke-width="6" fill="none" opacity="0.8" stroke-dasharray="15,8"/>
-  <text x="350" y="470" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#f5576c">
-    SCENIC/COMFORT ROUTE
-  </text>
-  
-  <g id="fastest-card">
-    <rect x="800" y="120" width="350" height="180" rx="10" fill="url(#fastGrad)" filter="url(#shadow2)"/>
-    <text x="975" y="155" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
-      🏁 FASTEST Profile
-    </text>
-    <line x1="820" y1="170" x2="1130" y2="170" stroke="white" stroke-width="1" opacity="0.5"/>
-    
-    <text x="830" y="195" font-family="Arial, sans-serif" font-size="13" fill="white">⏱️ Time:</text>
-    <text x="1100" y="195" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="end">4.2 min</text>
-    
-    <text x="830" y="220" font-family="Arial, sans-serif" font-size="13" fill="white">⚠️ Risk Score:</text>
-    <text x="1100" y="220" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#fed7d7" text-anchor="end">7.8 / 10</text>
-    
-    <text x="830" y="245" font-family="Arial, sans-serif" font-size="13" fill="white">🛋️ Comfort:</text>
-    <text x="1100" y="245" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="end">6.0 / 10</text>
-    
-    <text x="830" y="270" font-family="Arial, sans-serif" font-size="13" fill="white">🌄 Scenic:</text>
-    <text x="1100" y="270" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="end">3.0 / 10</text>
-    
-    <rect x="820" y="280" width="310" height="10" fill="white" opacity="0.3" rx="5"/>
-    <rect x="820" y="280" width="248" height="10" fill="white" rx="5"/>
-  </g>
-  
-  <g id="safest-card">
-    <rect x="800" y="330" width="350" height="180" rx="10" fill="url(#safeGrad)" filter="url(#shadow2)"/>
-    <text x="975" y="365" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
-      🛡️ SAFEST Profile
-    </text>
-    <line x1="820" y1="380" x2="1130" y2="380" stroke="white" stroke-width="1" opacity="0.5"/>
-    
-    <text x="830" y="405" font-family="Arial, sans-serif" font-size="13" fill="white">⏱️ Time:</text>
-    <text x="1100" y="405" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="end">5.0 min</text>
-    
-    <text x="830" y="430" font-family="Arial, sans-serif" font-size="13" fill="white">⚠️ Risk Score:</text>
-    <text x="1100" y="430" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#c6f6d5" text-anchor="end">2.4 / 10</text>
-    
-    <text x="830" y="455" font-family="Arial, sans-serif" font-size="13" fill="white">🛋️ Comfort:</text>
-    <text x="1100" y="455" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="end">7.5 / 10</text>
-    
-    <text x="830" y="480" font-family="Arial, sans-serif" font-size="13" fill="white">🌄 Scenic:</text>
-    <text x="1100" y="480" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="end">4.0 / 10</text>
-    
-    <rect x="820" y="490" width="310" height="10" fill="white" opacity="0.3" rx="5"/>
-    <rect x="820" y="490" width="217" height="10" fill="white" rx="5"/>
-  </g>
-  
-  <g id="scenic-card">
-    <rect x="800" y="540" width="350" height="180" rx="10" fill="url(#scenicGrad)" filter="url(#shadow2)"/>
-    <text x="975" y="575" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
-      🌄 SCENIC/COMFORT Profile
-    </text>
-    <line x1="820" y1="590" x2="1130" y2="590" stroke="white" stroke-width="1" opacity="0.5"/>
-    
-    <text x="830" y="615" font-family="Arial, sans-serif" font-size="13" fill="white">⏱️ Time:</text>
-    <text x="1100" y="615" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="end">6.1 min</text>
-    
-    <text x="830" y="640" font-family="Arial, sans-serif" font-size="13" fill="white">⚠️ Risk Score:</text>
-    <text x="1100" y="640" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="end">3.2 / 10</text>
-    
-    <text x="830" y="665" font-family="Arial, sans-serif" font-size="13" fill="white">🛋️ Comfort:</text>
-    <text x="1100" y="665" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#c6f6d5" text-anchor="end">8.9 / 10</text>
-    
-    <text x="830" y="690" font-family="Arial, sans-serif" font-size="13" fill="white">🌄 Scenic:</text>
-    <text x="1100" y="690" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#c6f6d5" text-anchor="end">8.5 / 10</text>
-    
-    <rect x="820" y="700" width="310" height="10" fill="white" opacity="0.3" rx="5"/>
-    <rect x="820" y="700" width="264" height="10" fill="white" rx="5"/>
-  </g>
-  
-  <rect x="50" y="630" width="700" height="100" rx="10" fill="#e3f2fd" stroke="#3182ce" stroke-width="2"/>
-  <text x="400" y="660" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50" text-anchor="middle">
-    💡 Why Different Routes?
-  </text>
-  <text x="400" y="685" font-family="Arial, sans-serif" font-size="13" fill="#495057" text-anchor="middle">
-    Each profile weights the cost function differently. FASTEST prioritizes time (ignores hazard),
-  </text>
-  <text x="400" y="705" font-family="Arial, sans-serif" font-size="13" fill="#495057" text-anchor="middle">
-    SAFEST avoids construction zone (+19% time but -69% risk), SCENIC optimizes experience (+45% time but best comfort/views).
-  </text>
-  
-  <g id="legend">
-    <text x="120" y="770" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2c3e50">Route Types:</text>
-    
-    <line x1="100" y1="790" x2="150" y2="790" stroke="#667eea" stroke-width="4" stroke-dasharray="10,5"/>
-    <text x="160" y="795" font-family="Arial, sans-serif" font-size="11" fill="#495057">Fastest (Time Optimized)</text>
-    
-    <line x1="350" y1="790" x2="400" y2="790" stroke="#38a169" stroke-width="4"/>
-    <text x="410" y="795" font-family="Arial, sans-serif" font-size="11" fill="#495057">Safest (Risk Minimized)</text>
-    
-    <line x1="600" y1="790" x2="650" y2="790" stroke="#f5576c" stroke-width="4" stroke-dasharray="15,8"/>
-    <text x="660" y="795" font-family="Arial, sans-serif" font-size="11" fill="#495057">Scenic (Experience Maximized)</text>
-  </g>
-  
-  <rect x="50" y="820" width="1100" height="60" rx="10" fill="#f0fff4" stroke="#38a169" stroke-width="2"/>
-  <text x="600" y="850" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#22543d" text-anchor="middle">
-    🎯 Same destination. Three optimal paths. User choice drives routing intelligence.
-  </text>
-  <text x="600" y="870" font-family="Arial, sans-serif" font-size="12" fill="#2f855a" text-anchor="middle">
-    Traditional navigation only knows ONE answer. NavX adapts to what actually matters to you.
-  </text>
-</svg>
+            <svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+                <rect width="1200" height="600" fill="#050505"/>
+                
+                <g stroke="#111" stroke-width="1">
+                    <line x1="100" y1="0" x2="100" y2="600"/>
+                    <line x1="300" y1="0" x2="300" y2="600"/>
+                    <line x1="500" y1="0" x2="500" y2="600"/>
+                    <line x1="700" y1="0" x2="700" y2="600"/>
+                    <line x1="900" y1="0" x2="900" y2="600"/>
+                    <line x1="0" y1="100" x2="1200" y2="100"/>
+                    <line x1="0" y1="300" x2="1200" y2="300"/>
+                    <line x1="0" y1="500" x2="1200" y2="500"/>
+                </g>
+
+                <circle cx="100" cy="300" r="10" fill="white"/>
+                <text x="100" y="340" fill="white" text-anchor="middle" font-family="Space Mono">START</text>
+                
+                <circle cx="900" cy="300" r="10" fill="white"/>
+                <text x="900" y="340" fill="white" text-anchor="middle" font-family="Space Mono">END</text>
+
+                <path d="M 100 300 L 900 300" stroke="#333" stroke-width="2" stroke-dasharray="10,5" fill="none"/>
+                <text x="500" y="290" fill="#555" text-anchor="middle" font-size="12">PATH A (Direct/Risky)</text>
+
+                <path d="M 100 300 Q 500 100 900 300" stroke="white" stroke-width="3" fill="none"/>
+                <text x="500" y="180" fill="white" text-anchor="middle" font-size="12">PATH B (Optimal/Safe)</text>
+                
+                <path d="M 100 300 Q 500 600 900 300" stroke="#555" stroke-width="2" fill="none"/>
+                <text x="500" y="520" fill="#555" text-anchor="middle" font-size="12">PATH C (Scenic/Slow)</text>
+
+                <rect x="450" y="280" width="100" height="40" stroke="#fff" fill="#000"/>
+                <text x="500" y="305" fill="#fff" text-anchor="middle" font-size="10">! OBSTACLE</text>
+            </svg>
         </div>
     </section>
 
-    <!-- Re-Planning Section -->
-    <section id="replanning">
-        <h2>Dynamic Re-Planning in Action</h2>
-        <div class="info-box">
-            <p><strong>Real-time adaptation when conditions change.</strong> Our system detects obstacles via LIDAR, evaluates alternative routes, and executes a new path—all in under 2 seconds with zero human intervention.</p>
-        </div>
-        
-        <div class="diagram-container">
-            <svg viewBox="0 0 1400 700" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-    </linearGradient>
-    <filter id="shadow3">
-      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
-    </filter>
-    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <polygon points="0 0, 10 3, 0 6" fill="#e53e3e" />
-    </marker>
-  </defs>
-  
-  <text x="700" y="40" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#2c3e50" text-anchor="middle">
-    Dynamic Re-Planning in Action
-  </text>
-  <text x="700" y="70" font-family="Arial, sans-serif" font-size="16" fill="#718096" text-anchor="middle">
-    Real-time adaptation when conditions change (≤2 second response)
-  </text>
-  
-  <path d="M 100 120 L 1300 120" stroke="#cbd5e0" stroke-width="3" fill="none" marker-end="url(#arrowhead2)"/>
-  <text x="1320" y="125" font-family="Arial, sans-serif" font-size="12" fill="#718096">Time</text>
-  
-  <g id="phase1">
-    <rect x="50" y="150" width="380" height="500" rx="10" fill="#f8f9fa" stroke="#cbd5e0" stroke-width="2"/>
-    <rect x="50" y="150" width="380" height="50" rx="10" fill="url(#grad3)"/>
-    <text x="240" y="183" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">
-      Phase 1: Normal Operation
-    </text>
-    
-    <rect x="80" y="230" width="320" height="250" rx="5" fill="white" stroke="#e2e8f0" stroke-width="2"/>
-    
-    <line x1="80" y1="290" x2="400" y2="290" stroke="#cbd5e0" stroke-width="3"/>
-    <line x1="80" y1="380" x2="400" y2="380" stroke="#cbd5e0" stroke-width="3"/>
-    <line x1="200" y1="230" x2="200" y2="480" stroke="#cbd5e0" stroke-width="3"/>
-    <line x1="320" y1="230" x2="320" y2="480" stroke="#cbd5e0" stroke-width="3"/>
-    
-    <circle cx="130" cy="290" r="12" fill="#667eea" filter="url(#shadow3)"/>
-    <text x="130" y="295" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white" text-anchor="middle">🤖</text>
-    
-    <circle cx="370" cy="380" r="10" fill="#e53e3e"/>
-    <text x="370" y="385" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white" text-anchor="middle">🎯</text>
-    
-    <path d="M 130 290 L 200 290 L 200 380 L 370 380" 
-          stroke="#667eea" stroke-width="4" fill="none" opacity="0.6"/>
-    
-    <rect x="80" y="500" width="320" height="130" rx="5" fill="#e3f2fd"/>
-    <text x="240" y="525" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2c3e50" text-anchor="middle">
-      System Status
-    </text>
-    <text x="90" y="550" font-family="Arial, sans-serif" font-size="12" fill="#495057">✅ Route: Fastest</text>
-    <text x="90" y="572" font-family="Arial, sans-serif" font-size="12" fill="#495057">✅ ETA: 4.2 minutes</text>
-    <text x="90" y="594" font-family="Arial, sans-serif" font-size="12" fill="#495057">✅ Risk Score: 2.1 / 10</text>
-    <text x="90" y="616" font-family="Arial, sans-serif" font-size="12" fill="#495057">✅ No obstacles detected</text>
-  </g>
-  
-  <path d="M 440 400 L 500 400" stroke="#e53e3e" stroke-width="4" fill="none" marker-end="url(#arrowhead2)"/>
-  <text x="470" y="390" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e53e3e" text-anchor="middle">
-    Hazard
-  </text>
-  <text x="470" y="420" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e53e3e" text-anchor="middle">
-    Detected
-  </text>
-  
-  <g id="phase2">
-    <rect x="510" y="150" width="380" height="500" rx="10" fill="#fff5f5" stroke="#e53e3e" stroke-width="3"/>
-    <rect x="510" y="150" width="380" height="50" rx="10" fill="#e53e3e"/>
-    <text x="700" y="183" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">
-      Phase 2: Obstacle Detected
-    </text>
-    
-    <rect x="540" y="230" width="320" height="250" rx="5" fill="white" stroke="#e2e8f0" stroke-width="2"/>
-    
-    <line x1="540" y1="290" x2="860" y2="290" stroke="#cbd5e0" stroke-width="3"/>
-    <line x1="540" y1="380" x2="860" y2="380" stroke="#cbd5e0" stroke-width="3"/>
-    <line x1="660" y1="230" x2="660" y2="480" stroke="#cbd5e0" stroke-width="3"/>
-    <line x1="780" y1="230" x2="780" y2="480" stroke="#cbd5e0" stroke-width="3"/>
-    
-    <circle cx="620" cy="290" r="12" fill="#667eea" filter="url(#shadow3)"/>
-    <text x="620" y="295" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white" text-anchor="middle">🤖</text>
-    
-    <path d="M 620 290 L 680 270 L 680 310 Z" fill="#f5576c" opacity="0.3"/>
-    <circle cx="670" cy="290" r="3" fill="#f5576c"/>
-    
-    <g transform="translate(660, 280)">
-      <polygon points="0,15 -8,0 8,0" fill="#ff6b6b"/>
-      <rect x="-2" y="0" width="4" height="15" fill="#ff6b6b"/>
-    </g>
-    <g transform="translate(680, 280)">
-      <polygon points="0,15 -8,0 8,0" fill="#ff6b6b"/>
-      <rect x="-2" y="0" width="4" height="15" fill="#ff6b6b"/>
-    </g>
-    
-    <circle cx="830" cy="380" r="10" fill="#e53e3e"/>
-    <text x="830" y="385" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white" text-anchor="middle">🎯</text>
-    
-    <path d="M 620 290 L 660 290 L 660 380 L 830 380" 
-          stroke="#cbd5e0" stroke-width="4" fill="none" opacity="0.4" stroke-dasharray="5,5"/>
-    
-    <text x="670" y="315" font-family="Arial, sans-serif" font-size="18" fill="#c53030" font-weight="bold">❌</text>
-    
-    <rect x="540" y="500" width="320" height="130" rx="5" fill="#fed7d7"/>
-    <text x="700" y="525" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#c53030" text-anchor="middle">
-      ⚠️ Alert Status
-    </text>
-    <text x="550" y="550" font-family="Arial, sans-serif" font-size="12" fill="#742a2a">🚨 Obstacles detected ahead</text>
-    <text x="550" y="572" font-family="Arial, sans-serif" font-size="12" fill="#742a2a">📊 Risk score: 2.1 → 8.3</text>
-    <text x="550" y="594" font-family="Arial, sans-serif" font-size="12" fill="#742a2a">🧮 Computing alternatives...</text>
-    <text x="550" y="616" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#742a2a">⏱️ Re-plan latency: 1.4s</text>
-  </g>
-  
-  <path d="M 900 400 L 960 400" stroke="#38a169" stroke-width="4" fill="none" marker-end="url(#arrowhead2)"/>
-  <text x="930" y="390" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38a169" text-anchor="middle">
-    Auto
-  </text>
-  <text x="930" y="420" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#38a169" text-anchor="middle">
-    Re-Route
-  </text>
-  
-  <g id="phase3">
-    <rect x="970" y="150" width="380" height="500" rx="10" fill="#f0fff4" stroke="#38a169" stroke-width="3"/>
-    <rect x="970" y="150" width="380" height="50" rx="10" fill="#38a169"/>
-    <text x="1160" y="183" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">
-      Phase 3: New Route Active
-    </text>
-    
-    <rect x="1000" y="230" width="320" height="250" rx="5" fill="white" stroke="#e2e8f0" stroke-width="2"/>
-    
-    <line x1="1000" y1="290" x2="1320" y2="290" stroke="#cbd5e0" stroke-width="3"/>
-    <line x1="1000" y1="380" x2="1320" y2="380" stroke="#cbd5e0" stroke-width="3"/>
-    <line x1="1120" y1="230" x2="1120" y2="480" stroke="#cbd5e0" stroke-width="3"/>
-    <line x1="1240" y1="230" x2="1240" y2="480" stroke="#cbd5e0" stroke-width="3"/>
-    
-    <circle cx="1080" cy="290" r="12" fill="#667eea" filter="url(#shadow3)"/>
-    <text x="1080" y="295" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white" text-anchor="middle">🤖</text>
-    
-    <g transform="translate(1120, 280)">
-      <polygon points="0,15 -8,0 8,0" fill="#ff6b6b" opacity="0.5"/>
-      <rect x="-2" y="0" width="4" height="15" fill="#ff6b6b" opacity="0.5"/>
-    </g>
-    <g transform="translate(1140, 280)">
-      <polygon points="0,15 -8,0 8,0" fill="#ff6b6b" opacity="0.5"/>
-      <rect x="-2" y="0" width="4" height="15" fill="#ff6b6b" opacity="0.5"/>
-    </g>
-    
-    <circle cx="1290" cy="380" r="10" fill="#e53e3e"/>
-    <text x="1290" y="385" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white" text-anchor="middle">🎯</text>
-    
-    <path d="M 1080 290 L 1120 290 L 1120 380 L 1290 380" 
-          stroke="#cbd5e0" stroke-width="3" fill="none" opacity="0.2" stroke-dasharray="5,5"/>
-    
-    <path d="M 1080 290 L 1080 380 L 1290 380" 
-          stroke="#38a169" stroke-width="5" fill="none" opacity="0.8"/>
-    <text x="1050" y="340" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#38a169">
-      NEW
-    </text>
-    
-    <rect x="1000" y="500" width="320" height="130" rx="5" fill="#c6f6d5"/>
-    <text x="1160" y="525" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#22543d" text-anchor="middle">
-      ✅ Route Updated
-    </text>
-    <text x="1010" y="550" font-family="Arial, sans-serif" font-size="12" fill="#22543d">✅ Alternative route found</text>
-    <text x="1010" y="572" font-family="Arial, sans-serif" font-size="12" fill="#22543d">📊 New ETA: 4.8 min (+14%)</text>
-    <text x="1010" y="594" font-family="Arial, sans-serif" font-size="12" fill="#22543d">🛡️ Risk reduced: 8.3 → 2.7</text>
-    <text x="1010" y="616" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#22543d">🎯 Resuming navigation</text>
-  </g>
-  
-  <rect x="50" y="670" width="1300" height="20" rx="5" fill="#e3f2fd"/>
-  <text x="700" y="685" font-family="Arial, sans-serif" font-size="13" fill="#2c3e50" text-anchor="middle" font-weight="bold">
-    💡 Zero human intervention required. System detects, evaluates, and executes new route autonomously in under 2 seconds.
-  </text>
-</svg>
-        </div>
-    </section>
-
-    <!-- UI Section -->
-    <section id="ui">
-        <h2>Explainable User Interface</h2>
-        <div class="info-box">
-            <p><strong>Transparency is key to trust.</strong> Our web interface doesn't just show you where the robot is going—it explains WHY it chose that route. Every decision is backed by quantified trade-offs.</p>
-        </div>
-        
-        <div class="diagram-container">
-            <img src="https://via.placeholder.com/1200x800/667eea/ffffff?text=Web+UI+Mockup" alt="NavX Web UI" style="width: 100%; border-radius: 10px;">
-        </div>
-        
-        <h3>Key UI Features</h3>
-        <ul>
-            <li><strong>Live Position Tracking:</strong> See real-time robot location on an interactive map with smooth WebSocket updates</li>
-            <li><strong>Profile Slider:</strong> Switch between Fastest, Safest, and Scenic modes with a single gesture—watch the route adapt instantly</li>
-            <li><strong>"Why This Route" Panel:</strong> Quantified explanations like "−22% risk, +8% time" so you understand every trade-off</li>
-            <li><strong>Sensor Status Dashboard:</strong> Monitor LIDAR, IMU, and Nav2 health in real-time</li>
-            <li><strong>Manual Override:</strong> Re-plan or stop buttons for emergency situations</li>
-        </ul>
-    </section>
-
-    <!-- Metrics Section -->
-    <section id="metrics">
-        <h2>Success Metrics</h2>
-        <div class="metric-grid">
-            <div class="metric-card">
-                <div class="metric-value">≤2s</div>
-                <div class="metric-label">Re-Plan Latency<br>(Hazard → New Route)</div>
-            </div>
-            
-            <div class="metric-card">
-                <div class="metric-value">90%</div>
-                <div class="metric-label">A→B Success Rate<br>(No Manual Intervention)</div>
-            </div>
-            
-            <div class="metric-card">
-                <div class="metric-value">−25%</div>
-                <div class="metric-label">Risk Reduction<br>(Safest vs Fastest)</div>
-            </div>
-            
-            <div class="metric-card">
-                <div class="metric-value">−18%</div>
-                <div class="metric-label">Roughness Index<br>(Comfort vs Fastest)</div>
-            </div>
-        </div>
-        
-        <div class="solution-box">
-            <h3>Why These Metrics Matter</h3>
-            <p><strong>Sub-2-second re-planning</strong> means the system reacts faster than human drivers in many scenarios—critical for safety in dynamic environments.</p>
-            <p><strong>90% autonomous success rate</strong> proves real-world viability. This isn't a lab demo that breaks in production; it's robust enough for actual deployment.</p>
-            <p><strong>Risk and comfort improvements</strong> quantify the value of multi-criteria routing over traditional speed-only systems. Numbers don't lie—our approach delivers measurably better outcomes.</p>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section id="team">
-        <h2>Team Breakdown</h2>
-        <div class="roles-grid">
-            <div class="role-item">
-                <strong>Planning & ROS Integration</strong>
-                Multi-criteria A* implementation, re-plan policy logic, Nav2 waypoint execution, system orchestration
-            </div>
-            
-            <div class="role-item">
-                <strong>Perception Engineering</strong>
-                LIDAR hazard detection, IMU roughness computation, sensor fusion, signal aggregation node
-            </div>
-            
-            <div class="role-item">
-                <strong>UI & Gateway Development</strong>
-                FastAPI backend, WebSocket streaming, React/Leaflet map interface, profile controls, explainability panel
-            </div>
-            
-            <div class="role-item">
-                <strong>PM & Business Strategy</strong>
-                Value proposition, competitive positioning, demo scripting, metrics definition, presentation narrative
-            </div>
-        </div>
-
-        <h3>Technology Stack</h3>
-        <h4>Hardware</h4>
-        <div class="tech-stack">
-            <span class="tech-badge">TurtleBot3 (Burger/Waffle)</span>
-            <span class="tech-badge">Raspberry Pi 4</span>
-            <span class="tech-badge">360° LIDAR</span>
-            <span class="tech-badge">6-Axis IMU</span>
-        </div>
-        
-        <h4>Software & Frameworks</h4>
-        <div class="tech-stack">
-            <span class="tech-badge">ROS 2 (Humble)</span>
-            <span class="tech-badge">Nav2 Stack</span>
-            <span class="tech-badge">rclpy</span>
-            <span class="tech-badge">Python 3.10+</span>
-            <span class="tech-badge">FastAPI</span>
-            <span class="tech-badge">WebSockets</span>
-            <span class="tech-badge">Leaflet.js</span>
-            <span class="tech-badge">OpenCV</span>
-            <span class="tech-badge">NumPy</span>
-        </div>
-
-        <h3>Why This Matters</h3>
-        <div class="solution-box">
-            <p><strong>Beyond the Demo:</strong> This project isn't just about winning a robotics competition. It's a blueprint for the next generation of autonomous navigation systems.</p>
-            
-            <p style="margin-top: 1rem;">Imagine this technology in:</p>
-            <ul>
-                <li><strong>Autonomous Vehicles:</strong> Self-driving cars that adapt routes based on passenger preferences—families prioritize safety, commuters prioritize speed, tourists prioritize experience.</li>
-                <li><strong>Delivery Robotics:</strong> Last-mile delivery bots that avoid high-risk areas during rush hour or bad weather, reducing accident rates and insurance costs.</li>
-                <li><strong>Warehouse Automation:</strong> AGVs that dynamically reroute around congestion, spills, or maintenance work without human intervention.</li>
-                <li><strong>Accessibility Tech:</strong> Wheelchairs or mobility scooters that automatically choose the smoothest, most accessible routes.</li>
-            </ul>
-            
-            <p style="margin-top: 1.5rem;">We're not just making robots smarter—we're making them more human-aligned, context-aware, and trustworthy. That's the future of autonomous systems.</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Team NavX | Vehicle AutoRoute Navigator</p>
-        <p style="margin-top: 0.5rem;">
-            <a href="https://github.com/habibullo-dev/navx" target="_blank">GitHub</a> • 
-            <a href="mailto:habibullochutboev@gmail.com">Contact</a>
-        </p>
+        <div class="nav-container" style="display: block;">
+            <h3>NAVX // TEAM</h3>
+            <p style="margin-top: 1rem;">System built for ROS 2 Architecture Demo.</p>
+            <div style="margin-top: 2rem;">
+                <a href="#" style="color: white; margin-right: 2rem;">GITHUB_REPO</a>
+                <a href="#" style="color: white;">DOCUMENTATION</a>
+            </div>
+            <p style="margin-top: 4rem; font-size: 0.8rem; color: #333;">ALL SYSTEMS NOMINAL</p>
+        </div>
     </footer>
 
-    <script>
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
-        
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('navLinks').classList.remove('active');
-            });
-        });
-    </script>
+    <script src="script.js"></script>
+
 </body>
 </html>
