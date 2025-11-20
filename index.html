@@ -549,18 +549,51 @@
               </text>
             </g>
 
+            <!-- Three paths with distinct routes -->
             <path
-              id="active-path"
+              id="path-speed"
               d=""
               fill="none"
-              stroke-width="3"
+              stroke="#4ade80"
+              stroke-width="2.5"
               stroke-linecap="round"
-              filter="url(#glow)"
+              opacity="0.4"
+            />
+            
+            <path
+              id="path-safety"
+              d=""
+              fill="none"
+              stroke="#ef4444"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              opacity="0.35"
+            />
+            
+            <path
+              id="path-comfort"
+              d=""
+              fill="none"
+              stroke="#60a5fa"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              opacity="0.4"
             />
 
-            <g id="sim-robot">
-              <circle r="6" fill="#fff" />
-              <circle r="12" fill="none" stroke="#fff" opacity="0.5" />
+            <!-- Three robots -->
+            <g id="robot-speed">
+              <circle r="6" fill="#4ade80" opacity="0.6"/>
+              <circle r="11" fill="none" stroke="#4ade80" stroke-width="1.5" opacity="0.25"/>
+            </g>
+            
+            <g id="robot-safety">
+              <circle r="6" fill="#ef4444" opacity="0.55"/>
+              <circle r="11" fill="none" stroke="#ef4444" stroke-width="1.5" opacity="0.2"/>
+            </g>
+            
+            <g id="robot-comfort">
+              <circle r="6" fill="#60a5fa" opacity="0.6"/>
+              <circle r="11" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0.25"/>
             </g>
 
             <circle cx="50" cy="350" r="5" fill="#fff" />
@@ -589,13 +622,17 @@
           </svg>
 
           <div class="sim-overlay">
-            <div id="sim-status">STATUS: STANDBY</div>
-            <div id="sim-coords">POS: 000, 000</div>
+            <div id="sim-status">STATUS: MULTI_PATH_SIMULATION</div>
+            <div style="margin-top: 0.3rem; font-size: 0.65rem;">
+              <div style="color: rgba(74, 222, 128, 0.6);">■ VELOCITY</div>
+              <div style="color: rgba(239, 68, 68, 0.55);">■ SECURITY</div>
+              <div style="color: rgba(96, 165, 250, 0.6);">■ COMFORT</div>
+            </div>
           </div>
         </div>
 
         <div class="sim-controls">
-          <button class="sim-btn active" onclick="runSim('speed')" id="btn-speed">
+          <div class="sim-info-card">
             <div class="sim-btn-header">
               <span class="sim-icon">//</span>
               <span class="sim-title">VELOCITY_PROFILE</span>
@@ -611,9 +648,9 @@
               </div>
               <div class="label">HIGH</div>
             </div>
-          </button>
+          </div>
 
-          <button class="sim-btn" onclick="runSim('safety')" id="btn-safety">
+          <div class="sim-info-card">
             <div class="sim-btn-header">
               <span class="sim-icon">[]</span>
               <span class="sim-title">SECURITY_PROFILE</span>
@@ -629,9 +666,9 @@
               </div>
               <div class="label">LOW</div>
             </div>
-          </button>
+          </div>
 
-          <button class="sim-btn" onclick="runSim('comfort')" id="btn-comfort">
+          <div class="sim-info-card">
             <div class="sim-btn-header">
               <span class="sim-icon">~~</span>
               <span class="sim-title">COMFORT_PROFILE</span>
@@ -646,7 +683,7 @@
               </div>
               <div class="label">MED</div>
             </div>
-          </button>
+          </div>
         </div>
       </div>
     </section>
