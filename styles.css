@@ -1,329 +1,670 @@
 :root {
-    --bg-color: #050505;
-    --card-bg: #0a0a0a;
-    --text-main: #ffffff;
-    --text-muted: #888888;
-    --border-color: #333333;
-    --accent-color: #ffffff;
+  --bg-color: #050505;
+  --card-bg: #0a0a0a;
+  --text-main: #ffffff;
+  --text-muted: #888888;
+  --border-color: #333333;
+  --accent-color: #ffffff;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Space Mono', monospace;
-    line-height: 1.6;
-    color: var(--text-main);
-    background-color: var(--bg-color);
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
+  font-family: "Space Mono", monospace;
+  line-height: 1.6;
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
 }
 
 /* --- PRELOADER STYLES --- */
 #preloader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: #000000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 .loader-text-container {
-    color: #ffffff;
-    font-size: 12vw;
-    text-transform: uppercase;
-    font-weight: 500;
-    letter-spacing: -2px;
-    display: flex;
-    align-items: center;
+  color: #ffffff;
+  font-family: "Oswald", sans-serif;
+  font-size: 12vw;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
 }
 
 .cursor {
-    display: inline-block;
-    width: 1vw;
-    height: 12vw;
-    background-color: #fff;
-    margin-left: 10px;
-    animation: blink 1s infinite;
+  display: inline-block;
+  width: 1vw;
+  height: 12vw;
+  background-color: #fff;
+  margin-left: 10px;
+  animation: blink 1s infinite;
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 /* --- TYPOGRAPHY --- */
-h1, h2, h3, h4 {
-    font-family: 'Oswald', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 500;
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
 }
 
 h1 {
-    font-size: clamp(3rem, 8vw, 8rem);
-    line-height: 0.9;
-    margin-bottom: 2rem;
+  font-size: clamp(3rem, 8vw, 8rem);
+  line-height: 0.9;
+  margin-bottom: 2rem;
 }
 
 h2 {
-    font-size: 3rem;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid var(--text-main);
-    padding-bottom: 1rem;
-    display: inline-block;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--text-main);
+  padding-bottom: 1rem;
+  display: inline-block;
 }
 
 p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
 }
 
 strong {
-    color: var(--text-main);
+  color: var(--text-main);
 }
 
 /* --- NAVIGATION --- */
 nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(5, 5, 5, 0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(5, 5, 5, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1000;
 }
 
 .nav-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
 }
 
 .logo {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white;
-    text-decoration: none;
-    letter-spacing: 2px;
-    border: 1px solid white;
-    padding: 5px 15px;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  letter-spacing: 2px;
+  border: 1px solid white;
+  padding: 5px 15px;
 }
 
 .nav-links {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
+  display: flex;
+  list-style: none;
+  gap: 2rem;
 }
 
 .nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    transition: 0.3s;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  transition: 0.3s;
 }
 
 .nav-links a:hover {
-    color: white;
-    text-decoration: line-through;
+  color: white;
+  text-decoration: line-through;
 }
 
 /* --- SECTIONS --- */
 section {
-    padding: 8rem 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    border-left: 1px solid var(--border-color);
-    border-right: 1px solid var(--border-color);
+  padding: 8rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
 }
 
 /* --- HERO --- */
 #hero {
-    padding-top: 12rem;
-    min-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-bottom: 1px solid var(--border-color);
+  padding-top: 12rem;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .tagline {
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    max-width: 600px;
-    margin-bottom: 3rem;
-    border-left: 2px solid white;
-    padding-left: 1rem;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin-bottom: 3rem;
+  border-left: 2px solid white;
+  padding-left: 1rem;
 }
 
 .cta-button {
-    display: inline-block;
-    padding: 1rem 3rem;
-    background: transparent;
-    color: white;
-    border: 1px solid white;
-    text-decoration: none;
-    font-family: 'Oswald', sans-serif;
-    text-transform: uppercase;
-    font-size: 1.2rem;
-    transition: all 0.3s;
-    width: fit-content;
+  display: inline-block;
+  padding: 1rem 3rem;
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+  text-decoration: none;
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+  width: fit-content;
 }
 
 .cta-button:hover {
-    background: white;
-    color: black;
+  background: white;
+  color: black;
 }
 
 /* --- BOXES & CARDS --- */
-.feature-grid, .metric-grid, .roles-grid {
-    display: grid;
-    gap: 1px;
-    background-color: var(--border-color);
-    border: 1px solid var(--border-color);
+.feature-grid,
+.metric-grid,
+.roles-grid {
+  display: grid;
+  gap: 1px;
+  background-color: var(--border-color);
+  border: 1px solid var(--border-color);
 }
 
-.feature-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-.metric-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-.roles-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-
-.feature-card, .metric-card, .role-item {
-    background: var(--bg-color);
-    padding: 2.5rem;
-    transition: background 0.3s;
+.feature-grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+.metric-grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.roles-grid {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
-.feature-card:hover, .role-item:hover {
-    background: #111;
+.feature-card,
+.metric-card,
+.role-item {
+  background: var(--bg-color);
+  padding: 2.5rem;
+  transition: background 0.3s;
 }
 
-.problem-box, .solution-box, .info-box {
-    border: 1px solid var(--border-color);
-    padding: 2rem;
-    margin: 2rem 0;
-    position: relative;
+.feature-card:hover,
+.role-item:hover {
+  background: #111;
 }
 
-.problem-box::before, .solution-box::before {
-    content: '+';
-    position: absolute;
-    top: -10px;
-    left: -5px;
-    color: white;
-    background: var(--bg-color);
+.problem-box,
+.solution-box,
+.info-box {
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  margin: 2rem 0;
+  position: relative;
+}
+
+.problem-box::before,
+.solution-box::before {
+  content: "+";
+  position: absolute;
+  top: -10px;
+  left: -5px;
+  color: white;
+  background: var(--bg-color);
 }
 
 .feature-number {
-    font-family: 'Oswald';
-    font-size: 4rem;
-    color: #222;
-    line-height: 1;
-    margin-bottom: 1rem;
+  font-family: "Oswald";
+  font-size: 4rem;
+  color: #222;
+  line-height: 1;
+  margin-bottom: 1rem;
 }
 
 /* --- TABLES --- */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 3rem 0;
-    font-size: 0.9rem;
-    border: 1px solid var(--border-color);
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3rem 0;
+  font-size: 0.9rem;
+  border: 1px solid var(--border-color);
 }
 
 th {
-    text-align: left;
-    padding: 1rem;
-    border-bottom: 1px solid white;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 1px solid white;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 td {
-    padding: 1rem;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-muted);
-    border-right: 1px solid var(--border-color);
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-muted);
+  border-right: 1px solid var(--border-color);
 }
 
 tr:hover td {
-    color: white;
-    background: #111;
+  color: white;
+  background: #111;
 }
 
 /* --- DIAGRAMS --- */
 .diagram-container {
-    margin: 4rem 0;
-    border: 1px solid var(--border-color);
-    padding: 2rem;
-    background: #000;
-    position: relative;
+  margin: 4rem 0;
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  background: #000;
+  position: relative;
 }
 
 .diagram-container::after {
-    content: "SYS_DIAGRAM_01";
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 0.7rem;
-    color: #444;
+  content: "SYS_DIAGRAM_01";
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 0.7rem;
+  color: #444;
 }
 
 svg text {
-    font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
 }
 
 /* --- FOOTER --- */
 footer {
-    border-top: 1px solid var(--border-color);
-    padding: 4rem 2rem;
-    text-align: center;
-    background: #000;
+  border-top: 1px solid var(--border-color);
+  padding: 4rem 2rem;
+  text-align: center;
+  background: #000;
 }
 
 /* Mobile Toggle */
 .menu-toggle {
-    display: none;
-    background: none;
-    border: 1px solid white;
-    color: white;
-    padding: 5px 10px;
-    cursor: pointer;
+  display: none;
+  background: none;
+  border: 1px solid white;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* --- NEW DIAGRAM STYLES --- */
+
+/* The flowing data effect */
+.flow-line {
+  stroke-dasharray: 10;
+  animation: flow 1s linear infinite;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+/* Blinking status lights */
+.status-blink {
+  animation: blink-status 2s infinite;
+}
+
+@keyframes blink-status {
+  0%,
+  100% {
+    fill: #fff;
+    opacity: 1;
+  }
+  50% {
+    fill: #fff;
+    opacity: 0.3;
+  }
+}
+
+/* Hover effects for diagram groups */
+.diagram-node {
+  cursor: crosshair;
+  transition: opacity 0.3s;
+}
+.diagram-node:hover rect,
+.diagram-node:hover path {
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 5px white);
+}
+
+/* Text Styling inside SVG */
+.tech-label {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  fill: #666;
+  text-transform: uppercase;
+}
+
+.node-title {
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  fill: white;
+  font-weight: bold;
+}
+
+/* --- TEAM SECTION STYLES --- */
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.team-card {
+  background: #0a0a0a;
+  border: 1px solid #333;
+  padding: 1.5rem;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* The "Bracket" corners for the cards */
+.team-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+}
+.team-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid white;
+  border-right: 2px solid white;
+}
+
+.team-card:hover {
+  border-color: white;
+  background: #0f0f0f;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Image Container with "Scan Line" effect */
+.member-photo {
+  width: 100%;
+  height: 250px;
+  background-color: #111;
+  margin-bottom: 1.5rem;
+  position: relative;
+  border-bottom: 1px solid #333;
+  overflow: hidden;
+}
+
+.member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(120%); /* Black & White look */
+  transition: 0.3s;
+}
+
+.team-card:hover .member-photo img {
+  filter: grayscale(0%) contrast(110%); /* Color reveal on hover */
+}
+
+/* Overlay scan line */
+.member-photo::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.5) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.member-role {
+  font-family: "Space Mono", monospace;
+  color: #888;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.member-name {
+  font-family: "Oswald", sans-serif;
+  font-size: 1.8rem;
+  color: white;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.member-bio {
+  font-family: "Space Mono", monospace;
+  color: #666;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* Status Dot */
+.member-status {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #0f0; /* Green for active */
+  border-radius: 50%;
+  box-shadow: 0 0 5px #0f0;
 }
 
 @media (max-width: 768px) {
-    .menu-toggle { display: block; }
-    .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%; left: 0; right: 0;
-        background: black;
-        border-bottom: 1px solid white;
-        flex-direction: column;
-        padding: 2rem;
-    }
-    .nav-links.active { display: flex; }
-    
-    h1 { font-size: 4rem; }
-    section { padding: 4rem 1rem; }
+  .menu-toggle {
+    display: block;
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: black;
+    border-bottom: 1px solid white;
+    flex-direction: column;
+    padding: 2rem;
+  }
+  .nav-links.active {
+    display: flex;
+  }
+
+  h1 {
+    font-size: 4rem;
+  }
+  section {
+    padding: 4rem 1rem;
+  }
+}
+
+/* --- FINAL TOUCH 1: CUSTOM CURSOR (Targeting System) --- */
+body {
+  cursor: none; /* Hide default cursor */
+}
+
+#custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* Let clicks pass through */
+  z-index: 10000;
+  transition: transform 0.1s ease;
+  mix-blend-mode: difference; /* Cool color inversion effect */
+}
+
+/* Center dot for precision */
+#custom-cursor::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: white;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+/* Hover state */
+.hover-target:hover ~ #custom-cursor,
+a:hover ~ #custom-cursor,
+button:hover ~ #custom-cursor {
+  transform: translate(-50%, -50%) scale(1.5);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+/* --- FINAL TOUCH 2: CRT SCANLINE OVERLAY --- */
+/* Gives the whole site a subtle "Monitor" texture */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+  background-size: 100% 4px; /* Scanline thickness */
+  pointer-events: none; /* Click through */
+  z-index: 9998;
+  opacity: 0.6;
+}
+
+/* --- FINAL TOUCH 3: SCROLL REVEAL ANIMATION --- */
+/* Elements start hidden and slide up */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Add staggered delays for grid items so they don't all appear at once */
+.team-card:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.team-card:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.team-card:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.team-card:nth-child(4) {
+  transition-delay: 0.4s;
+}
+.team-card:nth-child(5) {
+  transition-delay: 0.5s;
+}
+.team-card:nth-child(6) {
+  transition-delay: 0.6s;
+}
+.team-card:nth-child(7) {
+  transition-delay: 0.7s;
+}
+.team-card:nth-child(8) {
+  transition-delay: 0.8s;
+}
+.team-card:nth-child(9) {
+  transition-delay: 0.9s;
+}
+
+.feature-card:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.feature-card:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.feature-card:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.feature-card:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+.role-item:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.role-item:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.role-item:nth-child(3) {
+  transition-delay: 0.3s;
 }
