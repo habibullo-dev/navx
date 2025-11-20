@@ -54,7 +54,7 @@
     </section>
 
     <section id="problem" class="reveal-on-scroll">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem">
+      <div class="problem-solution-grid">
         <div class="problem-box">
           <h3>// CRITICAL ERROR</h3>
           <p style="margin-top: 1rem">
@@ -139,40 +139,42 @@
       </div>
 
       <h3>Profile Configuration</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>MODE</th>
-            <th>T_Weight</th>
-            <th>R_Weight</th>
-            <th>C_Weight</th>
-            <th>S_Weight</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>VELOCITY</strong></td>
-            <td>1.0</td>
-            <td>0.2</td>
-            <td>0.1</td>
-            <td>0.0</td>
-          </tr>
-          <tr>
-            <td><strong>SECURITY</strong></td>
-            <td>0.5</td>
-            <td>1.0</td>
-            <td>0.3</td>
-            <td>0.0</td>
-          </tr>
-          <tr>
-            <td><strong>COMFORT</strong></td>
-            <td>0.6</td>
-            <td>0.3</td>
-            <td>0.4</td>
-            <td>0.4</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>MODE</th>
+              <th>T_Weight</th>
+              <th>R_Weight</th>
+              <th>C_Weight</th>
+              <th>S_Weight</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>VELOCITY</strong></td>
+              <td>1.0</td>
+              <td>0.2</td>
+              <td>0.1</td>
+              <td>0.0</td>
+            </tr>
+            <tr>
+              <td><strong>SECURITY</strong></td>
+              <td>0.5</td>
+              <td>1.0</td>
+              <td>0.3</td>
+              <td>0.0</td>
+            </tr>
+            <tr>
+              <td><strong>COMFORT</strong></td>
+              <td>0.6</td>
+              <td>0.3</td>
+              <td>0.4</td>
+              <td>0.4</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section id="architecture">
@@ -649,28 +651,14 @@
     </section>
 
     <section id="team">
-      <div
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          margin-bottom: 3rem;
-        "
-      >
+      <div class="team-header">
         <div>
           <div style="font-size: 0.8rem; color: #555">
             PERSONNEL_DATABASE // ACESS_LEVEL_1
           </div>
           <h2>Command Unit</h2>
         </div>
-        <div
-          style="
-            text-align: right;
-            font-family: 'Space Mono';
-            font-size: 0.8rem;
-            color: #666;
-          "
-        >
+        <div class="team-stats">
           ACTIVE_AGENTS: 09<br />
           SYNC_STATUS: 100%
         </div>

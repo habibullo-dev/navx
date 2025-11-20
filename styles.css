@@ -248,6 +248,19 @@ section {
   position: relative;
 }
 
+.problem-solution-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+@media (max-width: 768px) {
+  .problem-solution-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
 .problem-box::before,
 .solution-box::before {
   content: "+";
@@ -267,12 +280,38 @@ section {
 }
 
 /* --- TABLES --- */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 2rem 0;
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+
+/* Scroll hint for tables */
+.table-wrapper::before {
+  content: '← Swipe to view all columns →';
+  position: absolute;
+  top: -25px;
+  left: 0;
+  font-size: 0.7rem;
+  color: #666;
+  font-family: 'Space Mono', monospace;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .table-wrapper::before {
+    display: block;
+  }
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 3rem 0;
+  margin: 0;
   font-size: 0.9rem;
-  border: 1px solid var(--border-color);
+  border: none;
 }
 
 th {
@@ -303,6 +342,27 @@ tr:hover td {
   padding: 2rem;
   background: #000;
   position: relative;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom scrollbar for diagrams */
+.diagram-container::-webkit-scrollbar {
+  height: 10px;
+}
+
+.diagram-container::-webkit-scrollbar-track {
+  background: #0a0a0a;
+  border-top: 1px solid var(--border-color);
+}
+
+.diagram-container::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 5px;
+}
+
+.diagram-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .diagram-container::after {
@@ -394,6 +454,20 @@ footer {
 }
 
 /* --- TEAM SECTION STYLES --- */
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+}
+
+.team-stats {
+  text-align: right;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  color: #666;
+}
 
 .team-grid {
   display: grid;
@@ -520,36 +594,336 @@ footer {
   box-shadow: 0 0 5px #0f0;
 }
 
+/* --- MOBILE OPTIMIZATIONS --- */
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Make interactive elements more touch-friendly */
+  a, button, .cta-button {
+    min-height: 44px; /* Apple's recommended touch target size */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Add active states for better touch feedback */
+  .team-card:active,
+  .feature-card:active,
+  .role-item:active {
+    transform: scale(0.98);
+    background: #111;
+  }
+  
+  .cta-button:active {
+    background: white;
+    color: black;
+  }
+  
+  .nav-links a:active {
+    background: #111;
+    border-color: white;
+  }
+}
+
 @media (max-width: 768px) {
+  /* Navigation */
   .menu-toggle {
     display: block;
+    font-size: 1.2rem;
+    padding: 8px 12px;
+    cursor: pointer;
   }
+  
   .nav-links {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background: black;
+    background: rgba(0, 0, 0, 0.98);
+    backdrop-filter: blur(10px);
     border-bottom: 1px solid white;
     flex-direction: column;
     padding: 2rem;
+    gap: 1rem;
   }
+  
   .nav-links.active {
     display: flex;
   }
-
-  h1 {
-    font-size: 4rem;
+  
+  .nav-links li {
+    width: 100%;
   }
+  
+  .nav-links a {
+    display: block;
+    padding: 1rem;
+    border: 1px solid #333;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  
+  .nav-links a:hover,
+  .nav-links a:active {
+    background: #111;
+    border-color: white;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+    line-height: 1;
+  }
+  
+  h2 {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+  }
+  
+  h4 {
+    font-size: 1.1rem;
+  }
+  
+  p {
+    font-size: 0.9rem;
+  }
+
+  /* Sections */
   section {
-    padding: 4rem 1rem;
+    padding: 3rem 1.5rem;
+    border-left: none;
+    border-right: none;
+  }
+  
+  #hero {
+    padding-top: 8rem;
+    min-height: 80vh;
+  }
+  
+  .tagline {
+    font-size: 1rem;
+    max-width: 100%;
+    margin-bottom: 2rem;
+  }
+  
+  .cta-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Problem/Solution boxes */
+  #problem > div {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  
+  .problem-box,
+  .solution-box {
+    padding: 1.5rem;
+  }
+
+  /* Feature cards */
+  .feature-grid,
+  .roles-grid,
+  .team-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+  
+  .feature-card,
+  .role-item,
+  .team-card {
+    padding: 1.5rem;
+  }
+  
+  .feature-number {
+    font-size: 3rem;
+  }
+
+  /* Tables - make scrollable with container */
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #666 #111;
+  }
+  
+  /* WebKit scrollbar styling for table wrapper */
+  .table-wrapper::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-track {
+    background: #111;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 4px;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+  
+  table {
+    font-size: 0.85rem;
+    min-width: 500px; /* Prevent table from being too narrow */
+  }
+  
+  th, td {
+    padding: 0.8rem;
+    min-width: 90px;
+  }
+
+  /* Diagrams */
+  .diagram-container {
+    padding: 1rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    position: relative;
+  }
+  
+  /* Add scroll indicator shadow */
+  .diagram-container::after {
+    content: '← Scroll →';
+    position: absolute;
+    bottom: 20px;
+    right: 50%;
+    transform: translateX(50%);
+    font-size: 0.7rem;
+    color: #666;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 10px;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  .diagram-container svg {
+    min-width: 1000px; /* Ensure diagrams maintain readable size */
+    height: auto;
+  }
+
+  /* Info box */
+  .info-box {
+    padding: 1.5rem;
+    overflow-x: auto;
+  }
+
+  /* Team section */
+  #team .team-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .team-stats {
+    text-align: left;
+  }
+  
+  .member-photo {
+    height: 200px;
+  }
+  
+  .member-name {
+    font-size: 1.5rem;
+  }
+
+  /* Footer */
+  footer {
+    padding: 3rem 1.5rem;
+  }
+  
+  footer a {
+    display: inline-block;
+    margin: 0.5rem 0 !important;
+  }
+
+  /* Reduce CRT overlay intensity on mobile */
+  .crt-overlay {
+    opacity: 0.3;
+  }
+  
+  /* Preloader adjustments */
+  .loader-text-container {
+    font-size: 15vw;
+    padding: 0 1rem;
+    text-align: center;
+  }
+  
+  .cursor {
+    width: 2vw;
+    height: 15vw;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  section {
+    padding: 6rem 2rem;
+  }
+  
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  h1 {
+    font-size: 6rem;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .nav-container {
+    padding: 1rem 1.5rem;
+  }
+  
+  .logo {
+    font-size: 1.2rem;
+    padding: 4px 10px;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  section {
+    padding: 2.5rem 1rem;
+  }
+  
+  .feature-number {
+    font-size: 2.5rem;
+  }
+  
+  .loader-text-container {
+    font-size: 18vw;
   }
 }
 
 /* --- FINAL TOUCH 1: CUSTOM CURSOR (Targeting System) --- */
-body {
-  cursor: none; /* Hide default cursor */
+/* Only apply custom cursor on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none; /* Hide default cursor */
+  }
 }
 
 #custom-cursor {
@@ -565,6 +939,13 @@ body {
   z-index: 10000;
   transition: transform 0.1s ease;
   mix-blend-mode: difference; /* Cool color inversion effect */
+  display: none; /* Hidden by default */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #custom-cursor {
+    display: block; /* Show only on devices with hover capability */
+  }
 }
 
 /* Center dot for precision */
