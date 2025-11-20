@@ -117,10 +117,100 @@ function initScrollReveal() {
     });
 }
 
+// --- INTERACTIVE SIMULATION LOGIC ---
+
+// Defined paths (SVG Coordinates)
+// Grid is roughly 600x400. Start: 50,350. End: 550,50. Obstacle center: 300,200
+const paths = {
+    speed: {
+        // Direct diagonal line (Straight through hazard)
+        d: "M 50 350 L 550 50",
+        color: "#ffffff", // White
+        label: "STATUS: HIGH_VELOCITY >> RISK_ACCEPTED"
+    },
+    safety: {
+        // Go AROUND the hazard (Squarish movement)
+        d: "M 50 350 L 150 350 L 150 100 L 550 100 L 550 50",
+        color: "#888888", // Grey
+        label: "STATUS: OBSTACLE_AVOIDANCE >> ACTIVE"
+    },
+    comfort: {
+        // Smooth Bezier curve (Wide turn)
+        d: "M 50 350 Q 100 350, 200 300 T 400 150 T 550 50",
+        color: "#aaaaaa", // Light Grey
+        label: "STATUS: G_FORCE_LIMITER >> ENGAGED"
+    }
+};
+
+let animationFrameId;
+
+function runSim(mode) {
+    // 1. UI Updates
+    document.querySelectorAll('.sim-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`btn-${mode}`).classList.add('active');
+    
+    const pathData = paths[mode];
+    const statusDiv = document.getElementById('sim-status');
+    const coordsDiv = document.getElementById('sim-coords');
+    const pathEl = document.getElementById('active-path');
+    const robotEl = document.getElementById('sim-robot');
+
+    statusDiv.innerText = pathData.label;
+    statusDiv.style.color = 'white';
+
+    // 2. Set Path Properties
+    pathEl.setAttribute('d', pathData.d);
+    pathEl.setAttribute('stroke', pathData.color);
+    
+    // 3. Animate the Line Drawing
+    const length = pathEl.getTotalLength();
+    pathEl.style.strokeDasharray = length;
+    pathEl.style.strokeDashoffset = length;
+    
+    let startTime = null;
+    const duration = 2000; // 2 seconds for travel
+
+    function animate(time) {
+        if (!startTime) startTime = time;
+        const progress = (time - startTime) / duration;
+
+        if (progress < 1) {
+            // Draw Line
+            const drawLength = length * progress;
+            pathEl.style.strokeDashoffset = length - drawLength;
+
+            // Move Robot
+            const point = pathEl.getPointAtLength(drawLength);
+            robotEl.setAttribute('transform', `translate(${point.x}, ${point.y})`);
+
+            // Update Coords Text
+            coordsDiv.innerText = `POS: ${Math.round(point.x).toString().padStart(3, '0')}, ${Math.round(point.y).toString().padStart(3, '0')}`;
+
+            animationFrameId = requestAnimationFrame(animate);
+        } else {
+            // Finish
+            pathEl.style.strokeDashoffset = 0;
+            robotEl.setAttribute('transform', `translate(550, 50)`);
+            coordsDiv.innerText = `POS: 550, 050 [ARRIVED]`;
+        }
+    }
+
+    // Cancel previous animation if running
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    animationFrameId = requestAnimationFrame(animate);
+}
+
 // Initialize all features on page load
 window.onload = function() {
     initPreloader();
     initCustomCursor();
     initScrollReveal();
     initMobileMenu();
+    
+    // Initialize simulation with default mode after a short delay
+    setTimeout(() => {
+        if (document.getElementById('sim-svg')) {
+            runSim('speed');
+        }
+    }, 100);
 };

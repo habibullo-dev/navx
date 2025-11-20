@@ -34,7 +34,7 @@
           <li><a href="#hero">00_Home</a></li>
           <li><a href="#features">01_Core</a></li>
           <li><a href="#architecture">02_System</a></li>
-          <li><a href="#comparison">03_Data</a></li>
+          <li><a href="#simulation">03_Demo</a></li>
           <li><a href="#team">04_Team</a></li>
         </ul>
       </div>
@@ -484,169 +484,170 @@
       </div>
     </section>
 
-    <section id="comparison">
-      <h2>Route Logic Visualized</h2>
-      <div class="diagram-container reveal-on-scroll">
-        <svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern
-              id="hazard-stripe"
-              width="10"
-              height="10"
-              patternUnits="userSpaceOnUse"
-              patternTransform="rotate(45)"
-            >
-              <line
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="10"
-                stroke="#fff"
-                stroke-width="2"
-                opacity="0.3"
+    <section id="simulation" class="reveal-on-scroll">
+      <div style="margin-bottom: 2rem">
+        <div style="font-size: 0.8rem; color: #555">
+          INTERACTIVE_DEMO // V.1.4
+        </div>
+        <h2>Path Planning Visualization</h2>
+        <p>Select a routing profile to observe real-time solver behavior.</p>
+      </div>
+
+      <div class="sim-container">
+        <div class="sim-screen">
+          <div class="scan-line"></div>
+          <svg
+            id="sim-svg"
+            viewBox="0 0 600 400"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <pattern
+                id="sim-grid"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <path
+                  d="M 20 0 L 0 0 0 20"
+                  fill="none"
+                  stroke="#222"
+                  stroke-width="1"
+                />
+              </pattern>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <rect width="600" height="400" fill="#050505" />
+            <rect width="600" height="400" fill="url(#sim-grid)" />
+
+            <g id="obstacles">
+              <rect
+                x="250"
+                y="150"
+                width="100"
+                height="100"
+                fill="rgba(255,0,0,0.1)"
+                stroke="#500"
+                stroke-dasharray="5,5"
               />
-            </pattern>
-            <pattern
-              id="small-grid"
-              width="20"
-              height="20"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 20 0 L 0 0 0 20"
-                fill="none"
-                stroke="#222"
-                stroke-width="1"
-              />
-            </pattern>
-          </defs>
+              <text
+                x="300"
+                y="205"
+                fill="#500"
+                font-size="10"
+                text-anchor="middle"
+                font-family="Space Mono"
+              >
+                HAZARD
+              </text>
+            </g>
 
-          <rect width="1200" height="600" fill="#050505" />
-          <rect width="1200" height="600" fill="url(#small-grid)" />
-
-          <g stroke="#333" stroke-width="1">
-            <line x1="0" y1="300" x2="1200" y2="300" />
-            <line x1="600" y1="0" x2="600" y2="600" />
-          </g>
-
-          <g>
-            <rect
-              x="400"
-              y="220"
-              width="200"
-              height="100"
-              fill="url(#hazard-stripe)"
-              stroke="white"
-              stroke-width="1"
-            />
-            <rect
-              x="400"
-              y="220"
-              width="200"
-              height="100"
-              fill="red"
-              opacity="0.1"
-            />
-            <text
-              x="500"
-              y="270"
-              text-anchor="middle"
-              class="node-title"
-              font-size="12"
-            >
-              ⚠ HAZARD_ZONE
-            </text>
-            <text x="500" y="285" text-anchor="middle" class="tech-label">
-              LIDAR_DETECT_01
-            </text>
-          </g>
-
-          <path
-            d="M 100 300 L 900 300"
-            stroke="#555"
-            stroke-width="2"
-            stroke-dasharray="5,5"
-            fill="none"
-          />
-          <g transform="translate(500, 210)">
-            <text text-anchor="middle" class="tech-label" fill="#555">
-              PATH_A [BLOCKED]
-            </text>
-          </g>
-
-          <path
-            d="M 100 300 C 300 300, 350 100, 600 100 C 850 100, 800 300, 900 300"
-            stroke="white"
-            stroke-width="3"
-            fill="none"
-            filter="drop-shadow(0 0 5px white)"
-          />
-
-          <g transform="translate(600, 80)">
-            <rect
-              x="-60"
-              y="-15"
-              width="120"
-              height="20"
-              fill="#000"
-              stroke="white"
-            />
-            <text
-              x="0"
-              y="0"
-              text-anchor="middle"
-              class="tech-label"
-              fill="white"
-            >
-              ✓ OPTIMAL_TRAJECTORY
-            </text>
-          </g>
-
-          <path
-            d="M 100 300 C 300 300, 300 550, 600 550 C 900 550, 800 300, 900 300"
-            stroke="#666"
-            stroke-width="1"
-            fill="none"
-          />
-          <text x="600" y="570" text-anchor="middle" class="tech-label">
-            PATH_C (HIGH_COST)
-          </text>
-
-          <g transform="translate(100, 300)">
-            <circle r="15" fill="#000" stroke="white" stroke-width="2" />
-            <circle r="5" fill="white" class="status-blink" />
-            <text x="0" y="35" text-anchor="middle" class="node-title">
-              ORIGIN
-            </text>
-            <text x="0" y="50" text-anchor="middle" class="tech-label">
-              POS: 0,0
-            </text>
-          </g>
-
-          <g transform="translate(900, 300)">
-            <circle r="15" fill="#000" stroke="white" stroke-width="2" />
             <path
-              d="M -10 -10 L 10 10 M -10 10 L 10 -10"
-              stroke="white"
-              stroke-width="1"
+              id="active-path"
+              d=""
+              fill="none"
+              stroke-width="3"
+              stroke-linecap="round"
+              filter="url(#glow)"
             />
-            <text x="0" y="35" text-anchor="middle" class="node-title">
+
+            <g id="sim-robot">
+              <circle r="6" fill="#fff" />
+              <circle r="12" fill="none" stroke="#fff" opacity="0.5" />
+            </g>
+
+            <circle cx="50" cy="350" r="5" fill="#fff" />
+            <text
+              x="50"
+              y="370"
+              fill="#888"
+              font-size="10"
+              text-anchor="middle"
+              font-family="Space Mono"
+            >
+              START
+            </text>
+
+            <circle cx="550" cy="50" r="5" fill="#fff" />
+            <text
+              x="550"
+              y="70"
+              fill="#888"
+              font-size="10"
+              text-anchor="middle"
+              font-family="Space Mono"
+            >
               TARGET
             </text>
-            <text x="0" y="50" text-anchor="middle" class="tech-label">
-              POS: 90,30
-            </text>
-          </g>
+          </svg>
 
-          <text x="1180" y="590" text-anchor="end" class="tech-label">
-            GRID_SCALE: 10m
-          </text>
-          <path
-            d="M 1150 550 L 1180 550 L 1180 520"
-            fill="none"
-            stroke="#666"
-          />
-        </svg>
+          <div class="sim-overlay">
+            <div id="sim-status">STATUS: STANDBY</div>
+            <div id="sim-coords">POS: 000, 000</div>
+          </div>
+        </div>
+
+        <div class="sim-controls">
+          <button class="sim-btn active" onclick="runSim('speed')" id="btn-speed">
+            <div class="sim-btn-header">
+              <span class="sim-icon">//</span>
+              <span class="sim-title">VELOCITY_PROFILE</span>
+            </div>
+            <div class="sim-desc">
+              Optimizes for T_min. Accepts higher risk thresholds for direct
+              routing.
+            </div>
+            <div class="sim-stat-bar">
+              <div class="label">RISK:</div>
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 80%"></div>
+              </div>
+              <div class="label">HIGH</div>
+            </div>
+          </button>
+
+          <button class="sim-btn" onclick="runSim('safety')" id="btn-safety">
+            <div class="sim-btn-header">
+              <span class="sim-icon">[]</span>
+              <span class="sim-title">SECURITY_PROFILE</span>
+            </div>
+            <div class="sim-desc">
+              Maximizes obstacle clearance. Reroutes around all detected hazard
+              zones.
+            </div>
+            <div class="sim-stat-bar">
+              <div class="label">RISK:</div>
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 10%"></div>
+              </div>
+              <div class="label">LOW</div>
+            </div>
+          </button>
+
+          <button class="sim-btn" onclick="runSim('comfort')" id="btn-comfort">
+            <div class="sim-btn-header">
+              <span class="sim-icon">~~</span>
+              <span class="sim-title">COMFORT_PROFILE</span>
+            </div>
+            <div class="sim-desc">
+              Minimizes lateral acceleration (G-force). Smooth curves only.
+            </div>
+            <div class="sim-stat-bar">
+              <div class="label">RISK:</div>
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: 30%"></div>
+              </div>
+              <div class="label">MED</div>
+            </div>
+          </button>
+        </div>
       </div>
     </section>
 
