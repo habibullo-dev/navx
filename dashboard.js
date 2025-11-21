@@ -255,7 +255,7 @@ function setWeather(type) {
     log("WX: Clear sky. Visibility optimal.", "info");
   } else if (type === "rain") {
     overlay.className = ""; // particle rain overlay
-    overlay.style.opacity = 0.28;
+    overlay.style.opacity = 0.38;
     icon.className = "fas fa-cloud-rain weather-icon";
     temp.innerText = "16°";
     desc.innerText = "HEAVY RAIN // LOW TRACTION";

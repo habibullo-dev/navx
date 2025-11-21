@@ -916,7 +916,7 @@ body.weather-rain #weather-fx {
   width: 2px;
   height: 65%;
   margin-left: 8px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(200,230,255,0.3));
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(200,230,255,0.42));
   animation: stem 0.6s linear infinite;
   border-radius: 1px;
 }
