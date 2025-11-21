@@ -3,19 +3,25 @@
 
 /* --- CORE DASHBOARD VARIABLES --- */
 :root {
-  --bg-dark: #050505;
-  --panel-bg: rgba(12, 12, 12, 0.95);
-  --border-color: #2a2a2a;
-  --text-main: #e0e0e0;
-  --text-muted: #888;
-  --accent-fast: #ff0055; /* Neon Red/Pink */
-  --accent-safe: #00ffaa; /* Neon Cyan/Green */
-  --accent-scenic: #00aaff; /* Neon Blue */
-  --map-water: #0a1a2a;
-  --map-park: #0f1f15;
-  --map-road: #1a1a1a;
+  --bg-dark: #050607;
+  --panel-bg: rgba(10, 12, 15, 0.92);
+  --border-color: #1e262c;
+  --text-main: #d8dde2;
+  --text-muted: #5c6a76;
+  --accent-fast: #ff2f6d; /* Neon Red/Pink */
+  --accent-safe: #15ffb9; /* Cyan/Green */
+  --accent-scenic: #29b3ff; /* Blue */
+  --map-water: #081e29;
+  --map-park: #072018;
+  --map-road: #1a242b;
   --map-road-outline: #000;
-  --map-building: #141414;
+  --map-building: #14191d;
+  --map-centerline: #2e3f48;
+  --map-label-bg: rgba(0,0,0,0.35);
+  --zone-scenic: rgba(20,60,45,0.35);
+  --zone-scenic-edge: rgba(40,120,85,0.28);
+  --zone-comfort: rgba(35,45,60,0.28);
+  --zone-comfort-edge: rgba(55,70,100,0.22);
 }
 
 * {
@@ -441,6 +447,55 @@ main,
   filter: drop-shadow(0 0 8px currentColor);
   stroke-dashoffset: 0;
 }
+
+/* Centerlines */
+.road-centerline {
+  stroke: var(--map-centerline);
+  stroke-width: 4;
+  stroke-dasharray: 14 10;
+  fill: none;
+  opacity: 0.55;
+}
+
+/* Agent Car */
+.agent-car .car-body { fill: #f0f3f5; stroke: #111; stroke-width: 1; }
+.agent-car .car-cabin { fill: #c9d2d8; }
+.agent-car .car-light { fill: #ffe89a; filter: drop-shadow(0 0 4px #ffd46b); }
+.agent-car .car-shadow { stroke: rgba(255,255,255,0.15); stroke-width: 2; }
+.nav-agent { filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
+
+/* Route Status Panel */
+.route-status-panel { margin-top: 0.9rem; background: var(--map-label-bg); border: 1px solid rgba(255,255,255,0.08); padding: 0.6rem 0.7rem; border-radius: 5px; }
+.route-status-title { font-size: 0.6rem; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 4px; }
+.route-status-text { font-size: 0.7rem; line-height: 1.1; color: var(--text-main); font-family: "Space Mono", monospace; }
+
+/* Improved Street Labels */
+.street-label { font-size: 12px; fill: #4b5a64; letter-spacing: 1.5px; font-weight: 500; }
+.street-label:hover { fill: #6c7f8b; }
+
+/* Scenic & Comfort Zones */
+.scenic-zone { fill: var(--zone-scenic); stroke: var(--zone-scenic-edge); stroke-width: 2; }
+.scenic-zone-corridor { fill: var(--zone-scenic); opacity: 0.35; }
+.comfort-zone { fill: var(--zone-comfort); stroke: var(--zone-comfort-edge); stroke-width: 2; }
+.comfort-zone-corridor { fill: var(--zone-comfort); opacity: 0.25; }
+
+/* Active route accent tweaks */
+.route-path#path-scenic.active { stroke: var(--accent-scenic); filter: drop-shadow(0 0 10px rgba(0,180,255,0.5)) drop-shadow(0 0 3px rgba(0,180,255,0.8)); }
+.route-path#path-comfort.active { stroke: var(--accent-safe); filter: drop-shadow(0 0 6px rgba(21,255,185,0.5)); }
+.route-path#path-fastest.active { stroke: var(--accent-fast); filter: drop-shadow(0 0 12px rgba(255,47,109,0.55)); }
+
+/* POI Markers */
+.poi-marker { fill: #ffffff; stroke: #111; stroke-width: 2; filter: drop-shadow(0 0 4px rgba(255,255,255,0.6)); cursor: pointer; }
+.poi-marker.gas { fill: #ffc44d; }
+.poi-marker.charge { fill: #39ffb6; }
+.poi-marker.waypoint { fill: #4db5ff; }
+.poi-label { font-size: 9px; font-family: Oswald, sans-serif; fill: #8899a5; letter-spacing: 1px; }
+.poi-marker:hover + .poi-label { fill: #d9e2e8; }
+
+/* Buildings highlight near active route */
+g[data-building].building-near-route rect,
+g[data-building].building-near-route path { fill: #1f2d33 !important; stroke: #2f5564 !important; }
+g[data-building].building-near-route { filter: drop-shadow(0 0 6px rgba(80,180,255,0.4)); }
 
 /* Robot Agent */
 #agent {
@@ -1027,6 +1082,16 @@ body.weather-rain #weather-fx {
     padding: 0.5rem;
     background: rgba(10, 10, 10, 0.85);
   }
+  /* Condensed route status panel */
+  .route-status-panel { margin-top: 0.5rem; padding: 0.4rem 0.5rem; }
+  .route-status-title { font-size: 0.5rem; }
+  .route-status-text { font-size: 0.55rem; max-height: 3.6em; overflow: hidden; position: relative; }
+  .route-status-text::after { content:""; position:absolute; left:0; right:0; bottom:0; height:1.2em; background:linear-gradient(to bottom, rgba(10,10,10,0), rgba(10,10,10,0.9)); }
+  /* Hide POI labels to reduce clutter */
+  .poi-label { display: none; }
+  /* Zone opacity adjustments */
+  .scenic-zone, .scenic-zone-corridor { opacity: 0.25 !important; }
+  .comfort-zone, .comfort-zone-corridor { opacity: 0.18 !important; }
 
   .weather-header {
     font-size: 0.6rem;
@@ -1306,6 +1371,11 @@ body.weather-rain #weather-fx {
     width: 120px;
     padding: 0.4rem;
   }
+  .route-status-panel { padding: 0.35rem 0.45rem; }
+  .route-status-text { font-size: 0.5rem; max-height: 3.2em; }
+  .route-status-text::after { height: 1em; }
+  .scenic-zone, .scenic-zone-corridor { opacity: 0.22 !important; }
+  .comfort-zone, .comfort-zone-corridor { opacity: 0.15 !important; }
   
   /* Larger markers for small screens */
   circle[cx="50"][cy="750"],

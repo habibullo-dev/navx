@@ -133,6 +133,34 @@ const routes = {
   },
 };
 
+// Detailed route + weather conditions for status panel
+const routeConditions = {
+  fastest: {
+    base: "High-speed diagonal trunk route",
+    env: "Priority transit corridor",
+    features: ["Wide lanes", "Direct vector"],
+    sun: "Dry surface / optimal traction",
+    rain: "Wet asphalt / longer braking distance",
+    fog: "Low visibility / adaptive slowdown"
+  },
+  scenic: {
+    base: "Lateral then vertical scenic sweep",
+    env: "Green belt + park corridors",
+    features: ["Tree canopy", "View nodes"],
+    sun: "Clear view of landscape corridors",
+    rain: "Puddling risk near mid spans",
+    fog: "Obscured distant markers / moderate caution"
+  },
+  comfort: {
+    base: "Stable L-shaped climb then traverse",
+    env: "Low-stress buffered zone",
+    features: ["Soft lighting", "Gentle turns"],
+    sun: "Even lighting / smooth turns",
+    rain: "Reduced corner speed / gentle acceleration",
+    fog: "Maintain lane discipline / extended headway"
+  }
+};
+
 let activeMode = "fastest";
 let currentWeather = "sun";
 let isAnimating = false;
@@ -185,6 +213,8 @@ function setRoute(mode) {
 
   // Recalculate Risk
   updateTelemetry();
+  updateRouteStatus();
+  updateBuildingHighlights();
 
   // Log
   log(`Rerouting: ${mode.toUpperCase()} profile active.`, "info");
@@ -307,6 +337,8 @@ function setWeather(type) {
   }
 
   updateTelemetry();
+  updateRouteStatus();
+  updateBuildingHighlights();
 }
 
 // --- LOGIC: TELEMETRY & RISK CALC ---
@@ -356,8 +388,8 @@ function animateAgentLoop() {
     // Increment progress
     let currentSpeed = routes[activeMode].speed;
     if (currentWeather !== "sun") currentSpeed *= 0.6;
-
-    progress += currentSpeed * 0.05;
+    // Reduced speed factor for calmer navigation feel
+    progress += currentSpeed * 0.025;
 
     if (progress > len) {
       progress = 0;
@@ -374,16 +406,62 @@ function animateAgentLoop() {
       Math.PI;
 
     // Apply Transform
-    agent.setAttribute(
-      "transform",
-      `translate(${point.x}, ${point.y}) rotate(${angle + 90})`
-    );
+    // Car icon drawn pointing to the right, so use raw angle
+    agent.setAttribute("transform", `translate(${point.x}, ${point.y}) rotate(${angle})`);
 
     requestAnimationFrame(step);
   }
 
   requestAnimationFrame(step);
 }
+
+// Update route status panel text
+function updateRouteStatus() {
+  const el = document.getElementById('route-status');
+  if (!el) return;
+  const rc = routeConditions[activeMode];
+  if (!rc) { el.textContent = 'No data'; return; }
+  const detail = rc[currentWeather] || rc.sun;
+  const feat = rc.features ? rc.features.join(', ') : '';
+  el.textContent = `${activeMode.toUpperCase()} // ${rc.env}\n${rc.base}\nWX: ${detail}\nFEAT: ${feat}`;
+}
+
+// Highlight buildings near current route path
+function updateBuildingHighlights() {
+  const path = document.getElementById(routes[activeMode].id);
+  if (!path) return;
+  const len = path.getTotalLength();
+  const isMobile = window.innerWidth <= 768;
+  const samples = isMobile ? 90 : 180; // reduced resolution on mobile for performance
+  const samplePoints = [];
+  for (let i = 0; i <= samples; i++) {
+    const pt = path.getPointAtLength((len * i) / samples);
+    samplePoints.push(pt);
+  }
+  const threshold = 95; // distance threshold
+  document.querySelectorAll('g[data-building]').forEach(b => {
+    const x = parseFloat(b.getAttribute('data-x'));
+    const y = parseFloat(b.getAttribute('data-y'));
+    let minD = Infinity;
+    for (let i = 0; i < samplePoints.length; i++) {
+      const dx = samplePoints[i].x - x;
+      const dy = samplePoints[i].y - y;
+      const d = dx * dx + dy * dy;
+      if (d < minD) minD = d;
+      if (d < threshold * threshold) break; // early exit
+    }
+    if (minD < threshold * threshold) {
+      b.classList.add('building-near-route');
+    } else {
+      b.classList.remove('building-near-route');
+    }
+  });
+}
+
+// Initial highlight after load
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(updateBuildingHighlights, 1200);
+});
 
 // --- LOG HELPER ---
 function log(msg, type) {
