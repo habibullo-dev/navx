@@ -179,6 +179,9 @@
           <button class="wx-btn" data-wx="fog" onclick="setWeather('fog')">
             <i class="fas fa-smog"></i>
           </button>
+          <button class="wx-btn" data-wx="snow" onclick="setWeather('snow')">
+            <i class="fas fa-snowflake"></i>
+          </button>
         </div>
         <div class="route-status-panel">
           <div class="route-status-title">ROUTE_STATUS</div>
@@ -187,7 +190,7 @@
       </div>
 
       <!-- SVG MAP -->
-        <svg id="nav-map" viewBox="-600 -450 2000 1700" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+        <svg id="nav-map" viewBox="-300 -200 1600 1200" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
           <!-- New Map Layout (adapted from test.html) -->
           <rect x="-3000" y="-3000" width="8000" height="8000" class="map-bg" />
 
@@ -197,8 +200,8 @@
           <!-- Adapted Environment Blocks -->
           <!-- Repositioned green scenic area adjacent to scenic route -->
           <path d="M -400 720 L 780 720 L 780 840 L -400 840 Z" class="scenic-zone" />
-          <!-- Vertical scenic corridor -->
-          <rect x="760" y="-400" width="40" height="1180" class="scenic-zone-corridor" />
+          <!-- Vertical scenic corridor (hidden - outside viewport) -->
+          <rect x="760" y="-400" width="40" height="1180" class="scenic-zone-corridor" opacity="0" />
           <!-- Comfort chill zone near comfort path (top band + left column) -->
           <rect x="-100" y="-60" width="1300" height="80" class="comfort-zone" />
           <rect x="-60" y="-400" width="80" height="1600" class="comfort-zone-corridor" />
@@ -292,7 +295,7 @@
 
 
           <!-- Routes (converted to route-path class for existing animation) -->
-          <path id="path-fastest" class="route-path" d="M -100 900 L 900 -100" stroke="#ff0055" />
+          <path id="path-fastest" class="route-path active" d="M -100 900 L 900 -100" stroke="#ff0055" />
           <path id="path-comfort" class="route-path" d="M 20 1200 L 20 20 L 1200 20" stroke="#00ffaa" />
           <path id="path-scenic" class="route-path" d="M -400 780 L 780 780 L 780 -400" stroke="#00aaff" />
 
@@ -322,17 +325,18 @@
             </g>
           </g>
 
-          <!-- Labels (mapped to street-label style) -->
-          <text x="400" y="400" class="street-label" transform="rotate(-45,400,400)">HAZARD ZONE // ROAD WORK</text>
-          <text x="200" y="500" class="street-label" transform="rotate(-90,200,500)">RESIDENTIAL AVE</text>
-          <text x="650" y="300" class="street-label" transform="rotate(-90,650,300)">PARKWAY DR</text>
-
-          <!-- Start/End Markers (retain original style positions adapted) -->
-          <g transform="translate(20,780)">
+        <!-- Labels (mapped to street-label style) -->
+        <text x="400" y="380" class="street-label" transform="rotate(-45,400,380)">TRANSIT ARTERY 01</text>
+        <text x="420" y="420" class="hazard-label" transform="rotate(-45,420,420)">ROADWORK // CAUTION</text>
+        <text x="50" y="400" class="street-label" transform="rotate(-90,50,400)">COMMERCE BLVD</text>
+        <text x="750" y="400" class="street-label" transform="rotate(-90,750,400)">PARKWAY DR</text>
+        <text x="400" y="50" class="street-label">RIVERSIDE AVE</text>
+        <text x="400" y="750" class="street-label">LAKEFRONT ROAD</text>          <!-- Start/End Markers (retain original style positions adapted) -->
+          <g class="start-marker" transform="translate(20,780)">
             <circle r="10" fill="white" stroke="black" stroke-width="2" />
             <text x="0" y="30" fill="white" font-family="Oswald" font-size="12" text-anchor="middle">START</text>
           </g>
-          <g transform="translate(780,20)">
+          <g class="target-marker" transform="translate(780,20)">
             <circle r="10" fill="white" stroke="black" stroke-width="2" />
             <text x="0" y="-20" fill="white" font-family="Oswald" font-size="12" text-anchor="middle">TARGET</text>
           </g>

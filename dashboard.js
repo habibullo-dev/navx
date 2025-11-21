@@ -117,19 +117,19 @@ const routes = {
     id: "path-fastest",
     baseRisk: 6.5,
     speed: 80,
-    weatherPenalty: { rain: 2.5, fog: 4.0 },
+    weatherPenalty: { rain: 2.5, fog: 4.0, snow: 3.2 },
   },
   scenic: {
     id: "path-scenic",
     baseRisk: 1.2,
     speed: 45,
-    weatherPenalty: { rain: 1.0, fog: 1.5 },
+    weatherPenalty: { rain: 1.0, fog: 1.5, snow: 1.8 },
   },
   comfort: {
     id: "path-comfort",
     baseRisk: 2.5,
     speed: 55,
-    weatherPenalty: { rain: 1.5, fog: 2.0 },
+    weatherPenalty: { rain: 1.5, fog: 2.0, snow: 2.2 },
   },
 };
 
@@ -141,7 +141,8 @@ const routeConditions = {
     features: ["Wide lanes", "Direct vector"],
     sun: "Dry surface / optimal traction",
     rain: "Wet asphalt / longer braking distance",
-    fog: "Low visibility / adaptive slowdown"
+    fog: "Low visibility / adaptive slowdown",
+    snow: "Reduced lane contrast / moderate slip risk"
   },
   scenic: {
     base: "Lateral then vertical scenic sweep",
@@ -149,7 +150,8 @@ const routeConditions = {
     features: ["Tree canopy", "View nodes"],
     sun: "Clear view of landscape corridors",
     rain: "Puddling risk near mid spans",
-    fog: "Obscured distant markers / moderate caution"
+    fog: "Obscured distant markers / moderate caution",
+    snow: "Soft snowfall ambience / watch shaded patches"
   },
   comfort: {
     base: "Stable L-shaped climb then traverse",
@@ -157,7 +159,8 @@ const routeConditions = {
     features: ["Soft lighting", "Gentle turns"],
     sun: "Even lighting / smooth turns",
     rain: "Reduced corner speed / gentle acceleration",
-    fog: "Maintain lane discipline / extended headway"
+    fog: "Maintain lane discipline / extended headway",
+    snow: "Calm surface / slightly reduced acceleration"
   }
 };
 
@@ -251,8 +254,8 @@ function setWeather(type) {
     desc.innerText = "CLEAR SKY // BRIGHT";
     log("WX: Clear sky. Visibility optimal.", "info");
   } else if (type === "rain") {
-    overlay.className = ""; // remove legacy rain overlay; use particle rain only
-    overlay.style.opacity = 0.55;
+    overlay.className = ""; // particle rain overlay
+    overlay.style.opacity = 0.28;
     icon.className = "fas fa-cloud-rain weather-icon";
     temp.innerText = "16°";
     desc.innerText = "HEAVY RAIN // LOW TRACTION";
@@ -334,6 +337,18 @@ function setWeather(type) {
     wrapper.appendChild(mkLayer('foglayer_03'));
 
     overlay.appendChild(wrapper);
+  } else if (type === "snow") {
+    overlay.className = "";
+    clearOverlay();
+    overlay.style.opacity = 0.9;
+    icon.className = "fas fa-snowflake weather-icon";
+    temp.innerText = "-2°";
+    desc.innerText = "LIGHT SNOW // COOL";
+    log("WX: Light snowfall. Monitoring surface accumulation.", "warn");
+
+    const snowDiv = document.createElement('div');
+    snowDiv.className = 'snow';
+    overlay.appendChild(snowDiv);
   }
 
   updateTelemetry();
@@ -392,22 +407,33 @@ function animateAgentLoop() {
     progress += currentSpeed * 0.025;
 
     if (progress > len) {
-      progress = 0;
+      // Smooth loop: hide, wait, reset, then fade back in
+      agent.style.opacity = '0';
+      setTimeout(() => {
+        progress = 0;
+        // Keep hidden briefly to avoid visible jump
+        setTimeout(() => {
+          agent.style.opacity = '1';
+        }, 200);
+      }, 300);
     }
 
-    // Get point coordinates
-    const point = path.getPointAtLength(progress);
+    // Only render if within path bounds
+    if (progress <= len) {
+      // Get point coordinates
+      const point = path.getPointAtLength(progress);
 
-    // Calculate rotation (look ahead)
-    const lookAhead = Math.min(progress + 10, len);
-    const nextPoint = path.getPointAtLength(lookAhead);
-    const angle =
-      (Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180) /
-      Math.PI;
+      // Calculate rotation (look ahead)
+      const lookAhead = Math.min(progress + 10, len);
+      const nextPoint = path.getPointAtLength(lookAhead);
+      const angle =
+        (Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180) /
+        Math.PI;
 
-    // Apply Transform
-    // Car icon drawn pointing to the right, so use raw angle
-    agent.setAttribute("transform", `translate(${point.x}, ${point.y}) rotate(${angle})`);
+      // Apply Transform
+      // Car icon drawn pointing to the right, so use raw angle
+      agent.setAttribute("transform", `translate(${point.x}, ${point.y}) rotate(${angle})`);
+    }
 
     requestAnimationFrame(step);
   }
@@ -461,6 +487,29 @@ function updateBuildingHighlights() {
 // Initial highlight after load
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(updateBuildingHighlights, 1200);
+
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    const svg = document.getElementById('nav-map');
+    if (svg) {
+      // Zoom out more for better overview
+      svg.setAttribute('viewBox', '-600 -300 2000 1600');
+    }
+    // Reposition markers well within visible area
+    const start = document.querySelector('.start-marker');
+    const target = document.querySelector('.target-marker');
+    if (start) {
+      // Move START more to the right to ensure full visibility
+      start.setAttribute('transform', 'translate(100,640)');
+      const t = start.querySelector('text');
+      if (t) t.setAttribute('y','22');
+    }
+    if (target) {
+      target.setAttribute('transform', 'translate(720,100)');
+      const tt = target.querySelector('text');
+      if (tt) tt.setAttribute('y','-22');
+    }
+  }
 });
 
 // --- LOG HELPER ---

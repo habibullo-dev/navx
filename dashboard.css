@@ -462,7 +462,7 @@ main,
 .agent-car .car-cabin { fill: #c9d2d8; }
 .agent-car .car-light { fill: #ffe89a; filter: drop-shadow(0 0 4px #ffd46b); }
 .agent-car .car-shadow { stroke: rgba(255,255,255,0.15); stroke-width: 2; }
-.nav-agent { filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
+.nav-agent { filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); transition: opacity 0.3s ease; }
 
 /* Route Status Panel */
 .route-status-panel { margin-top: 0.9rem; background: var(--map-label-bg); border: 1px solid rgba(255,255,255,0.08); padding: 0.6rem 0.7rem; border-radius: 5px; }
@@ -470,8 +470,29 @@ main,
 .route-status-text { font-size: 0.7rem; line-height: 1.1; color: var(--text-main); font-family: "Space Mono", monospace; }
 
 /* Improved Street Labels */
-.street-label { font-size: 12px; fill: #4b5a64; letter-spacing: 1.5px; font-weight: 500; }
-.street-label:hover { fill: #6c7f8b; }
+.street-label { 
+  font-size: 12px; 
+  fill: #8fa3b0; 
+  letter-spacing: 1.8px; 
+  font-weight: 600; 
+  paint-order: stroke fill;
+  stroke: rgba(0,0,0,0.6);
+  stroke-width: 3px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+}
+.street-label:hover { fill: #b5c9d6; }
+
+/* Hazard/Warning Labels */
+.hazard-label {
+  font-size: 10px;
+  fill: #d89548;
+  letter-spacing: 1.2px;
+  font-weight: 500;
+  opacity: 0.75;
+  stroke: rgba(0,0,0,0.5);
+  stroke-width: 2px;
+  paint-order: stroke fill;
+}
 
 /* Scenic & Comfort Zones */
 .scenic-zone { fill: var(--zone-scenic); stroke: var(--zone-scenic-edge); stroke-width: 2; }
@@ -483,6 +504,54 @@ main,
 .route-path#path-scenic.active { stroke: var(--accent-scenic); filter: drop-shadow(0 0 10px rgba(0,180,255,0.5)) drop-shadow(0 0 3px rgba(0,180,255,0.8)); }
 .route-path#path-comfort.active { stroke: var(--accent-safe); filter: drop-shadow(0 0 6px rgba(21,255,185,0.5)); }
 .route-path#path-fastest.active { stroke: var(--accent-fast); filter: drop-shadow(0 0 12px rgba(255,47,109,0.55)); }
+
+/* Snow effect (generated radial gradients) */
+.snow, .snow:before, .snow:after {
+  position: absolute;
+  top: -600px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "";
+  pointer-events: none;
+  background-size: 600px 600px;
+  animation: snow 3s linear infinite;
+  background-image:
+    radial-gradient(3px 3px at 40px 120px, rgba(255,255,255,.8) 50%, rgba(0,0,0,0)),
+    radial-gradient(4px 4px at 140px 60px, rgba(255,255,255,.65) 50%, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 260px 180px, rgba(255,255,255,.9) 50%, rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 320px 40px, rgba(255,255,255,.7) 50%, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 520px 220px, rgba(255,255,255,.8) 50%, rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 440px 300px, rgba(255,255,255,.6) 50%, rgba(0,0,0,0)),
+    radial-gradient(4px 4px at 200px 280px, rgba(255,255,255,.75) 50%, rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 560px 120px, rgba(255,255,255,.85) 50%, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 100px 220px, rgba(255,255,255,.65) 50%, rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 300px 520px, rgba(255,255,255,.7) 50%, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 50px 500px, rgba(255,255,255,.8) 50%, rgba(0,0,0,0)),
+    radial-gradient(4px 4px at 180px 480px, rgba(255,255,255,.6) 50%, rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 400px 520px, rgba(255,255,255,.85) 50%, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 520px 560px, rgba(255,255,255,.75) 50%, rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 600px 300px, rgba(255,255,255,.65) 50%, rgba(0,0,0,0));
+}
+.snow:after {
+  margin-left: -200px;
+  opacity: .4;
+  animation-duration: 6s;
+  animation-direction: reverse;
+  filter: blur(3px);
+}
+.snow:before {
+  margin-left: -300px;
+  opacity: .65;
+  animation-duration: 9s;
+  animation-direction: reverse;
+  filter: blur(1.5px);
+}
+@keyframes snow { to { transform: translateY(600px); } }
+
+/* Weather mood for snow */
+body.weather-snow .dashboard-main { filter: brightness(0.95) contrast(0.9) saturate(0.85) hue-rotate(-10deg); transition: filter 0.6s ease; }
+body.weather-snow .live-indicator { background: #a3e8ff; box-shadow: 0 0 8px #a3e8ff; }
 
 /* POI Markers */
 .poi-marker { fill: #ffffff; stroke: #111; stroke-width: 2; filter: drop-shadow(0 0 4px rgba(255,255,255,0.6)); cursor: pointer; }
@@ -562,9 +631,11 @@ g[data-building].building-near-route { filter: drop-shadow(0 0 6px rgba(80,180,2
 }
 
 .wx-btn-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: 5px;
+  flex-wrap: nowrap;
 }
 
 .wx-btn {
@@ -827,46 +898,50 @@ body.weather-rain #weather-fx {
 .drop {
   position: absolute;
   bottom: 100%;
-  width: 15px;
-  height: 120px;
+  width: 16px;
+  height: 130px;
   pointer-events: none;
-  animation: drop 0.5s linear infinite;
+  animation: drop 0.6s linear infinite;
+  filter: drop-shadow(0 0 1px rgba(180,220,255,0.2));
 }
 
 @keyframes drop {
-  0% { transform: translateY(0vh); }
-  75% { transform: translateY(90vh); }
-  100% { transform: translateY(90vh); }
+  0% { transform: translateY(-5vh); opacity: 0; }
+  10% { opacity: 1; }
+  80% { transform: translateY(92vh); opacity: 1; }
+  100% { transform: translateY(92vh); opacity: 0; }
 }
 
 .stem {
-  width: 1px;
-  height: 60%;
-  margin-left: 7px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(200,220,255,0.35));
-  animation: stem 0.5s linear infinite;
+  width: 2px;
+  height: 65%;
+  margin-left: 8px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(200,230,255,0.3));
+  animation: stem 0.6s linear infinite;
+  border-radius: 1px;
 }
 
 @keyframes stem {
-  0%, 65% { opacity: 1; }
-  75%, 100% { opacity: 0; }
+  0%, 70% { opacity: 1; }
+  85%, 100% { opacity: 0; }
 }
 
 .splat {
-  width: 15px;
-  height: 10px;
-  border-top: 2px dotted rgba(200,220,255,0.6);
+  width: 16px;
+  height: 11px;
+  border-top: 2px solid rgba(200,230,255,0.45);
   border-radius: 50%;
   opacity: 1;
   transform: scale(0);
-  animation: splat 0.5s linear infinite;
+  animation: splat 0.6s linear infinite;
 }
 
 @keyframes splat {
-  0% { opacity: 1; transform: scale(0); }
-  80% { opacity: 1; transform: scale(0); }
-  90% { opacity: 0.5; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.5); }
+  0% { opacity: 0; transform: scale(0); }
+  70% { opacity: 0; transform: scale(0); }
+  82% { opacity: 0.7; transform: scale(0.9); }
+  90% { opacity: 0.5; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(1.6); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1116,12 +1191,16 @@ body.weather-rain #weather-fx {
   }
 
   .wx-btn-group {
+    display: flex;
+    flex-direction: row;
     gap: 3px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
   }
 
   .wx-btn {
-    padding: 5px 4px;
-    font-size: 0.75rem;
+    padding: 4px 6px;
+    font-size: 0.7rem;
   }
 
   /* Floating control strip at bottom */
@@ -1206,6 +1285,11 @@ body.weather-rain #weather-fx {
     width: 100%;
     height: 100%;
     display: block;
+  }
+
+  /* Adjust viewBox on mobile to show full route including start/target markers */
+  svg#nav-map {
+    /* This will be overridden by inline attribute, so we need JS or different approach */
   }
   
   main svg {
@@ -1367,9 +1451,76 @@ body.weather-rain #weather-fx {
     font-size: 0.65rem;
   }
 
+  /* Make start/target markers more visible on mobile */
+  .start-marker circle,
+  .target-marker circle {
+    r: 18 !important;
+    stroke-width: 4 !important;
+    fill: #00ff88 !important;
+    stroke: white !important;
+    filter: drop-shadow(0 0 8px rgba(0,255,136,1)) drop-shadow(0 0 16px rgba(255,255,255,0.6));
+  }
+
+  .start-marker text,
+  .target-marker text {
+    font-size: 16px !important;
+    font-weight: bold !important;
+    fill: white !important;
+    paint-order: stroke fill;
+    stroke: black !important;
+    stroke-width: 3px !important;
+    text-shadow: 0 0 4px black, 0 0 8px black;
+  }
+
   .weather-control {
-    width: 120px;
-    padding: 0.4rem;
+    width: auto;
+    padding: 0.35rem 0.45rem;
+    top: 50px;
+    right: 6px;
+    left: auto;
+    background: rgba(5, 6, 7, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+  }
+  
+  /* Hide verbose elements on mobile */
+  .weather-header,
+  .current-weather,
+  .route-status-panel {
+    display: none !important;
+  }
+  
+  /* Weather buttons as horizontal icon strip with better visibility */
+  .wx-btn-group {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    margin: 0;
+  }
+  
+  .wx-btn {
+    padding: 7px 8px;
+    font-size: 0.95rem;
+    min-width: auto;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.2s ease;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .wx-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .wx-btn.active {
+    background: rgba(0, 255, 136, 0.2);
+    border-color: var(--accent-main);
+    color: var(--accent-main);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.4), inset 0 0 10px rgba(0, 255, 136, 0.1);
   }
   .route-status-panel { padding: 0.35rem 0.45rem; }
   .route-status-text { font-size: 0.5rem; max-height: 3.2em; }
@@ -1430,8 +1581,8 @@ body.weather-rain #weather-fx {
   }
 
   .wx-btn {
-    padding: 5px;
-    font-size: 0.8rem;
+    padding: 4px 5px;
+    font-size: 0.65rem;
   }
 
   .loader-text {
@@ -1443,6 +1594,8 @@ body.weather-rain #weather-fx {
     width: 8px;
     height: 35px;
   }
+  /* Allow wrapping if extremely tight */
+  .weather-control .wx-btn-group { flex-wrap: wrap; }
 }
 
 /* Tablet optimizations */
