@@ -21,13 +21,39 @@
     <link rel="stylesheet" href="dashboard.css" />
   </head>
   <body>
+    <!-- Custom Cursor -->
+    <div id="custom-cursor"></div>
+    <!-- CRT Scanline Overlay -->
+    <div class="crt-overlay"></div>
+
     <!-- 1. PRELOADER -->
     <div id="preloader">
       <div class="loader-text">NAV//X <span class="cursor"></span></div>
     </div>
 
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-container">
+        <a href="index.html" class="logo">NAV//X</a>
+        <button class="menu-toggle" onclick="toggleMenu()">///</button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html#hero">00_Home</a></li>
+          <li><a href="index.html#features">01_Core</a></li>
+          <li><a href="index.html#architecture">02_System</a></li>
+          <li><a href="index.html#simulation">03_Demo</a></li>
+          <li><a href="dashboard.html">04_Dashboard</a></li>
+          <li><a href="index.html#team">05_Team</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+      <i class="fas fa-sliders-h"></i> CONTROLS
+    </button>
+
     <!-- 2. SIDEBAR CONTROLS -->
-    <aside>
+    <aside id="sidebar">
       <div class="brand">NAV//X SYSTEM</div>
       <span class="status-badge">● ONLINE // SAT_LINK_ESTABLISHED</span>
 
@@ -162,7 +188,7 @@
         viewBox="0 0 1200 800"
         width="100%"
         height="100%"
-        preserveAspectRatio="xMidYMid slice"
+        preserveAspectRatio="xMidYMid meet"
       >
         <!-- LAYER 1: Environment -->
         <rect width="1200" height="800" class="map-bg" />
@@ -320,6 +346,22 @@
         </g>
       </svg>
     </main>
+
+    <!-- Mobile Control Strip (Bottom) -->
+    <div class="mobile-control-strip">
+      <button class="mobile-control-btn active" data-route="fastest" onclick="setRouteFromMobile('fastest')">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>FAST</span>
+      </button>
+      <button class="mobile-control-btn" data-route="scenic" onclick="setRouteFromMobile('scenic')">
+        <i class="fas fa-tree"></i>
+        <span>SCENIC</span>
+      </button>
+      <button class="mobile-control-btn" data-route="comfort" onclick="setRouteFromMobile('comfort')">
+        <i class="fas fa-car-side"></i>
+        <span>COMFORT</span>
+      </button>
+    </div>
 
     <script src="dashboard.js"></script>
   </body>

@@ -138,6 +138,12 @@ nav {
   letter-spacing: 2px;
   border: 1px solid white;
   padding: 5px 15px;
+  cursor: none;
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 25px rgba(255, 255, 255, 0.3);
 }
 
 .nav-links {
@@ -152,11 +158,14 @@ nav {
   font-size: 0.9rem;
   text-transform: uppercase;
   transition: 0.3s;
+  cursor: none;
+  padding: 5px 10px;
 }
 
 .nav-links a:hover {
   color: white;
   text-decoration: line-through;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 /* --- SECTIONS --- */
@@ -199,11 +208,13 @@ section {
   font-size: 1.2rem;
   transition: all 0.3s;
   width: fit-content;
+  cursor: none;
 }
 
 .cta-button:hover {
   background: white;
   color: black;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.7), 0 0 40px rgba(255, 255, 255, 0.4);
 }
 
 /* --- BOXES & CARDS --- */
@@ -231,12 +242,14 @@ section {
 .role-item {
   background: var(--bg-color);
   padding: 2.5rem;
-  transition: background 0.3s;
+  transition: all 0.3s;
+  cursor: none;
 }
 
 .feature-card:hover,
 .role-item:hover {
   background: #111;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.15), inset 0 0 30px rgba(255, 255, 255, 0.05);
 }
 
 .problem-box,
@@ -393,7 +406,13 @@ footer {
   border: 1px solid white;
   color: white;
   padding: 5px 10px;
-  cursor: pointer;
+  cursor: none;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 25px rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.9);
 }
 
 /* --- NEW DIAGRAM STYLES --- */
@@ -429,13 +448,13 @@ footer {
 
 /* Hover effects for diagram groups */
 .diagram-node {
-  cursor: crosshair;
+  cursor: none;
   transition: opacity 0.3s;
 }
 .diagram-node:hover rect,
 .diagram-node:hover path {
   stroke-width: 2px;
-  filter: drop-shadow(0 0 5px white);
+  filter: drop-shadow(0 0 8px white) drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
 }
 
 /* Text Styling inside SVG */
@@ -624,6 +643,7 @@ footer {
   position: relative;
   transition: all 0.3s ease;
   overflow: hidden;
+  cursor: none;
 }
 
 /* The "Bracket" corners for the cards */
@@ -652,7 +672,7 @@ footer {
   border-color: white;
   background: #0f0f0f;
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 255, 255, 0.2), 0 0 40px rgba(255, 255, 255, 0.1);
 }
 
 /* Image Container with "Scan Line" effect */
@@ -772,7 +792,7 @@ footer {
     display: block;
     font-size: 1.2rem;
     padding: 8px 12px;
-    cursor: pointer;
+    cursor: none;
   }
   
   .nav-links {
