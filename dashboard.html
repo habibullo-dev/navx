@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NavX // Autonomous Command Center</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <!-- 1. PRELOADER -->
+    <div id="preloader">
+      <div class="loader-text">NAV//X <span class="cursor"></span></div>
+    </div>
+
+    <!-- 2. SIDEBAR CONTROLS -->
+    <aside>
+      <div class="brand">NAV//X SYSTEM</div>
+      <span class="status-badge">● ONLINE // SAT_LINK_ESTABLISHED</span>
+
+      <!-- A. Route Selection -->
+      <div class="control-group">
+        <div class="group-title">
+          <i class="fas fa-route"></i> OPTIMAL PATHS
+        </div>
+
+        <!-- Card 1 -->
+        <div
+          class="route-card active"
+          data-type="fastest"
+          onclick="setRoute('fastest')"
+        >
+          <div class="route-header">
+            <span class="route-name">FASTEST</span>
+            <span class="route-time">12 min</span>
+          </div>
+          <div class="route-meta">
+            <span><i class="fas fa-road"></i> 8.4 km</span>
+            <span><i class="fas fa-exclamation-triangle"></i> Risk: High</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="route-card" data-type="scenic" onclick="setRoute('scenic')">
+          <div class="route-header">
+            <span class="route-name">SCENIC</span>
+            <span class="route-time">24 min</span>
+          </div>
+          <div class="route-meta">
+            <span><i class="fas fa-tree"></i> 11.2 km</span>
+            <span><i class="fas fa-shield-alt"></i> Risk: Low</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div
+          class="route-card"
+          data-type="comfort"
+          onclick="setRoute('comfort')"
+        >
+          <div class="route-header">
+            <span class="route-name">COMFORT</span>
+            <span class="route-time">18 min</span>
+          </div>
+          <div class="route-meta">
+            <span><i class="fas fa-car-side"></i> 9.5 km</span>
+            <span><i class="fas fa-balance-scale"></i> Risk: Med</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- B. Live Telemetry -->
+      <div class="control-group">
+        <div class="group-title">
+          <i class="fas fa-satellite"></i> LIVE TELEMETRY
+        </div>
+        <div class="telemetry-grid">
+          <div class="tele-box">
+            <span class="tele-label">SPEED</span>
+            <span class="tele-value" id="tele-speed">45</span>
+            <span style="font-size: 0.7rem">km/h</span>
+          </div>
+          <div class="tele-box">
+            <span class="tele-label">BATTERY</span>
+            <span class="tele-value" style="color: var(--accent-safe)"
+              >84%</span
+            >
+          </div>
+          <div class="tele-box">
+            <span class="tele-label">LATENCY</span>
+            <span class="tele-value">12ms</span>
+          </div>
+          <div class="tele-box">
+            <span class="tele-label">RISK INDEX</span>
+            <span class="tele-value" id="tele-risk">4.2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- C. System Log -->
+      <div class="group-title">SYSTEM LOG</div>
+      <div class="console-log" id="console">
+        <div class="log-entry info">
+          [10:00:01] System Boot Sequence Initiated...
+        </div>
+        <div class="log-entry info">
+          [10:00:02] Connected to ROS2 Node /router_01
+        </div>
+        <div class="log-entry info">
+          [10:00:02] GPS Signal Locked (8 Satellites)
+        </div>
+      </div>
+    </aside>
+
+    <!-- 3. MAIN MAP VIEW -->
+    <main>
+      <!-- Weather Effect Overlay -->
+      <div id="weather-fx"></div>
+
+      <!-- Weather HUD Widget -->
+      <div class="hud-widget weather-control">
+        <div class="weather-header">
+          <span>LOCAL_WEATHER</span>
+          <span class="live-indicator"></span>
+        </div>
+        <div class="current-weather">
+          <i class="fas fa-sun weather-icon" id="w-icon"></i>
+          <div>
+            <div class="weather-temp" id="w-temp">24°</div>
+            <div class="weather-desc" id="w-desc">CLEAR SKY</div>
+          </div>
+        </div>
+        <div class="wx-btn-group">
+          <button class="wx-btn active" data-wx="sun" onclick="setWeather('sun')">
+            <i class="fas fa-sun"></i>
+          </button>
+          <button class="wx-btn" data-wx="rain" onclick="setWeather('rain')">
+            <i class="fas fa-cloud-rain"></i>
+          </button>
+          <button class="wx-btn" data-wx="fog" onclick="setWeather('fog')">
+            <i class="fas fa-smog"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- SVG MAP -->
+      <svg
+        id="nav-map"
+        viewBox="0 0 1200 800"
+        width="100%"
+        height="100%"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <!-- LAYER 1: Environment -->
+        <rect width="1200" height="800" class="map-bg" />
+
+        <!-- Water (River + Lake) -->
+        <path
+          d="M -50 500 Q 300 450, 600 550 T 1250 600 V 850 H -50 Z"
+          class="water-area"
+        />
+
+        <!-- Park (Green Zone) -->
+        <path
+          d="M 800 100 H 1100 V 400 Q 950 450, 800 400 Z"
+          class="park-area"
+        />
+
+        <!-- LAYER 2: Roads (Casing + Core) -->
+        <!-- We use a group <g> to define the path once, then use <use> to draw it twice (outline then fill) -->
+        <defs>
+          <!-- Highway -->
+          <path id="road-highway" d="M 50 750 L 250 650 L 250 150 L 1150 150" />
+          <!-- Arterial -->
+          <path id="road-art-1" d="M 250 400 L 800 400 L 900 50" />
+          <path id="road-art-2" d="M 600 800 L 600 400" />
+          <!-- Local -->
+          <path id="road-local-1" d="M 250 250 L 50 250" />
+          <path id="road-local-2" d="M 800 400 L 800 700 L 1100 700" />
+        </defs>
+
+        <g class="road-network">
+          <!-- Casings (Outlines) -->
+          <use href="#road-highway" class="road-casing" stroke-width="28" />
+          <use href="#road-art-1" class="road-casing" stroke-width="18" />
+          <use href="#road-art-2" class="road-casing" stroke-width="18" />
+          <use href="#road-local-1" class="road-casing" stroke-width="12" />
+          <use href="#road-local-2" class="road-casing" stroke-width="12" />
+
+          <!-- Cores (Asphalt) -->
+          <use href="#road-highway" class="road-core" stroke-width="24" />
+          <use href="#road-art-1" class="road-core" stroke-width="14" />
+          <use href="#road-art-2" class="road-core" stroke-width="14" />
+          <use href="#road-local-1" class="road-core" stroke-width="8" />
+          <use href="#road-local-2" class="road-core" stroke-width="8" />
+        </g>
+
+        <!-- LAYER 3: Buildings (Simple extrusion effect) -->
+        <g class="buildings">
+          <!-- Industrial Block (Bottom Left) -->
+          <path d="M 50 600 h 100 v 80 h -100 z" class="building" />
+          <path d="M 60 610 h 80 v 60 h -80 z" class="building-3d" />
+          <!-- Roof -->
+
+          <!-- Downtown Cluster (Top Left Center) -->
+          <path d="M 300 100 h 100 v 200 h -100 z" class="building" />
+          <path d="M 310 110 h 80 v 180 h -80 z" class="building-3d" />
+
+          <path d="M 420 200 h 80 v 100 h -80 z" class="building" />
+          <path d="M 430 210 h 60 v 80 h -60 z" class="building-3d" />
+
+          <!-- Residential (Right Side) -->
+          <path d="M 850 600 h 60 v 60 h -60 z" class="building" />
+          <path d="M 950 550 h 60 v 60 h -60 z" class="building" />
+        </g>
+
+        <!-- LAYER 4: Routes (Paths) -->
+        <!-- Fastest: Highway Sprint -->
+        <path
+          id="path-fastest"
+          class="route-path"
+          d="M 50 750 L 250 650 L 250 150 L 1150 150"
+          stroke="#ff0055"
+        />
+
+        <!-- Scenic: Through the Park and Water edge -->
+        <path
+          id="path-scenic"
+          class="route-path"
+          d="M 50 750 L 250 650 L 250 400 L 800 400 L 900 50 L 1150 150"
+          stroke="#00aaff"
+        />
+
+        <!-- Comfort: Wide turns, avoiding main junction -->
+        <path
+          id="path-comfort"
+          class="route-path"
+          d="M 50 750 L 250 650 L 600 550 L 600 400 L 800 400 L 800 150 L 1150 150"
+          stroke="#00ffaa"
+        />
+
+        <!-- LAYER 5: UI Overlay -->
+        <!-- Street Names -->
+        <text
+          x="600"
+          y="135"
+          class="street-label"
+          transform="rotate(0,600,135)"
+        >
+          MAIN HIGHWAY 101
+        </text>
+        <text x="350" y="390" class="street-label">CENTRAL AVE</text>
+        <text x="100" y="500" class="street-label" fill="#446">
+          RIVER THAMES
+        </text>
+
+        <!-- Start/End Markers -->
+        <circle
+          cx="50"
+          cy="750"
+          r="8"
+          fill="white"
+          stroke="black"
+          stroke-width="2"
+        />
+        <text
+          x="50"
+          y="780"
+          fill="white"
+          font-family="Oswald"
+          font-size="12"
+          text-anchor="middle"
+        >
+          START
+        </text>
+
+        <circle
+          cx="1150"
+          cy="150"
+          r="8"
+          fill="white"
+          stroke="black"
+          stroke-width="2"
+        />
+        <text
+          x="1150"
+          y="130"
+          fill="white"
+          font-family="Oswald"
+          font-size="12"
+          text-anchor="middle"
+        >
+          TARGET
+        </text>
+
+        <!-- The Robot Agent -->
+        <g id="agent">
+          <circle
+            r="15"
+            fill="rgba(255,255,255,0.2)"
+            stroke="white"
+            stroke-width="1"
+          />
+          <circle r="6" fill="white" />
+          <!-- Heading Indicator -->
+          <path d="M 0 -20 L 5 -8 L -5 -8 Z" fill="white" />
+        </g>
+      </svg>
+    </main>
+
+    <script src="dashboard.js"></script>
+  </body>
+</html>
