@@ -690,6 +690,7 @@ footer {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 15%; /* Adjusted to move image up slightly */
   filter: grayscale(100%) contrast(120%); /* Black & White look */
   transition: 0.3s;
 }
