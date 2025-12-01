@@ -1,375 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NavX // Autonomous Command Center</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NavX // Autonomous Command Center</title>
 
-    <link rel="stylesheet" href="dashboard.css" />
-  </head>
-  <body>
-    <!-- Custom Cursor -->
-    <div id="custom-cursor"></div>
-    <!-- CRT Scanline Overlay -->
-    <div class="crt-overlay"></div>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet" />
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-    <!-- 1. PRELOADER -->
-    <div id="preloader">
-      <div class="loader-text">NAV//X <span class="cursor"></span></div>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+
+<body>
+  <!-- Custom Cursor -->
+  <div id="custom-cursor"></div>
+  <!-- CRT Scanline Overlay -->
+  <div class="crt-overlay"></div>
+
+  <!-- 1. PRELOADER -->
+  <div id="preloader">
+    <div class="loader-text">NAV//X <span class="cursor"></span></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">NAV//X</a>
+      <button class="menu-toggle" onclick="toggleMenu()">///</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#hero">00_Home</a></li>
+        <li><a href="index.html#features">01_Core</a></li>
+        <li><a href="index.html#architecture">02_System</a></li>
+        <li><a href="index.html#simulation">03_Demo</a></li>
+        <li><a href="index.html#team">04_Team</a></li>
+        <li><a href="dashboard.html">05_Dashboard</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar Toggle Button (Mobile) -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()">
+    <i class="fas fa-sliders-h"></i> CONTROLS
+  </button>
+
+  <!-- 2. SIDEBAR CONTROLS -->
+  <aside id="sidebar">
+    <div class="brand">NAV//X SYSTEM</div>
+    <span class="status-badge">● ONLINE // SAT_LINK_ESTABLISHED</span>
+
+    <!-- A. Route Selection -->
+    <div class="control-group">
+      <div class="group-title">
+        <i class="fas fa-route"></i> OPTIMAL PATHS
+      </div>
+
+      <!-- Card 1 -->
+      <div class="route-card active" data-type="fastest" onclick="setRoute('fastest')">
+        <div class="route-header">
+          <span class="route-name">FASTEST</span>
+          <span class="route-time">12 min</span>
+        </div>
+        <div class="route-meta">
+          <span><i class="fas fa-road"></i> 8.4 km</span>
+          <span><i class="fas fa-exclamation-triangle"></i> Risk: High</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="route-card" data-type="scenic" onclick="setRoute('scenic')">
+        <div class="route-header">
+          <span class="route-name">SCENIC</span>
+          <span class="route-time">24 min</span>
+        </div>
+        <div class="route-meta">
+          <span><i class="fas fa-tree"></i> 11.2 km</span>
+          <span><i class="fas fa-shield-alt"></i> Risk: Low</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="route-card" data-type="comfort" onclick="setRoute('comfort')">
+        <div class="route-header">
+          <span class="route-name">COMFORT</span>
+          <span class="route-time">18 min</span>
+        </div>
+        <div class="route-meta">
+          <span><i class="fas fa-car-side"></i> 9.5 km</span>
+          <span><i class="fas fa-balance-scale"></i> Risk: Med</span>
+        </div>
+      </div>
     </div>
 
-    <!-- Navigation -->
-    <nav>
-      <div class="nav-container">
-        <a href="index.html" class="logo">NAV//X</a>
-        <button class="menu-toggle" onclick="toggleMenu()">///</button>
-        <ul class="nav-links" id="navLinks">
-          <li><a href="index.html#hero">00_Home</a></li>
-          <li><a href="index.html#features">01_Core</a></li>
-          <li><a href="index.html#architecture">02_System</a></li>
-          <li><a href="index.html#simulation">03_Demo</a></li>
-          <li><a href="dashboard.html">04_Dashboard</a></li>
-          <li><a href="index.html#team">05_Team</a></li>
-        </ul>
+    <!-- B. Live Telemetry -->
+    <div class="control-group">
+      <div class="group-title">
+        <i class="fas fa-satellite"></i> LIVE TELEMETRY
       </div>
-    </nav>
+      <div class="telemetry-grid">
+        <div class="tele-box">
+          <span class="tele-label">SPEED</span>
+          <span class="tele-value" id="tele-speed">45</span>
+          <span style="font-size: 0.7rem">km/h</span>
+        </div>
+        <div class="tele-box">
+          <span class="tele-label">BATTERY</span>
+          <span class="tele-value" style="color: var(--accent-safe)">84%</span>
+        </div>
+        <div class="tele-box">
+          <span class="tele-label">LATENCY</span>
+          <span class="tele-value">12ms</span>
+        </div>
+        <div class="tele-box">
+          <span class="tele-label">RISK INDEX</span>
+          <span class="tele-value" id="tele-risk">4.2</span>
+        </div>
+      </div>
+    </div>
 
-    <!-- Sidebar Toggle Button (Mobile) -->
-    <button class="sidebar-toggle" onclick="toggleSidebar()">
-      <i class="fas fa-sliders-h"></i> CONTROLS
+    <!-- C. System Log -->
+    <div class="group-title">SYSTEM LOG</div>
+    <div class="console-log" id="console">
+      <div class="log-entry info">
+        [10:00:01] System Boot Sequence Initiated...
+      </div>
+      <div class="log-entry info">
+        [10:00:02] Connected to ROS2 Node /router_01
+      </div>
+      <div class="log-entry info">
+        [10:00:02] GPS Signal Locked (8 Satellites)
+      </div>
+    </div>
+  </aside>
+
+  <!-- 3. MAIN MAP VIEW -->
+  <main>
+    <!-- Weather Effect Overlay -->
+    <div id="weather-fx"></div>
+
+    <!-- Weather HUD Widget -->
+    <div class="hud-widget weather-control">
+      <div class="weather-header">
+        <span>LOCAL_WEATHER</span>
+        <span class="live-indicator"></span>
+      </div>
+      <div class="current-weather">
+        <i class="fas fa-sun weather-icon" id="w-icon"></i>
+        <div>
+          <div class="weather-temp" id="w-temp">24°</div>
+          <div class="weather-desc" id="w-desc">CLEAR SKY</div>
+        </div>
+      </div>
+      <div class="wx-btn-group">
+        <button class="wx-btn active" data-wx="sun" onclick="setWeather('sun')">
+          <i class="fas fa-sun"></i>
+        </button>
+        <button class="wx-btn" data-wx="rain" onclick="setWeather('rain')">
+          <i class="fas fa-cloud-rain"></i>
+        </button>
+        <button class="wx-btn" data-wx="fog" onclick="setWeather('fog')">
+          <i class="fas fa-smog"></i>
+        </button>
+        <button class="wx-btn" data-wx="snow" onclick="setWeather('snow')">
+          <i class="fas fa-snowflake"></i>
+        </button>
+      </div>
+      <div class="route-status-panel">
+        <div class="route-status-title">ROUTE_STATUS</div>
+        <div id="route-status" class="route-status-text">Initializing...</div>
+      </div>
+    </div>
+
+    <!-- SVG MAP -->
+    <svg id="nav-map" viewBox="-300 -200 1600 1200" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+      <!-- New Map Layout (adapted from test.html) -->
+      <rect x="-3000" y="-3000" width="8000" height="8000" class="map-bg" />
+
+      <!-- Core Arena Background -->
+      <rect x="0" y="0" width="800" height="800" class="map-bg" opacity="0.85" />
+
+      <!-- Adapted Environment Blocks -->
+      <!-- Repositioned green scenic area adjacent to scenic route -->
+      <path d="M -400 720 L 780 720 L 780 840 L -400 840 Z" class="scenic-zone" />
+      <!-- Vertical scenic corridor (hidden - outside viewport) -->
+      <rect x="760" y="-400" width="40" height="1180" class="scenic-zone-corridor" opacity="0" />
+      <!-- Comfort chill zone near comfort path (top band + left column) -->
+      <rect x="-100" y="-60" width="1300" height="80" class="comfort-zone" />
+      <rect x="-60" y="-400" width="80" height="1600" class="comfort-zone-corridor" />
+
+      <!-- Buildings Layer (moved before roads so roads render on top) -->
+      <g class="buildings">
+        <!-- Original buildings repositioned slightly to avoid main diagonal -->
+        <g transform="translate(160,160)" data-building data-x="200" data-y="200">
+          <path d="M 20 20 L 100 20 L 100 100 L 20 100 Z" class="building-3d" transform="translate(-15,15)" />
+          <rect width="80" height="80" class="building" />
+        </g>
+        <g transform="translate(320,120)" data-building data-x="360" data-y="160">
+          <path d="M 0 0 L 80 0 L 80 80 L 0 80 Z" class="building-3d" transform="translate(-15,15)" />
+          <rect width="80" height="80" class="building" />
+        </g>
+        <g transform="translate(120,370)" data-building data-x="160" data-y="410">
+          <path d="M 0 0 L 80 0 L 80 80 L 0 80 Z" class="building-3d" transform="translate(-15,15)" />
+          <rect width="80" height="80" class="building" />
+        </g>
+        <g transform="translate(610,230)" data-building data-x="650" data-y="270">
+          <path d="M 0 0 L 120 0 L 120 80 L 0 80 Z" class="building-3d" transform="translate(-10,10)" />
+          <rect width="120" height="80" class="building" />
+        </g>
+        <g transform="translate(460,620)" data-building data-x="500" data-y="660">
+          <path d="M 0 0 L 100 0 L 100 100 L 0 100 Z" class="building-3d" transform="translate(-15,15)" />
+          <rect width="100" height="100" class="building" />
+        </g>
+        <g transform="translate(665,520)" data-building data-x="705" data-y="560">
+          <path d="M 0 0 L 80 0 L 80 80 L 0 80 Z" class="building-3d" transform="translate(-15,15)" />
+          <rect width="80" height="80" class="building" />
+        </g>
+
+        <!-- New clusters for richer map vibe -->
+        <g transform="translate(250,540)" data-building data-x="285" data-y="575">
+          <rect width="70" height="70" class="building" />
+        </g>
+        <g transform="translate(340,560)" data-building data-x="370" data-y="590">
+          <rect width="60" height="60" class="building" />
+        </g>
+        <g transform="translate(540,420)" data-building data-x="565" data-y="445">
+          <rect width="55" height="55" class="building" />
+        </g>
+        <g transform="translate(180,240)" data-building data-x="205" data-y="265">
+          <rect width="60" height="60" class="building" />
+        </g>
+        <g transform="translate(700,320)" data-building data-x="725" data-y="345">
+          <rect width="50" height="50" class="building" />
+        </g>
+        <g transform="translate(520,140)" data-building data-x="545" data-y="165">
+          <rect width="65" height="65" class="building" />
+        </g>
+        <g transform="translate(90,600)" data-building data-x="120" data-y="630">
+          <rect width="80" height="80" class="building" />
+        </g>
+        <g transform="translate(600,40)" data-building data-x="630" data-y="70">
+          <rect width="70" height="70" class="building" />
+        </g>
+
+        <!-- Additional infill buildings -->
+        <g transform="translate(280,250)" data-building data-x="310" data-y="280">
+          <rect width="55" height="55" class="building" />
+        </g>
+        <g transform="translate(420,260)" data-building data-x="450" data-y="290">
+          <rect width="50" height="50" class="building" />
+        </g>
+        <g transform="translate(480,360)" data-building data-x="510" data-y="390">
+          <rect width="60" height="60" class="building" />
+        </g>
+        <g transform="translate(350,330)" data-building data-x="380" data-y="360">
+          <rect width="45" height="45" class="building" />
+        </g>
+        <g transform="translate(250,350)" data-building data-x="280" data-y="380">
+          <rect width="40" height="40" class="building" />
+        </g>
+        <g transform="translate(700,600)" data-building data-x="730" data-y="630">
+          <rect width="55" height="55" class="building" />
+        </g>
+        <g transform="translate(650,640)" data-building data-x="680" data-y="670">
+          <rect width="45" height="45" class="building" />
+        </g>
+      </g>
+
+      <!-- Road Networks (converted road-asphalt -> road-core) - placed after buildings for correct stacking -->
+      <g>
+        <path d="M -200 1000 L 1000 -200" stroke-width="80" class="road-casing" />
+        <path d="M -200 1000 L 1000 -200" stroke-width="60" class="road-core" />
+        <path d="M -200 1000 L 1000 -200" class="road-centerline" />
+      </g>
+      <g>
+        <path d="M 20 2000 L 20 -500" stroke-width="60" class="road-casing" />
+        <path d="M 20 2000 L 20 -500" stroke-width="40" class="road-core" />
+        <path d="M -500 20 L 2000 20" stroke-width="60" class="road-casing" />
+        <path d="M -500 20 L 2000 20" stroke-width="40" class="road-core" />
+        <path d="M 20 2000 L 20 -500" class="road-centerline" />
+        <path d="M -500 20 L 2000 20" class="road-centerline" />
+      </g>
+      <g>
+        <path d="M -500 780 L 2000 780" stroke-width="60" class="road-casing" />
+        <path d="M -500 780 L 2000 780" stroke-width="40" class="road-core" />
+        <path d="M 780 2000 L 780 -500" stroke-width="60" class="road-casing" />
+        <path d="M 780 2000 L 780 -500" stroke-width="40" class="road-core" />
+        <path d="M -500 780 L 2000 780" class="road-centerline" />
+        <path d="M 780 2000 L 780 -500" class="road-centerline" />
+      </g>
+
+
+      <!-- Routes (converted to route-path class for existing animation) -->
+      <path id="path-fastest" class="route-path active" d="M -100 900 L 900 -100" stroke="#ff0055" />
+      <path id="path-comfort" class="route-path" d="M 20 1200 L 20 20 L 1200 20" stroke="#00ffaa" />
+      <path id="path-scenic" class="route-path" d="M -400 780 L 780 780 L 780 -400" stroke="#00aaff" />
+
+      <!-- Minor local road branches -->
+      <g class="local-roads">
+        <path d="M 160 160 L 160 80" class="road-core" stroke-width="18" />
+        <path d="M 160 160 L 160 80" class="road-casing" stroke-width="24" />
+        <path d="M 500 660 L 580 660" class="road-core" stroke-width="16" />
+        <path d="M 500 660 L 580 660" class="road-casing" stroke-width="22" />
+        <path d="M 370 590 L 370 520" class="road-core" stroke-width="14" />
+        <path d="M 370 590 L 370 520" class="road-casing" stroke-width="20" />
+      </g>
+
+      <!-- POI Markers -->
+      <g class="pois">
+        <g transform="translate(20,780)">
+          <circle r="6" class="poi-marker gas" />
+          <text x="12" y="3" class="poi-label">FUEL</text>
+        </g>
+        <g transform="translate(500,390)">
+          <circle r="6" class="poi-marker charge" />
+          <text x="10" y="3" class="poi-label">CHARGE</text>
+        </g>
+        <g transform="translate(780,20)">
+          <circle r="6" class="poi-marker waypoint" />
+          <text x="12" y="3" class="poi-label">HUB</text>
+        </g>
+      </g>
+
+      <!-- Labels (mapped to street-label style) -->
+      <text x="400" y="380" class="street-label" transform="rotate(-45,400,380)">TRANSIT ARTERY 01</text>
+      <text x="420" y="420" class="hazard-label" transform="rotate(-45,420,420)">ROADWORK // CAUTION</text>
+      <text x="50" y="400" class="street-label" transform="rotate(-90,50,400)">COMMERCE BLVD</text>
+      <text x="750" y="400" class="street-label" transform="rotate(-90,750,400)">PARKWAY DR</text>
+      <text x="400" y="50" class="street-label">RIVERSIDE AVE</text>
+      <text x="400" y="750" class="street-label">LAKEFRONT ROAD</text>
+      <!-- Start/End Markers (retain original style positions adapted) -->
+      <g class="start-marker" transform="translate(20,780)">
+        <circle r="10" fill="white" stroke="black" stroke-width="2" />
+        <text x="0" y="30" fill="white" font-family="Oswald" font-size="12" text-anchor="middle">START</text>
+      </g>
+      <g class="target-marker" transform="translate(780,20)">
+        <circle r="10" fill="white" stroke="black" stroke-width="2" />
+        <text x="0" y="-20" fill="white" font-family="Oswald" font-size="12" text-anchor="middle">TARGET</text>
+      </g>
+
+      <!-- Robot Agent (minimal car icon) -->
+      <g id="agent" class="nav-agent">
+        <g class="agent-car">
+          <rect class="car-body" x="-14" y="-8" width="28" height="16" rx="4" />
+          <rect class="car-cabin" x="-10" y="-6" width="10" height="12" rx="2" />
+          <circle class="car-light" cx="10" cy="-4" r="2" />
+          <circle class="car-light" cx="10" cy="4" r="2" />
+          <path class="car-shadow" d="M -16 9 L 16 9" />
+        </g>
+      </g>
+    </svg>
+  </main>
+
+  <!-- Mobile Control Strip (Bottom) -->
+  <div class="mobile-control-strip">
+    <button class="mobile-control-btn active" data-route="fastest" onclick="setRouteFromMobile('fastest')">
+      <i class="fas fa-tachometer-alt"></i>
+      <span>FAST</span>
     </button>
+    <button class="mobile-control-btn" data-route="scenic" onclick="setRouteFromMobile('scenic')">
+      <i class="fas fa-tree"></i>
+      <span>SCENIC</span>
+    </button>
+    <button class="mobile-control-btn" data-route="comfort" onclick="setRouteFromMobile('comfort')">
+      <i class="fas fa-car-side"></i>
+      <span>COMFORT</span>
+    </button>
+  </div>
 
-    <!-- 2. SIDEBAR CONTROLS -->
-    <aside id="sidebar">
-      <div class="brand">NAV//X SYSTEM</div>
-      <span class="status-badge">● ONLINE // SAT_LINK_ESTABLISHED</span>
+  <script src="dashboard.js"></script>
+</body>
 
-      <!-- A. Route Selection -->
-      <div class="control-group">
-        <div class="group-title">
-          <i class="fas fa-route"></i> OPTIMAL PATHS
-        </div>
-
-        <!-- Card 1 -->
-        <div
-          class="route-card active"
-          data-type="fastest"
-          onclick="setRoute('fastest')"
-        >
-          <div class="route-header">
-            <span class="route-name">FASTEST</span>
-            <span class="route-time">12 min</span>
-          </div>
-          <div class="route-meta">
-            <span><i class="fas fa-road"></i> 8.4 km</span>
-            <span><i class="fas fa-exclamation-triangle"></i> Risk: High</span>
-          </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="route-card" data-type="scenic" onclick="setRoute('scenic')">
-          <div class="route-header">
-            <span class="route-name">SCENIC</span>
-            <span class="route-time">24 min</span>
-          </div>
-          <div class="route-meta">
-            <span><i class="fas fa-tree"></i> 11.2 km</span>
-            <span><i class="fas fa-shield-alt"></i> Risk: Low</span>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div
-          class="route-card"
-          data-type="comfort"
-          onclick="setRoute('comfort')"
-        >
-          <div class="route-header">
-            <span class="route-name">COMFORT</span>
-            <span class="route-time">18 min</span>
-          </div>
-          <div class="route-meta">
-            <span><i class="fas fa-car-side"></i> 9.5 km</span>
-            <span><i class="fas fa-balance-scale"></i> Risk: Med</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- B. Live Telemetry -->
-      <div class="control-group">
-        <div class="group-title">
-          <i class="fas fa-satellite"></i> LIVE TELEMETRY
-        </div>
-        <div class="telemetry-grid">
-          <div class="tele-box">
-            <span class="tele-label">SPEED</span>
-            <span class="tele-value" id="tele-speed">45</span>
-            <span style="font-size: 0.7rem">km/h</span>
-          </div>
-          <div class="tele-box">
-            <span class="tele-label">BATTERY</span>
-            <span class="tele-value" style="color: var(--accent-safe)"
-              >84%</span
-            >
-          </div>
-          <div class="tele-box">
-            <span class="tele-label">LATENCY</span>
-            <span class="tele-value">12ms</span>
-          </div>
-          <div class="tele-box">
-            <span class="tele-label">RISK INDEX</span>
-            <span class="tele-value" id="tele-risk">4.2</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- C. System Log -->
-      <div class="group-title">SYSTEM LOG</div>
-      <div class="console-log" id="console">
-        <div class="log-entry info">
-          [10:00:01] System Boot Sequence Initiated...
-        </div>
-        <div class="log-entry info">
-          [10:00:02] Connected to ROS2 Node /router_01
-        </div>
-        <div class="log-entry info">
-          [10:00:02] GPS Signal Locked (8 Satellites)
-        </div>
-      </div>
-    </aside>
-
-    <!-- 3. MAIN MAP VIEW -->
-    <main>
-      <!-- Weather Effect Overlay -->
-      <div id="weather-fx"></div>
-
-      <!-- Weather HUD Widget -->
-      <div class="hud-widget weather-control">
-        <div class="weather-header">
-          <span>LOCAL_WEATHER</span>
-          <span class="live-indicator"></span>
-        </div>
-        <div class="current-weather">
-          <i class="fas fa-sun weather-icon" id="w-icon"></i>
-          <div>
-            <div class="weather-temp" id="w-temp">24°</div>
-            <div class="weather-desc" id="w-desc">CLEAR SKY</div>
-          </div>
-        </div>
-        <div class="wx-btn-group">
-          <button class="wx-btn active" data-wx="sun" onclick="setWeather('sun')">
-            <i class="fas fa-sun"></i>
-          </button>
-          <button class="wx-btn" data-wx="rain" onclick="setWeather('rain')">
-            <i class="fas fa-cloud-rain"></i>
-          </button>
-          <button class="wx-btn" data-wx="fog" onclick="setWeather('fog')">
-            <i class="fas fa-smog"></i>
-          </button>
-          <button class="wx-btn" data-wx="snow" onclick="setWeather('snow')">
-            <i class="fas fa-snowflake"></i>
-          </button>
-        </div>
-        <div class="route-status-panel">
-          <div class="route-status-title">ROUTE_STATUS</div>
-          <div id="route-status" class="route-status-text">Initializing...</div>
-        </div>
-      </div>
-
-      <!-- SVG MAP -->
-        <svg id="nav-map" viewBox="-300 -200 1600 1200" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
-          <!-- New Map Layout (adapted from test.html) -->
-          <rect x="-3000" y="-3000" width="8000" height="8000" class="map-bg" />
-
-          <!-- Core Arena Background -->
-          <rect x="0" y="0" width="800" height="800" class="map-bg" opacity="0.85" />
-
-          <!-- Adapted Environment Blocks -->
-          <!-- Repositioned green scenic area adjacent to scenic route -->
-          <path d="M -400 720 L 780 720 L 780 840 L -400 840 Z" class="scenic-zone" />
-          <!-- Vertical scenic corridor (hidden - outside viewport) -->
-          <rect x="760" y="-400" width="40" height="1180" class="scenic-zone-corridor" opacity="0" />
-          <!-- Comfort chill zone near comfort path (top band + left column) -->
-          <rect x="-100" y="-60" width="1300" height="80" class="comfort-zone" />
-          <rect x="-60" y="-400" width="80" height="1600" class="comfort-zone-corridor" />
-
-          <!-- Buildings Layer (moved before roads so roads render on top) -->
-          <g class="buildings">
-            <!-- Original buildings repositioned slightly to avoid main diagonal -->
-            <g transform="translate(160,160)" data-building data-x="200" data-y="200">
-              <path d="M 20 20 L 100 20 L 100 100 L 20 100 Z" class="building-3d" transform="translate(-15,15)" />
-              <rect width="80" height="80" class="building" />
-            </g>
-            <g transform="translate(320,120)" data-building data-x="360" data-y="160">
-              <path d="M 0 0 L 80 0 L 80 80 L 0 80 Z" class="building-3d" transform="translate(-15,15)" />
-              <rect width="80" height="80" class="building" />
-            </g>
-            <g transform="translate(120,370)" data-building data-x="160" data-y="410">
-              <path d="M 0 0 L 80 0 L 80 80 L 0 80 Z" class="building-3d" transform="translate(-15,15)" />
-              <rect width="80" height="80" class="building" />
-            </g>
-            <g transform="translate(610,230)" data-building data-x="650" data-y="270">
-              <path d="M 0 0 L 120 0 L 120 80 L 0 80 Z" class="building-3d" transform="translate(-10,10)" />
-              <rect width="120" height="80" class="building" />
-            </g>
-            <g transform="translate(460,620)" data-building data-x="500" data-y="660">
-              <path d="M 0 0 L 100 0 L 100 100 L 0 100 Z" class="building-3d" transform="translate(-15,15)" />
-              <rect width="100" height="100" class="building" />
-            </g>
-            <g transform="translate(665,520)" data-building data-x="705" data-y="560">
-              <path d="M 0 0 L 80 0 L 80 80 L 0 80 Z" class="building-3d" transform="translate(-15,15)" />
-              <rect width="80" height="80" class="building" />
-            </g>
-
-            <!-- New clusters for richer map vibe -->
-            <g transform="translate(250,540)" data-building data-x="285" data-y="575">
-              <rect width="70" height="70" class="building" />
-            </g>
-            <g transform="translate(340,560)" data-building data-x="370" data-y="590">
-              <rect width="60" height="60" class="building" />
-            </g>
-            <g transform="translate(540,420)" data-building data-x="565" data-y="445">
-              <rect width="55" height="55" class="building" />
-            </g>
-            <g transform="translate(180,240)" data-building data-x="205" data-y="265">
-              <rect width="60" height="60" class="building" />
-            </g>
-            <g transform="translate(700,320)" data-building data-x="725" data-y="345">
-              <rect width="50" height="50" class="building" />
-            </g>
-            <g transform="translate(520,140)" data-building data-x="545" data-y="165">
-              <rect width="65" height="65" class="building" />
-            </g>
-            <g transform="translate(90,600)" data-building data-x="120" data-y="630">
-              <rect width="80" height="80" class="building" />
-            </g>
-            <g transform="translate(600,40)" data-building data-x="630" data-y="70">
-              <rect width="70" height="70" class="building" />
-            </g>
-
-            <!-- Additional infill buildings -->
-            <g transform="translate(280,250)" data-building data-x="310" data-y="280"><rect width="55" height="55" class="building" /></g>
-            <g transform="translate(420,260)" data-building data-x="450" data-y="290"><rect width="50" height="50" class="building" /></g>
-            <g transform="translate(480,360)" data-building data-x="510" data-y="390"><rect width="60" height="60" class="building" /></g>
-            <g transform="translate(350,330)" data-building data-x="380" data-y="360"><rect width="45" height="45" class="building" /></g>
-            <g transform="translate(250,350)" data-building data-x="280" data-y="380"><rect width="40" height="40" class="building" /></g>
-            <g transform="translate(700,600)" data-building data-x="730" data-y="630"><rect width="55" height="55" class="building" /></g>
-            <g transform="translate(650,640)" data-building data-x="680" data-y="670"><rect width="45" height="45" class="building" /></g>
-          </g>
-
-          <!-- Road Networks (converted road-asphalt -> road-core) - placed after buildings for correct stacking -->
-          <g>
-            <path d="M -200 1000 L 1000 -200" stroke-width="80" class="road-casing" />
-            <path d="M -200 1000 L 1000 -200" stroke-width="60" class="road-core" />
-            <path d="M -200 1000 L 1000 -200" class="road-centerline" />
-          </g>
-          <g>
-            <path d="M 20 2000 L 20 -500" stroke-width="60" class="road-casing" />
-            <path d="M 20 2000 L 20 -500" stroke-width="40" class="road-core" />
-            <path d="M -500 20 L 2000 20" stroke-width="60" class="road-casing" />
-            <path d="M -500 20 L 2000 20" stroke-width="40" class="road-core" />
-            <path d="M 20 2000 L 20 -500" class="road-centerline" />
-            <path d="M -500 20 L 2000 20" class="road-centerline" />
-          </g>
-          <g>
-            <path d="M -500 780 L 2000 780" stroke-width="60" class="road-casing" />
-            <path d="M -500 780 L 2000 780" stroke-width="40" class="road-core" />
-            <path d="M 780 2000 L 780 -500" stroke-width="60" class="road-casing" />
-            <path d="M 780 2000 L 780 -500" stroke-width="40" class="road-core" />
-            <path d="M -500 780 L 2000 780" class="road-centerline" />
-            <path d="M 780 2000 L 780 -500" class="road-centerline" />
-          </g>
-
-
-          <!-- Routes (converted to route-path class for existing animation) -->
-          <path id="path-fastest" class="route-path active" d="M -100 900 L 900 -100" stroke="#ff0055" />
-          <path id="path-comfort" class="route-path" d="M 20 1200 L 20 20 L 1200 20" stroke="#00ffaa" />
-          <path id="path-scenic" class="route-path" d="M -400 780 L 780 780 L 780 -400" stroke="#00aaff" />
-
-          <!-- Minor local road branches -->
-          <g class="local-roads">
-            <path d="M 160 160 L 160 80" class="road-core" stroke-width="18" />
-            <path d="M 160 160 L 160 80" class="road-casing" stroke-width="24" />
-            <path d="M 500 660 L 580 660" class="road-core" stroke-width="16" />
-            <path d="M 500 660 L 580 660" class="road-casing" stroke-width="22" />
-            <path d="M 370 590 L 370 520" class="road-core" stroke-width="14" />
-            <path d="M 370 590 L 370 520" class="road-casing" stroke-width="20" />
-          </g>
-
-          <!-- POI Markers -->
-          <g class="pois">
-            <g transform="translate(20,780)">
-              <circle r="6" class="poi-marker gas" />
-              <text x="12" y="3" class="poi-label">FUEL</text>
-            </g>
-            <g transform="translate(500,390)">
-              <circle r="6" class="poi-marker charge" />
-              <text x="10" y="3" class="poi-label">CHARGE</text>
-            </g>
-              <g transform="translate(780,20)">
-              <circle r="6" class="poi-marker waypoint" />
-              <text x="12" y="3" class="poi-label">HUB</text>
-            </g>
-          </g>
-
-        <!-- Labels (mapped to street-label style) -->
-        <text x="400" y="380" class="street-label" transform="rotate(-45,400,380)">TRANSIT ARTERY 01</text>
-        <text x="420" y="420" class="hazard-label" transform="rotate(-45,420,420)">ROADWORK // CAUTION</text>
-        <text x="50" y="400" class="street-label" transform="rotate(-90,50,400)">COMMERCE BLVD</text>
-        <text x="750" y="400" class="street-label" transform="rotate(-90,750,400)">PARKWAY DR</text>
-        <text x="400" y="50" class="street-label">RIVERSIDE AVE</text>
-        <text x="400" y="750" class="street-label">LAKEFRONT ROAD</text>          <!-- Start/End Markers (retain original style positions adapted) -->
-          <g class="start-marker" transform="translate(20,780)">
-            <circle r="10" fill="white" stroke="black" stroke-width="2" />
-            <text x="0" y="30" fill="white" font-family="Oswald" font-size="12" text-anchor="middle">START</text>
-          </g>
-          <g class="target-marker" transform="translate(780,20)">
-            <circle r="10" fill="white" stroke="black" stroke-width="2" />
-            <text x="0" y="-20" fill="white" font-family="Oswald" font-size="12" text-anchor="middle">TARGET</text>
-          </g>
-
-          <!-- Robot Agent (minimal car icon) -->
-          <g id="agent" class="nav-agent">
-            <g class="agent-car">
-              <rect class="car-body" x="-14" y="-8" width="28" height="16" rx="4" />
-              <rect class="car-cabin" x="-10" y="-6" width="10" height="12" rx="2" />
-              <circle class="car-light" cx="10" cy="-4" r="2" />
-              <circle class="car-light" cx="10" cy="4" r="2" />
-              <path class="car-shadow" d="M -16 9 L 16 9" />
-            </g>
-          </g>
-        </svg>
-    </main>
-
-    <!-- Mobile Control Strip (Bottom) -->
-    <div class="mobile-control-strip">
-      <button class="mobile-control-btn active" data-route="fastest" onclick="setRouteFromMobile('fastest')">
-        <i class="fas fa-tachometer-alt"></i>
-        <span>FAST</span>
-      </button>
-      <button class="mobile-control-btn" data-route="scenic" onclick="setRouteFromMobile('scenic')">
-        <i class="fas fa-tree"></i>
-        <span>SCENIC</span>
-      </button>
-      <button class="mobile-control-btn" data-route="comfort" onclick="setRouteFromMobile('comfort')">
-        <i class="fas fa-car-side"></i>
-        <span>COMFORT</span>
-      </button>
-    </div>
-
-    <script src="dashboard.js"></script>
-  </body>
 </html>
