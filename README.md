@@ -4,7 +4,7 @@
 
 ---
 
-## Project Snapshot
+## Overview
 
 This repository contains a production-quality demo website that documents the NavX project: design goals, core capabilities, system architecture, and example visualizations. The site showcases a modular system composed of:
 
@@ -15,6 +15,28 @@ This repository contains a production-quality demo website that documents the Na
 - **Web UI** — Leaflet-based interface and explainability panel
 
 The live demo shown in the site is intended as documentation for a larger codebase (ROS 2 nodes, Python services, and a frontend). The HTML provides a complete, easy-to-read overview with AAA production-quality design features.
+
+## New Structure and Dev Workflow (Vite)
+
+This repo has been reorganized to a professional web layout using Vite:
+
+- `src/styles` and `src/scripts` hold modular CSS/JS used by the pages
+- `index.html` and `dashboard.html` now reference these modules
+- `package.json` and `vite.config.js` provide dev/build commands
+
+Run locally (Windows PowerShell):
+```powershell
+npm install
+npm run dev
+```
+
+Build and preview:
+```powershell
+npm run build
+npm run preview
+```
+
+Static assets: consider moving `images/` to `public/images/` and updating image paths to `/images/...` for best compatibility with Vite’s static serving.
 
 ## Key Ideas
 
@@ -57,16 +79,30 @@ The website includes several AAA production-quality enhancements for an immersiv
 - Corner bracket decorations for a tactical/technical look
 - Smooth elevation and shadow effects on hover
 
-## File Structure
+## Repository Structure
 
 ```
 navx/
-├── index.html          # Main HTML file with semantic structure
-├── styles.css          # Modular, well-organized CSS with comments
-├── script.js           # Clean JavaScript with separated concerns
-├── README.md           # This file
-├── commands/           # Additional resources
-└── preloading.html     # Legacy file (integrated into index.html)
+├── index.html                # Entry HTML (Vite-compatible)
+├── dashboard.html            # Dashboard page
+├── package.json              # Dev/build scripts
+├── vite.config.js            # Vite configuration
+├── README.md                 # Comprehensive project documentation
+├── .gitignore                # Git ignore rules
+├── src/
+│   ├── styles/
+│   │   ├── main.css          # Imports legacy styles.css (modular)
+│   │   └── dashboard.css     # Imports legacy dashboard.css (modular)
+│   └── scripts/
+│       ├── main.js           # Migrated app logic from script.js
+│       └── dashboard.js      # Module wrapper for dashboard.js
+├── styles.css                # Legacy CSS kept (referenced by src/styles)
+├── dashboard.css             # Legacy CSS kept (referenced by src/styles)
+├── script.js                 # Legacy JS kept (referenced by src/scripts)
+├── dashboard.js              # Legacy JS kept (referenced by src/scripts)
+├── images/                   # Existing images (consider moving to public/images)
+├── public/                   # Static assets served as-is (optional)
+└── commands/                 # Additional resources
 ```
 
 ### Code Organization
@@ -80,28 +116,23 @@ The codebase follows best practices for maintainability:
 - **Performance Optimized:** CSS animations use transforms, Intersection Observer for scroll detection
 - **Mobile Responsive:** Responsive design with mobile navigation toggle
 
-## How to View the Demo Site
+## Run Locally
 
-### Quick Start
-Simply open `index.html` in any modern browser:
+This repo uses Vite for a fast dev server and production build.
 
-1. Locate `index.html` in the repository root
-2. Double-click it or open it from your browser (File → Open File...)
+Prerequisites:
+- Node.js 18+
 
-### Local Server (Recommended)
-For the best experience with all features:
-
-**PowerShell (Windows):**
+Dev server (Windows PowerShell):
 ```powershell
-# From the repository folder that contains index.html
-python -m http.server 8000
-# Then open http://localhost:8000/index.html
+npm install
+npm run dev
 ```
 
-**Linux / macOS:**
-```bash
-python3 -m http.server 8000
-# Then open http://localhost:8000/index.html
+Build and preview:
+```powershell
+npm run build
+npm run preview
 ```
 
 ## Browser Compatibility
@@ -114,7 +145,7 @@ The website is optimized for modern browsers:
 
 **Note:** Custom cursor effects work best on desktop browsers. Mobile devices will use the standard cursor.
 
-## Suggested Repo Structure for Full Implementation
+## Suggested Multi-Subsystem Layout (if expanding)
 
 If you plan to expand this into the full system described on the site:
 

@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/src/styles/main.css" />
   </head>
   <body>
     <!-- Custom Cursor -->
@@ -98,7 +98,7 @@
           <div class="feature-number">02</div>
           <h4>Closed-Loop Logic</h4>
           <p>
-            Automatic re-planning triggers < 2000ms upon obstacle detection or
+            Automatic re-planning triggers &lt; 2000ms upon obstacle detection or
             roughness thresholds.
           </p>
         </div>
@@ -134,8 +134,7 @@
             color: white;
           "
         >
-          $$ C = (w_t \times Time) + (w_r \times Risk) + (w_c \times Comfort) -
-          (w_s \times Scenic) $$
+          C = (w_t × Time) + (w_r × Risk) + (w_c × Comfort) − (w_s × Scenic)
         </p>
       </div>
 
@@ -893,6 +892,6 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script type="module" src="/src/scripts/main.js"></script>
   </body>
 </html>
