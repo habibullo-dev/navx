@@ -1,2 +1,1432 @@
-/* NavX main styles (migrated from styles.css) */
-@import url('/styles.css');
+:root {
+  --bg-color: #050505;
+  --card-bg: #0a0a0a;
+  --text-main: #ffffff;
+  --text-muted: #888888;
+  --border-color: #333333;
+  --accent-color: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Space Mono", monospace;
+  line-height: 1.6;
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* --- PRELOADER STYLES --- */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.loader-text-container {
+  color: #ffffff;
+  font-family: "Oswald", sans-serif;
+  font-size: 12vw;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.cursor {
+  display: inline-block;
+  width: 1vw;
+  height: 12vw;
+  background-color: #fff;
+  margin-left: 10px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* --- TYPOGRAPHY --- */
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+h1 {
+  font-size: clamp(3rem, 8vw, 8rem);
+  line-height: 0.9;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--text-main);
+  padding-bottom: 1rem;
+  display: inline-block;
+}
+
+p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+strong {
+  color: var(--text-main);
+}
+
+/* --- NAVIGATION --- */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(5, 5, 5, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+}
+
+.logo {
+  font-family: "Oswald", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  letter-spacing: 2px;
+  border: 1px solid white;
+  padding: 5px 15px;
+  cursor: none;
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 25px rgba(255, 255, 255, 0.3);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  transition: 0.3s;
+  cursor: none;
+  padding: 5px 10px;
+}
+
+.nav-links a:hover {
+  color: white;
+  text-decoration: line-through;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+/* --- SECTIONS --- */
+section {
+  padding: 8rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+}
+
+/* --- HERO --- */
+#hero {
+  padding-top: 12rem;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tagline {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin-bottom: 3rem;
+  border-left: 2px solid white;
+  padding-left: 1rem;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 1rem 3rem;
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+  text-decoration: none;
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+  width: fit-content;
+  cursor: none;
+}
+
+.cta-button:hover {
+  background: white;
+  color: black;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.7), 0 0 40px rgba(255, 255, 255, 0.4);
+}
+
+/* --- BOXES & CARDS --- */
+.feature-grid,
+.metric-grid,
+.roles-grid {
+  display: grid;
+  gap: 1px;
+  background-color: var(--border-color);
+  border: 1px solid var(--border-color);
+}
+
+.feature-grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+.metric-grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.roles-grid {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.feature-card,
+.metric-card,
+.role-item {
+  background: var(--bg-color);
+  padding: 2.5rem;
+  transition: all 0.3s;
+  cursor: none;
+}
+
+.feature-card:hover,
+.role-item:hover {
+  background: rgba(20, 20, 20, 0.8);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.1), inset 0 0 30px rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.feature-card {
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2.5rem;
+  transition: all 0.3s;
+  cursor: none;
+}
+
+.problem-box,
+.solution-box,
+.info-box {
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  margin: 2rem 0;
+  position: relative;
+}
+
+.problem-solution-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+@media (max-width: 768px) {
+  .problem-solution-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.problem-box::before,
+.solution-box::before {
+  content: "+";
+  position: absolute;
+  top: -10px;
+  left: -5px;
+  color: white;
+  background: var(--bg-color);
+}
+
+.feature-number {
+  font-family: "Oswald";
+  font-size: 4rem;
+  color: #222;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+/* --- TABLES --- */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 2rem 0;
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+
+/* Scroll hint for tables */
+.table-wrapper::before {
+  content: '← Swipe to view all columns →';
+  position: absolute;
+  top: -25px;
+  left: 0;
+  font-size: 0.7rem;
+  color: #666;
+  font-family: 'Space Mono', monospace;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .table-wrapper::before {
+    display: block;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 0.9rem;
+  border: none;
+}
+
+th {
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 1px solid white;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-muted);
+  border-right: 1px solid var(--border-color);
+}
+
+tr:hover td {
+  color: white;
+  background: #111;
+}
+
+/* --- DIAGRAMS --- */
+.diagram-container {
+  margin: 4rem 0;
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  background: #000;
+  position: relative;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom scrollbar for diagrams */
+.diagram-container::-webkit-scrollbar {
+  height: 10px;
+}
+
+.diagram-container::-webkit-scrollbar-track {
+  background: #0a0a0a;
+  border-top: 1px solid var(--border-color);
+}
+
+.diagram-container::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 5px;
+}
+
+.diagram-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.diagram-container::after {
+  content: "SYS_DIAGRAM_01";
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 0.7rem;
+  color: #444;
+}
+
+svg text {
+  font-family: "Space Mono", monospace;
+}
+
+/* --- FOOTER --- */
+footer {
+  border-top: 1px solid var(--border-color);
+  padding: 4rem 2rem;
+  text-align: center;
+  background: #000;
+}
+
+/* Mobile Toggle */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 1px solid white;
+  color: white;
+  padding: 5px 10px;
+  cursor: none;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 25px rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+/* --- NEW DIAGRAM STYLES --- */
+
+/* The flowing data effect */
+.flow-line {
+  stroke-dasharray: 10;
+  animation: flow 1s linear infinite;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+/* Blinking status lights */
+.status-blink {
+  animation: blink-status 2s infinite;
+}
+
+@keyframes blink-status {
+  0%,
+  100% {
+    fill: #fff;
+    opacity: 1;
+  }
+  50% {
+    fill: #fff;
+    opacity: 0.3;
+  }
+}
+
+/* Hover effects for diagram groups */
+.diagram-node {
+  cursor: none;
+  transition: opacity 0.3s;
+}
+.diagram-node:hover rect,
+.diagram-node:hover path {
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 8px white) drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+}
+
+/* Text Styling inside SVG */
+.tech-label {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  fill: #666;
+  text-transform: uppercase;
+}
+
+.node-title {
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  fill: white;
+  font-weight: bold;
+}
+
+/* --- INTERACTIVE SIMULATION STYLES --- */
+
+.sim-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  background: var(--bg-color);
+  align-items: stretch;
+}
+
+/* VISUALIZER (Left) */
+.sim-screen {
+  position: relative;
+  border: 1px solid var(--border-color);
+  background: #000;
+  overflow: hidden;
+  height: 100%;
+}
+
+.sim-screen svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* The moving scanline effect */
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.03),
+    transparent
+  );
+  animation: scan 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  0% {
+    top: -20%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* Overlay Text */
+.sim-overlay {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.sim-overlay #sim-status {
+  color: white;
+  margin-bottom: 0.3rem;
+}
+
+/* CONTROLS (Right) */
+.sim-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+
+.sim-info-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  text-align: left;
+  transition: all 0.3s;
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sim-info-card:hover {
+  background: #111;
+  border-color: var(--text-muted);
+}
+
+.sim-btn-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.sim-icon {
+  font-size: 1.3rem;
+}
+
+.sim-title {
+  font-family: "Oswald", sans-serif;
+  color: white;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.sim-desc {
+  font-family: "Space Mono", monospace;
+  color: #888;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.sim-stat-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.bar-bg {
+  flex-grow: 1;
+  height: 3px;
+  background: var(--border-color);
+  border: 1px solid var(--border-color);
+}
+
+.bar-fill {
+  height: 100%;
+  background: white;
+  transition: width 0.3s;
+}
+
+/* --- TEAM SECTION STYLES --- */
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+}
+
+.team-stats {
+  text-align: right;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* --- TEAM CAROUSEL --- */
+.team-carousel-container {
+  overflow: hidden;
+  padding: 4rem 0;
+  margin-top: 2rem;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+}
+
+.team-carousel-track {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  animation: scroll 40s linear infinite;
+}
+
+.team-carousel-container:hover .team-carousel-track {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.team-card {
+  width: 300px;
+  flex-shrink: 0;
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  cursor: none;
+}
+
+/* The "Bracket" corners for the cards */
+.team-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+}
+.team-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid white;
+  border-right: 2px solid white;
+}
+
+.team-card:hover {
+  border-color: white;
+  background: #0f0f0f;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 255, 255, 0.2), 0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+/* Image Container with "Scan Line" effect */
+.member-photo {
+  width: 100%;
+  height: 250px;
+  background-color: #111;
+  margin-bottom: 1.5rem;
+  position: relative;
+  border-bottom: 1px solid #333;
+  overflow: hidden;
+}
+
+.member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%; /* Adjusted to move image up slightly */
+  filter: grayscale(100%) contrast(120%); /* Black & White look */
+  transition: 0.3s;
+}
+
+.team-card:hover .member-photo img {
+  filter: grayscale(0%) contrast(110%); /* Color reveal on hover */
+}
+
+/* Overlay scan line */
+.member-photo::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.5) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.member-role {
+  font-family: "Space Mono", monospace;
+  color: #888;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.member-name {
+  font-family: "Oswald", sans-serif;
+  font-size: 1.8rem;
+  color: white;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.member-bio {
+  font-family: "Space Mono", monospace;
+  color: #666;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* Status Dot */
+.member-status {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #0f0; /* Green for active */
+  border-radius: 50%;
+  box-shadow: 0 0 5px #0f0;
+}
+
+/* --- MOBILE OPTIMIZATIONS --- */
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Make interactive elements more touch-friendly */
+  a, button, .cta-button {
+    min-height: 44px; /* Apple's recommended touch target size */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Add active states for better touch feedback */
+  .team-card:active,
+  .feature-card:active,
+  .role-item:active {
+    transform: scale(0.98);
+    background: #111;
+  }
+  
+  .cta-button:active {
+    background: white;
+    color: black;
+  }
+  
+  .nav-links a:active {
+    background: #111;
+    border-color: white;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Navigation */
+  .menu-toggle {
+    display: block;
+    font-size: 1.2rem;
+    padding: 8px 12px;
+    cursor: none;
+  }
+  
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.98);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid white;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1rem;
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .nav-links li {
+    width: 100%;
+  }
+  
+  .nav-links a {
+    display: block;
+    padding: 1rem;
+    border: 1px solid #333;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  
+  .nav-links a:hover,
+  .nav-links a:active {
+    background: #111;
+    border-color: white;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+    line-height: 1;
+  }
+  
+  h2 {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+  }
+  
+  h4 {
+    font-size: 1.1rem;
+  }
+  
+  p {
+    font-size: 0.9rem;
+  }
+
+  /* Sections */
+  section {
+    padding: 3rem 1.5rem;
+    border-left: none;
+    border-right: none;
+  }
+  
+  #hero {
+    padding-top: 8rem;
+    min-height: 80vh;
+  }
+  
+  .tagline {
+    font-size: 1rem;
+    max-width: 100%;
+    margin-bottom: 2rem;
+  }
+  
+  .cta-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Problem/Solution boxes */
+  #problem > div {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  
+  .problem-box,
+  .solution-box {
+    padding: 1.5rem;
+  }
+
+  /* Feature cards */
+  .feature-grid,
+  .roles-grid,
+  .team-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+  
+  .feature-card,
+  .role-item,
+  .team-card {
+    padding: 1.5rem;
+  }
+  
+  .feature-number {
+    font-size: 3rem;
+  }
+
+  /* Tables - make scrollable with container */
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #666 #111;
+  }
+  
+  /* WebKit scrollbar styling for table wrapper */
+  .table-wrapper::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-track {
+    background: #111;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 4px;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+  
+  table {
+    font-size: 0.85rem;
+    min-width: 500px; /* Prevent table from being too narrow */
+  }
+  
+  th, td {
+    padding: 0.8rem;
+    min-width: 90px;
+  }
+
+  /* Diagrams */
+  .diagram-container {
+    padding: 1rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    position: relative;
+  }
+  
+  /* Add scroll indicator shadow */
+  .diagram-container::after {
+    content: '← Scroll →';
+    position: absolute;
+    bottom: 20px;
+    right: 50%;
+    transform: translateX(50%);
+    font-size: 0.7rem;
+    color: #666;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 10px;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  .diagram-container svg {
+    min-width: 1000px; /* Ensure diagrams maintain readable size */
+    height: auto;
+  }
+
+  /* Info box */
+  .info-box {
+    padding: 1.5rem;
+    overflow-x: auto;
+  }
+
+  /* Team section */
+  #team .team-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .team-stats {
+    text-align: left;
+  }
+  
+  .member-photo {
+    height: 200px;
+  }
+  
+  .member-name {
+    font-size: 1.5rem;
+  }
+
+  /* Footer */
+  footer {
+    padding: 3rem 1.5rem;
+  }
+  
+  footer a {
+    display: inline-block;
+    margin: 0.5rem 0 !important;
+  }
+
+  /* Reduce CRT overlay intensity on mobile */
+  .crt-overlay {
+    opacity: 0.3;
+  }
+  
+  /* Preloader adjustments */
+  .loader-text-container {
+    font-size: 15vw;
+    padding: 0 1rem;
+    text-align: center;
+  }
+  
+  .cursor {
+    width: 2vw;
+    height: 15vw;
+  }
+
+  /* Simulation responsive */
+  .sim-container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+  
+  .sim-screen {
+    min-height: 250px;
+    aspect-ratio: 4/3;
+    order: 1;
+  }
+  
+  .sim-controls {
+    order: 2;
+    gap: 0.8rem;
+  }
+  
+  .sim-btn {
+    padding: 1rem;
+  }
+  
+  .sim-btn-header {
+    gap: 8px;
+    margin-bottom: 0.4rem;
+  }
+  
+  .sim-icon {
+    font-size: 1rem;
+  }
+  
+  .sim-title {
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .sim-desc {
+    font-size: 0.7rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+  
+  .sim-stat-bar {
+    font-size: 0.65rem;
+    gap: 8px;
+  }
+  
+  .sim-overlay {
+    font-size: 0.65rem;
+    bottom: 0.5rem;
+    left: 0.5rem;
+  }
+  
+  .bar-bg {
+    height: 2px;
+  }
+  
+  /* Make sure SVG is visible and scrollable if needed */
+  .sim-screen svg {
+    min-height: 250px;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  section {
+    padding: 6rem 2rem;
+  }
+  
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  h1 {
+    font-size: 6rem;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+  }
+  
+  /* Simulation on tablet */
+  .sim-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .sim-screen {
+    aspect-ratio: 16/9;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .nav-container {
+    padding: 1rem 1.5rem;
+  }
+  
+  .logo {
+    font-size: 1.2rem;
+    padding: 4px 10px;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  section {
+    padding: 2.5rem 1rem;
+  }
+  
+  .feature-number {
+    font-size: 2.5rem;
+  }
+  
+  .loader-text-container {
+    font-size: 18vw;
+  }
+  
+  /* Extra small simulation adjustments */
+  .sim-container {
+    padding: 0.8rem;
+    gap: 1rem;
+  }
+  
+  .sim-screen {
+    min-height: 200px;
+  }
+  
+  .sim-info-card {
+    padding: 0.8rem;
+  }
+  
+  .sim-btn-header {
+    flex-wrap: wrap;
+  }
+  
+  .sim-title {
+    font-size: 0.85rem;
+  }
+  
+  .sim-desc {
+    font-size: 0.68rem;
+  }
+  
+  .sim-overlay {
+    font-size: 0.6rem;
+    bottom: 0.3rem;
+    left: 0.3rem;
+  }
+  
+  .sim-stat-bar {
+    font-size: 0.6rem;
+  }
+}
+
+/* --- FINAL TOUCH 1: CUSTOM CURSOR (Targeting System) --- */
+/* Only apply custom cursor on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none; /* Hide default cursor */
+  }
+}
+
+#custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* Let clicks pass through */
+  z-index: 10002;
+  transition: transform 0.1s ease;
+  mix-blend-mode: difference; /* Cool color inversion effect */
+  display: none; /* Hidden by default */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #custom-cursor {
+    display: block; /* Show only on devices with hover capability */
+  }
+}
+
+/* Center dot for precision */
+#custom-cursor::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: white;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+/* Hover state */
+.hover-target:hover ~ #custom-cursor,
+a:hover ~ #custom-cursor,
+button:hover ~ #custom-cursor {
+  transform: translate(-50%, -50%) scale(1.5);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+/* --- FINAL TOUCH 2: CRT SCANLINE OVERLAY --- */
+/* Gives the whole site a subtle "Monitor" texture */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+  background-size: 100% 4px; /* Scanline thickness */
+  pointer-events: none; /* Click through */
+  z-index: 9998;
+  opacity: 0.6;
+}
+
+/* --- FINAL TOUCH 3: SCROLL REVEAL ANIMATION --- */
+/* Elements start hidden and slide up */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Add staggered delays for grid items so they don't all appear at once */
+.team-card:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.team-card:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.team-card:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.team-card:nth-child(4) {
+  transition-delay: 0.4s;
+}
+.team-card:nth-child(5) {
+  transition-delay: 0.5s;
+}
+.team-card:nth-child(6) {
+  transition-delay: 0.6s;
+}
+.team-card:nth-child(7) {
+  transition-delay: 0.7s;
+}
+.team-card:nth-child(8) {
+  transition-delay: 0.8s;
+}
+.team-card:nth-child(9) {
+  transition-delay: 0.9s;
+}
+
+.feature-card:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.feature-card:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.feature-card:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.feature-card:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+.role-item:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.role-item:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.role-item:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+/* --- MODAL STYLES --- */
+.modal {
+  position: fixed;
+  z-index: 10001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-content {
+  background: rgba(15, 15, 15, 0.95);
+  border: 1px solid #333;
+  margin: 15% auto;
+  padding: 2rem;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.modal.hidden .modal-content {
+  transform: scale(0.9);
+}
+
+.close-modal {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Interactive Node Styles */
+.interactive-node {
+  cursor: pointer;
+}
+
+.interactive-node:hover rect,
+.interactive-node:hover path {
+  stroke: #fff;
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+}
