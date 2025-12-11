@@ -524,6 +524,13 @@ function log(msg, type) {
   consoleEl.prepend(div);
 }
 
+// --- EXPOSE TO WINDOW (Required for HTML inline events with type="module") ---
+window.toggleMenu = toggleMenu;
+window.toggleSidebar = toggleSidebar;
+window.setRoute = setRoute;
+window.setRouteFromMobile = setRouteFromMobile;
+window.setWeather = setWeather;
+
 // Legacy support - also initialize on DOMContentLoaded for embedded usage
 if (document.readyState !== "loading") {
   // DOM already loaded (shouldn't happen due to window.onload, but safety check)
