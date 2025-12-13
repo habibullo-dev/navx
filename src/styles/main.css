@@ -1494,3 +1494,265 @@ button:hover ~ #custom-cursor {
   stroke-width: 2px;
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
 }
+/* --- BENCHMARK SECTION STYLES --- */
+
+.benchmark-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.benchmark-card {
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 8px; /* Slightly rounded unlike others for differentiation */
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.benchmark-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.benchmark-card:hover::before {
+  transform: translateX(100%);
+}
+
+.benchmark-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5),
+    0 4px 6px -2px rgba(255, 255, 255, 0.1);
+}
+
+.bench-content {
+  z-index: 1;
+  width: 100%;
+}
+
+.bench-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1.5rem;
+  color: #a3a3a3;
+  transition: color 0.3s;
+}
+
+.benchmark-card:hover .bench-icon {
+  color: white;
+}
+
+.icon-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.bench-label {
+  font-family: "Space Mono", monospace;
+  font-size: 0.8rem;
+  color: #888;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.bench-value {
+  font-family: "Oswald", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: white;
+  line-height: 1;
+}
+
+.unit {
+  font-size: 1rem;
+  margin-left: 4px;
+  color: #666;
+  font-weight: 400;
+}
+
+/* Highlight Card Style (Green) */
+.benchmark-card.highlight {
+  border-color: rgba(74, 222, 128, 0.5);
+  background: rgba(74, 222, 128, 0.05);
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.1);
+}
+
+.benchmark-card.highlight:hover {
+  border-color: #4ade80;
+  box-shadow: 0 0 30px rgba(74, 222, 128, 0.3), inset 0 0 20px rgba(74, 222, 128, 0.1);
+}
+
+.benchmark-card.highlight .bench-label {
+  color: #86efac;
+}
+
+.benchmark-card.highlight .bench-unit {
+  color: #bbf7d0;
+}
+
+.benchmark-card.highlight .bench-icon {
+  color: #86efac;
+}
+
+.benchmark-card.highlight:hover .bench-icon {
+  color: #dcfce7;
+  filter: drop-shadow(0 0 8px #4ade80);
+}
+
+
+/* --- PERCEPTION SECTION STYLES --- */
+
+.perception-container {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+  .perception-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Feed Styling */
+.feed-wrapper {
+  border: 1px solid #333;
+  background: #000;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.feed-header {
+  background: #111;
+  padding: 0.5rem 1rem;
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  color: #fff;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recording-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444;
+  border-radius: 50%;
+  margin-right: 8px;
+  animation: blink-rec 1s infinite;
+}
+
+@keyframes blink-rec {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.feed-window {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  overflow: hidden;
+}
+
+.feed-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.1) brightness(0.9) grayscale(20%);
+}
+
+.feed-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.bbox-sim {
+  position: absolute;
+  border: 1px solid rgba(74, 222, 128, 0.8);
+  box-shadow: 0 0 5px rgba(74, 222, 128, 0.4);
+}
+
+.bbox-sim .label {
+  position: absolute;
+  top: -15px;
+  left: -1px;
+  background: rgba(74, 222, 128, 0.9);
+  color: #000;
+  font-family: "Oswald", sans-serif;
+  font-size: 0.6rem;
+  padding: 1px 3px;
+  white-space: nowrap;
+}
+
+.crosshair {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(74, 222, 128, 0.5);
+  transform: translate(-50%, -50%);
+}
+
+.crosshair::before, .crosshair::after {
+  content: "";
+  position: absolute;
+  background: rgba(74, 222, 128, 0.8);
+}
+
+.crosshair::before { top: 9px; left: 0; width: 100%; height: 1px; }
+.crosshair::after { left: 9px; top: 0; height: 100%; width: 1px; }
+
+.scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
