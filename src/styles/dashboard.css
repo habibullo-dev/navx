@@ -168,6 +168,26 @@ nav {
   }
 }
 
+@media (max-width: 768px) {
+  .loader-content {
+    width: 80%;
+  }
+
+  .loader-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .loader-text {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+  }
+
+  .loading-percent {
+    font-size: 1rem;
+  }
+}
+
 /* --- DASHBOARD SECTION CONTAINER --- */
 #dashboard {
   padding: 0;

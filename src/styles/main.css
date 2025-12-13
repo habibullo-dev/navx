@@ -130,6 +130,25 @@ body {
   }
 }
 
+@media (max-width: 768px) {
+  .loader-content {
+    width: 80%;
+  }
+
+  .loader-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .loader-text-container {
+    font-size: 2rem;
+  }
+  
+  .loading-percent {
+    font-size: 1rem;
+  }
+}
+
 /* --- TYPOGRAPHY --- */
 h1,
 h2,
