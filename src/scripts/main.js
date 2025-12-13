@@ -312,6 +312,9 @@ function initArchitectureInteractivity() {
     });
 }
 
+// --- EXPOSE TO WINDOW ---
+window.toggleMenu = toggleMenu;
+
 // Initialize all features on page load
 window.onload = function() {
     initPreloader();
