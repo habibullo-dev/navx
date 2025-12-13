@@ -168,18 +168,74 @@ let activeMode = "fastest";
 let currentWeather = "sun";
 let isAnimating = false;
 
-// --- PRELOADER (for standalone page) ---
+// --- PRELOADER (Enhanced) ---
+const textToType = "NAV//X CMD CENTER";
+const typingSpeed = 100;
+
 window.onload = () => {
-  const preloader = document.getElementById("preloader");
-  if (preloader) {
-    setTimeout(() => {
-      preloader.style.transform = "translateY(-100%)";
-      initDashboard();
-    }, 1500);
-  } else {
-    // If no preloader (embedded in index.html), init directly
-    initDashboard();
-  }
+    const textElement = document.getElementById('typewriter-text');
+    const preloader = document.getElementById('preloader');
+    const cursor = document.querySelector('.cursor');
+    const progressBar = document.getElementById('progress-bar');
+    const loadingPercent = document.getElementById('loading-percent');
+    const loadingStatus = document.getElementById('loading-status');
+    
+    let charIndex = 0;
+    let progress = 0;
+
+    // Typewriter Logic
+    function typeWriter() {
+        if (textElement && charIndex < textToType.length) {
+            textElement.innerHTML += textToType.charAt(charIndex);
+            charIndex++;
+            setTimeout(typeWriter, typingSpeed);
+        }
+    }
+
+    // Progress Bar Logic
+    function updateProgress() {
+        if (progress < 100) {
+            const increment = Math.random() * 5 + 2; // Slightly faster for dashboard
+            progress = Math.min(progress + increment, 100);
+            
+            if (progressBar && loadingPercent) {
+                progressBar.style.width = `${progress}%`;
+                loadingPercent.innerText = `${Math.floor(progress)}%`;
+            }
+
+            if (loadingStatus) {
+                if (progress < 30) loadingStatus.innerText = "ESTABLISHING_SAT_LINK...";
+                else if (progress < 60) loadingStatus.innerText = "SYNCING_TELEMETRY...";
+                else if (progress < 90) loadingStatus.innerText = "LOADING_MAP_ASSETS...";
+                else loadingStatus.innerText = "SYSTEM_READY...";
+            }
+
+            const timeout = Math.random() * 80 + 20;
+            
+            if (progress < 100) {
+                setTimeout(updateProgress, timeout);
+            } else {
+                setTimeout(finishLoading, 600);
+            }
+        }
+    }
+
+    function finishLoading() {
+        if (preloader) {
+            preloader.style.transform = "translateY(-100%)";
+            // Initialize dashboard after preloader lifts
+            setTimeout(initDashboard, 500);
+        } else {
+            initDashboard();
+        }
+    }
+
+    if (document.getElementById('preloader')) {
+        setTimeout(typeWriter, 300);
+        setTimeout(updateProgress, 300);
+    } else {
+        initDashboard();
+    }
 };
 
 // Initialize dashboard when DOM is loaded

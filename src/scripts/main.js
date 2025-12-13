@@ -36,31 +36,66 @@ function initMobileMenu() {
     });
 }
 
-// Preloader typewriter effect
+// Preloader typewriter effect & Progress Bar
 function initPreloader() {
     const textElement = document.getElementById('typewriter-text');
     const preloader = document.getElementById('preloader');
     const cursor = document.querySelector('.cursor');
+    const progressBar = document.getElementById('progress-bar');
+    const loadingPercent = document.getElementById('loading-percent');
+    const loadingStatus = document.getElementById('loading-status');
+    
     let charIndex = 0;
+    let progress = 0;
 
+    // Typewriter Logic
     function typeWriter() {
         if (charIndex < textToType.length) {
             textElement.innerHTML += textToType.charAt(charIndex);
             charIndex++;
             setTimeout(typeWriter, typingSpeed);
-        } else {
-            setTimeout(finishLoading, delayAfterFinishing);
+        }
+    }
+
+    // Progress Bar Logic
+    function updateProgress() {
+        if (progress < 100) {
+            // Randomize increment for "real" feel
+            const increment = Math.random() * 5 + 1; 
+            progress = Math.min(progress + increment, 100);
+            
+            if (progressBar && loadingPercent) {
+                progressBar.style.width = `${progress}%`;
+                loadingPercent.innerText = `${Math.floor(progress)}%`;
+            }
+
+            if (loadingStatus) {
+                if (progress < 30) loadingStatus.innerText = "INITIALIZING_SYSTEM...";
+                else if (progress < 60) loadingStatus.innerText = "LOADING_ASSETS...";
+                else if (progress < 85) loadingStatus.innerText = "OPTIMIZING_ROUTES...";
+                else loadingStatus.innerText = "READY_TO_LAUNCH...";
+            }
+
+            // Variable speed
+            const timeout = Math.random() * 100 + 50;
+            
+            if (progress < 100) {
+                setTimeout(updateProgress, timeout);
+            } else {
+                setTimeout(finishLoading, delayAfterFinishing);
+            }
         }
     }
 
     function finishLoading() {
-        cursor.style.display = 'none';
-        preloader.style.transform = "translateY(-100%)";
+        if(cursor) cursor.style.display = 'none';
+        if(preloader) preloader.style.transform = "translateY(-100%)";
         document.body.style.overflow = "auto";
     }
 
-    // Start typing after small delay
+    // Start sequences
     setTimeout(typeWriter, 500);
+    setTimeout(updateProgress, 500);
 }
 
 // --- CUSTOM CURSOR LOGIC ---
