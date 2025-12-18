@@ -30,6 +30,71 @@ body {
   background-size: 50px 50px;
 }
 
+/* --- CONCEPT SECTION (Auto Pod Mini) --- */
+.concept-section {
+  padding: 4rem 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.concept-title {
+  margin-bottom: 0.75rem;
+}
+
+.concept-desc {
+  color: #aaa;
+  margin-bottom: 1.5rem;
+}
+
+.concept-notes {
+  border: 1px dashed #333;
+}
+
+.concept-notes-title {
+  color: #4ade80;
+}
+
+.concept-notes-list {
+  margin-top: 0.5rem;
+  color: #bbb;
+  line-height: 1.8;
+}
+
+.concept-figure { margin: 0; }
+.concept-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #111;
+  display: block;
+}
+
+.concept-caption {
+  margin-top: 0.5rem;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 1024px) {
+  .concept-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .concept-figure { order: -1; }
+}
+
+@media (max-width: 480px) {
+  .concept-section { padding: 2.5rem 0; }
+  .concept-grid { gap: 1rem; }
+  .concept-caption { font-size: 0.8rem; }
+}
+
 /* --- PRELOADER STYLES --- */
 #preloader {
   position: fixed;

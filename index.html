@@ -70,7 +70,9 @@
         <li><a href="#hero">Home</a></li>
         <li><a href="#features">Core</a></li>
         <li><a href="#architecture">System</a></li>
+        <li><a href="#presentation">Presentation</a></li>
         <li><a href="#simulation">Demo</a></li>
+        <li><a href="#auto-pod-mini">Concept</a></li>
         <li><a href="dashboard">Dashboard</a></li>
         <li><a href="#team">Team</a></li>
       </ul>
@@ -94,6 +96,10 @@
       <img src="images/hero.png" alt="NavX System Visual" class="hero-img" />
     </div>
   </section>
+
+  
+
+  
 
   <section id="problem" class="reveal-on-scroll">
     <div class="problem-solution-grid">
@@ -441,6 +447,28 @@
     </div>
   </section>
 
+  <!-- PRESENTATION VIDEO SECTION (moved here for better flow) -->
+  <section id="presentation" class="reveal-on-scroll" style="padding: 4rem 0; border-top: 1px solid #111;">
+    <div class="nav-container" style="display: block;">
+      <div style="margin-bottom: 1rem; font-size: 0.8rem; color: #555">MEDIA_BRIEF // VIDEO_WALKTHROUGH</div>
+      <h2 style="margin-bottom: 0.75rem;">NavX Intelligent Multi-Criteria Navigation System — Presentation</h2>
+      <p style="color: #aaa; margin-bottom: 1.25rem;">
+        In this short presentation, our team explains the architecture, perception stack,
+        and the multi-criteria routing logic behind NavX. Recorded demo: TurtleBot3 + ROS 2 + YOLOv8.
+      </p>
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; border: 1px solid #111; margin-top: 1rem;">
+        <iframe src="https://www.youtube.com/embed/mW84RFQVI6U"
+                title="NavX Presentation"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+                loading="lazy"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block;"></iframe>
+      </div>
+    </div>
+  </section>
+
   <!-- MOVED TECH STACK SECTION -->
   <section id="tech-specs" class="reveal-on-scroll" style="border-top: 1px solid #111; padding-top: 4rem;">
     <div style="margin-bottom: 2rem;">
@@ -677,6 +705,35 @@
             <div class="label">MED</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUTURE CONCEPT: AUTO POD MINI (moved near end) -->
+  <section id="auto-pod-mini" class="reveal-on-scroll concept-section">
+    <div class="nav-container">
+      <div class="concept-grid">
+        <div class="concept-copy">
+        <h2 class="concept-title">Future Concept: NavX Auto Pod Mini</h2>
+        <p class="concept-desc">
+          Concept enclosure for a compact, roof-mountable pod with panoramic vision and integrated compute.
+          This is a forward-looking design for future demos and field deployments.
+        </p>
+        <div class="info-box concept-notes">
+          <h4 class="concept-notes-title">HARDWARE_NOTES</h4>
+          <ul class="concept-notes-list">
+            <li>360° multi-camera array</li>
+            <li>Low-profile mount with vibration isolation</li>
+            <li>External status LEDs for quick diagnostics</li>
+          </ul>
+        </div>
+        </div>
+      <figure class="concept-figure">
+        <img class="concept-img" src="./images/future_demo.png" alt="NavX Auto Pod Mini" />
+        <figcaption class="concept-caption">
+          Render: NavX Auto Pod Mini.
+        </figcaption>
+      </figure>
       </div>
     </div>
   </section>
