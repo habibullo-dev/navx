@@ -84,12 +84,15 @@
       <div style="margin-bottom: 1rem; font-size: 0.8rem; color: #555">
         SYSTEM STATUS: ONLINE // V 2.0
       </div>
-      <h1>Vehicle<br />AutoRoute<br />Navigator</h1>
+      <h1>NavX // ARN</h1>
       <div class="tagline">
-        > An intelligent route planner prioritizing safety limits and onboard
-        visual perception.<br />
-        > Executed via ROS 2 + YOLOv8 on TurtleBot3.
+        > AI-DRIVEN INFRASTRUCTURE FOR RESILIENT CITIES.<br />
+        > EXECUTED VIA ROS 2 + YOLOv8 ON EDGE.
       </div>
+      <p style="margin-top: 1rem; color: #aaa; max-width: 600px;">
+        An autonomous mobility kernel designed to bridge the urban data gap. NavX repurposes advanced safety logic to
+        navigate, map, and serve informal settlements and unmapped disaster zones.
+      </p>
       <a href="#features" class="cta-button">Initialize System_</a>
     </div>
     <div class="hero-image-container">
@@ -97,33 +100,34 @@
     </div>
   </section>
 
-  
 
-  
+
+
 
   <section id="problem" class="reveal-on-scroll">
     <div class="problem-solution-grid">
       <div class="problem-box">
-        <h3>// CRITICAL ERROR</h3>
+        <h3>// SYSTEM ALERT: FRAGILE INFRASTRUCTURE</h3>
         <p style="margin-top: 1rem">
-          Navigation systems typically optimize strictly for
-          <strong>T_min (Time)</strong>.
+          Standard navigation stacks optimize strictly for
+          <strong>T_min (Velocity)</strong>. In dense, informal, or disaster-struck environments, this leads to failure.
         </p>
         <p style="margin-top: 1rem">
-          This ignores multi-dimensional human constraints: Safety, Comfort,
-          and Visual Experience. Current industrial stacks are blind to these
-          variables.
+          Current robots are blind to Inequality, Infrastructure Decay, and Human Safety. 1 Billion people live in
+          "unmapped" zones where the "fastest path" is often the most dangerous.
         </p>
       </div>
 
       <div class="solution-box">
-        <h3>// PATCH APPLIED</h3>
+        <h3>// PATCH APPLIED: RESILIENCE KERNEL</h3>
         <p style="margin-top: 1rem">
-          NavX introduces <strong>Multi-Criteria Path Scoring</strong>.
+          NavX introduces <strong>Risk-Aware Path Scoring</strong>.
         </p>
         <p style="margin-top: 1rem">
-          Dynamic re-routing based on YOLOv8 visual hazard detection. No cloud
-          dependency. Pure onboard computation.
+          By prioritizing Safety > Velocity, NavX autonomously navigates complex urban terrain, detecting hazards
+          (debris, blocked paths) in real-time.
+          <br /><br />
+          RESULT: A deployable Digital Twin generator for inclusive city planning.
         </p>
       </div>
     </div>
@@ -134,37 +138,36 @@
     <div class="feature-grid reveal-on-scroll">
       <div class="feature-card">
         <div class="feature-number">01</div>
-        <h4>Transparent Scoring</h4>
+        <h4>Explainable AI</h4>
         <p>
-          Route transparency via explicit cost functions. User visibility into
-          decision logic.
+          Route transparency via explicit cost functions. Building trust between autonomous agents and vulnerable
+          communities.
         </p>
       </div>
 
       <div class="feature-card">
         <div class="feature-number">02</div>
-        <h4>Closed-Loop Logic</h4>
+        <h4>Dynamic Hazard Avoidance</h4>
         <p>
-          Automatic re-planning triggers &lt; 2000ms upon new object detection or
-          hazard threshold breach.
+          Automatic re-planning &lt; 200ms upon detecting debris, crowds, or structural risks. Designed for unstructured
+          roads.
         </p>
       </div>
 
       <div class="feature-card">
         <div class="feature-number">03</div>
-        <h4>ROS 2 Native</h4>
+        <h4>ROS 2 Native Node</h4>
         <p>
-          Seamless integration with Nav2 stack. Waypoint execution and
-          cancellation handling.
+          Seamless integration with City Digital Twins. Functions as a decentralized edge node for municipal data
+          collection.
         </p>
       </div>
 
       <div class="feature-card">
         <div class="feature-number">04</div>
-        <h4>Explainable UI</h4>
+        <h4>Inclusive Metrics</h4>
         <p>
-          Real-time readout: "−18% risk, +0.3 scenic". Quantifiable
-          trade-offs.
+          Real-time readout: "−18% Velocity, +40% Safety". Quantifiable trade-offs for emergency logistics.
         </p>
       </div>
     </div>
@@ -176,7 +179,7 @@
             margin-top: 1rem;
             color: white;
           ">
-        C = (w_t × Time) + (w_r × Risk) + (w_c × Comfort)
+        C = (w_t × Time) + (w_r × Resilience) + (w_i × Inclusivity)
       </p>
     </div>
 
@@ -188,27 +191,32 @@
             <th>MODE</th>
             <th>T_Weight</th>
             <th>R_Weight</th>
-            <th>C_Weight</th>
+            <th>I_Weight</th>
+            <th>DESCRIPTION</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>VELOCITY</strong></td>
+            <td><strong>RESPONSE</strong></td>
             <td>1.0</td>
             <td>0.2</td>
             <td>0.1</td>
+            <td>*Formerly Velocity.* Emergency Mode. High speed for rapid intervention/First Responders.</td>
           </tr>
           <tr>
-            <td><strong>SECURITY</strong></td>
+            <td><strong>RESILIENCE</strong></td>
             <td>0.5</td>
             <td>1.0</td>
             <td>0.3</td>
+            <td>*Formerly Security.* Disaster Mode. Max obstacle clearance. Navigates debris & unmapped terrain.</td>
           </tr>
           <tr>
-            <td><strong>COMFORT</strong></td>
+            <td><strong>INCLUSIVE</strong></td>
             <td>0.4</td>
             <td>0.3</td>
             <td>0.8</td>
+            <td>*Formerly Comfort.* Accessibility Mode. Smooth motion for transporting fragile aid or guiding elderly.
+            </td>
           </tr>
         </tbody>
       </table>
@@ -228,17 +236,17 @@
       <div class="perception-feed-column">
         <div class="feed-wrapper">
           <div class="feed-header">
-            <span class="recording-dot"></span> LIVE_FEED // CAM_01
+            <span class="recording-dot"></span> HAZARD ANALYSIS FEED
             <span style="float: right; color: #4ade80;">[ACTIVE]</span>
           </div>
           <div class="feed-window">
             <img src="images/vision_demo_1.jpg" alt="Traffic Analysis Feed" class="feed-image" />
             <div class="feed-overlay">
               <div class="bbox-sim" style="top: 30%; left: 20%; width: 15%; height: 20%;">
-                <span class="label">CAR 98%</span>
+                <span class="label">PEDESTRIAN 98%</span>
               </div>
               <div class="bbox-sim" style="top: 40%; left: 60%; width: 10%; height: 25%;">
-                <span class="label">PEDESTRIAN 95%</span>
+                <span class="label">DEBRIS 95%</span>
               </div>
             </div>
             <div class="scanlines"></div>
@@ -270,7 +278,7 @@
               Build)</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: #fff;">INPUT:</strong> 1280x720 @ 60FPS</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: #fff;">LATENCY:</strong> ~18ms (End-to-End)</li>
-            <li><strong style="color: #fff;">CLASSES:</strong> Vehicle, Pedestrian, Cyclist, Signage</li>
+            <li><strong style="color: #fff;">CLASSES:</strong> Person, Debris, Flood_Zone, Emergency_Vehicle</li>
           </ul>
         </div>
 
@@ -456,15 +464,12 @@
         In this short presentation, our team explains the architecture, perception stack,
         and the multi-criteria routing logic behind NavX. Recorded demo: TurtleBot3 + ROS 2 + YOLOv8.
       </p>
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; border: 1px solid #111; margin-top: 1rem;">
-        <iframe src="https://www.youtube.com/embed/mW84RFQVI6U"
-                title="NavX Presentation"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-                loading="lazy"
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block;"></iframe>
+      <div
+        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; border: 1px solid #111; margin-top: 1rem;">
+        <iframe src="https://www.youtube.com/embed/mW84RFQVI6U" title="NavX Presentation" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block;"></iframe>
       </div>
     </div>
   </section>
@@ -714,26 +719,28 @@
     <div class="nav-container">
       <div class="concept-grid">
         <div class="concept-copy">
-        <h2 class="concept-title">Future Concept: NavX Auto Pod Mini</h2>
-        <p class="concept-desc">
-          Concept enclosure for a compact, roof-mountable pod with panoramic vision and integrated compute.
-          This is a forward-looking design for future demos and field deployments.
-        </p>
-        <div class="info-box concept-notes">
-          <h4 class="concept-notes-title">HARDWARE_NOTES</h4>
-          <ul class="concept-notes-list">
-            <li>360° multi-camera array</li>
-            <li>Low-profile mount with vibration isolation</li>
-            <li>External status LEDs for quick diagnostics</li>
-          </ul>
+          <h2 class="concept-title">DEPLOYMENT TARGET: URBAN SENSOR NODE</h2>
+          <p class="concept-desc">
+            Concept enclosure for a compact, solar-ready rover designed to patrol informal settlements.
+            <br /><br />
+            MISSION: Generate 3D Digital Twins of slums to enable municipal upgrading and disaster response without
+            displacing residents.
+          </p>
+          <div class="info-box concept-notes">
+            <h4 class="concept-notes-title">HARDWARE_NOTES</h4>
+            <ul class="concept-notes-list">
+              <li>360° multi-camera array</li>
+              <li>Low-profile mount with vibration isolation</li>
+              <li>External status LEDs for quick diagnostics</li>
+            </ul>
+          </div>
         </div>
-        </div>
-      <figure class="concept-figure">
-        <img class="concept-img" src="./images/future_demo.png" alt="NavX Auto Pod Mini" />
-        <figcaption class="concept-caption">
-          Render: NavX Auto Pod Mini.
-        </figcaption>
-      </figure>
+        <figure class="concept-figure">
+          <img class="concept-img" src="./images/future_demo.png" alt="NavX Auto Pod Mini" />
+          <figcaption class="concept-caption">
+            Render: NavX Auto Pod Mini.
+          </figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -763,10 +770,10 @@
           <div class="member-photo">
             <img src="images/employees/ceo.png" alt="CEO" />
           </div>
-          <div class="member-role">>> CO-FOUNDER & CEO</div>
+          <div class="member-role">>> CEO</div>
           <h3 class="member-name">Firdavs Tursunov</h3>
           <p class="member-bio">
-            Project Visionary. Orchestrated the entire NavX initiative, driving the strategic direction.
+            Project Visionary. Orchestrating the strategic pivot from autonomous luxury to humanitarian technology.
           </p>
         </div>
 
@@ -779,10 +786,10 @@
           <div class="member-photo">
             <img src="images/employees/cto.png" alt="CTO" />
           </div>
-          <div class="member-role">>> CO-FOUNDER & CTO</div>
+          <div class="member-role">>> CTO</div>
           <h3 class="member-name">Habibullo Chutboev</h3>
           <p class="member-bio">
-            Technical Architect. Designed the fundamental ROS 2 infrastructure and navigation algorithms.
+            Lead Architect. Designing low-cost, edge-compute navigation stacks for the Global South.
           </p>
         </div>
 
@@ -795,10 +802,10 @@
           <div class="member-photo">
             <img src="images/employees/cfo.png" alt="CFO" />
           </div>
-          <div class="member-role">>> CHIEF_FINANCIAL</div>
+          <div class="member-role">>> CFO</div>
           <h3 class="member-name">Shohida Chinieva</h3>
           <p class="member-bio">
-            Financial Strategy. Managed critical resource allocation for sustainability.
+            Sustainability Lead. Managing resource allocation for scalable social impact.
           </p>
         </div>
 
@@ -811,10 +818,10 @@
           <div class="member-photo">
             <img src="images/employees/cmo.png" alt="CMO" />
           </div>
-          <div class="member-role">>> CHIEF_MARKETING</div>
+          <div class="member-role">>> CMO</div>
           <h3 class="member-name">Hvan Kseniya</h3>
           <p class="member-bio">
-            Brand Lead. Crafted the NavX identity and communicated value proposition.
+            Impact Storyteller. Communicating the value of Digital Twins for inclusive urban development.
           </p>
         </div>
 
@@ -830,7 +837,7 @@
           <div class="member-role">>> PRODUCT_MANAGER</div>
           <h3 class="member-name">Amira Tadzhieva</h3>
           <p class="member-bio">
-            Product Owner. Defined key features and ensured user safety standards.
+            Safety Officer. Ensuring algorithmic accountability for vulnerable user groups.
           </p>
         </div>
 
@@ -905,13 +912,14 @@
 
   <footer>
     <div class="nav-container" style="display: block">
-      <h3>NAVX // TEAM</h3>
+      <h3>NAVX // ARN</h3>
       <p style="margin-top: 1rem">
-        System built for ROS 2 Architecture Demo.
+        COMPUTE LOCALLY. NAVIGATE GLOBALLY.<br />
+        SUPPORTING SDG 11: SUSTAINABLE CITIES & COMMUNITIES.
       </p>
       <div style="margin-top: 2rem">
-        <a href="https://github.com/habibullo-dev/navx" style="color: white; margin-right: 2rem">GITHUB_REPO</a>
-        <a href="https://github.com/habibullo-dev/navx/blob/main/README.md" style="color: white">DOCUMENTATION</a>
+        <a href="https://github.com/habibullo-dev/navx" style="color: white; margin-right: 2rem">[ VIEW 2026 HACKATHON
+          SUBMISSION ]</a>
       </div>
       <p style="margin-top: 4rem; font-size: 0.8rem; color: #333">
         ALL SYSTEMS NOMINAL

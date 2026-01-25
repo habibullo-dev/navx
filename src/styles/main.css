@@ -242,6 +242,8 @@ h2 {
 p {
   color: var(--text-muted);
   font-size: 0.95rem;
+  line-height: 1.7; /* Improved readability for narrative text */
+  margin-bottom: 1rem;
 }
 
 strong {
@@ -393,10 +395,11 @@ section {
 .tagline {
   font-size: 1.2rem;
   color: var(--text-muted);
-  max-width: 600px;
+  max-width: 800px; /* Increased to fit new long tagline */
   margin-bottom: 3rem;
   border-left: 2px solid white;
   padding-left: 1rem;
+  line-height: 1.5;
 }
 
 .cta-button {
@@ -463,6 +466,13 @@ section {
   padding: 2.5rem;
   transition: all 0.3s;
   cursor: none;
+  height: 100%; /* Ensure uniform height in grid */
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-card p {
+    flex-grow: 1;
 }
 
 .problem-box,
@@ -495,6 +505,25 @@ section {
   left: -5px;
   color: white;
   background: var(--bg-color);
+  padding: 0 5px;
+}
+
+/* FRAGILE INFRASTRUCTURE - WARNING STYLE */
+.problem-box {
+    border-color: rgba(239, 68, 68, 0.5); /* Red tint */
+    box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.05);
+}
+.problem-box h3 {
+    color: #ef4444;
+}
+
+/* RESILIENCE KERNEL - STABLE STYLE */
+.solution-box {
+    border-color: rgba(74, 222, 128, 0.5); /* Green tint */
+    box-shadow: inset 0 0 20px rgba(74, 222, 128, 0.05);
+}
+.solution-box h3 {
+    color: #4ade80;
 }
 
 .feature-number {
@@ -547,7 +576,15 @@ th {
   color: white;
   text-transform: uppercase;
   letter-spacing: 1px;
+  white-space: nowrap; /* Keep headers on one line */
 }
+
+/* Specific column widths for Profile Table */
+th:nth-child(1) { min-width: 120px; } /* MODE */
+th:nth-child(2), th:nth-child(3), th:nth-child(4) { width: 80px; text-align: center; } /* Weights */
+th:last-child { width: auto; } /* Description gets remaining space */
+
+td:nth-child(2), td:nth-child(3), td:nth-child(4) { text-align: center; font-family: 'Space Mono'; color: white; }
 
 td {
   padding: 1rem;
@@ -1486,6 +1523,22 @@ button:hover ~ #custom-cursor {
   background: rgba(255, 255, 255, 0.1);
   border-color: #fff;
 }
+
+/* --- PERCEPTION LABELS --- */
+.label {
+    background: #000;
+    color: white;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    font-family: 'Oswald';
+    letter-spacing: 1px;
+}
+
+/* Hazard Color Classes (Dynamic) */
+.label-warning { color: #fca5a5; border: 1px solid #fca5a5; }
+.label-danger { color: #ef4444; border: 1px solid #ef4444; }
+.label-safe { color: #4ade80; border: 1px solid #4ade80; }
+.label-structure { color: #d8b4fe; border: 1px solid #d8b4fe; } /* Purple for structure */
 
 /* --- FINAL TOUCH 2: CRT SCANLINE OVERLAY --- */
 /* Gives the whole site a subtle "Monitor" texture */
