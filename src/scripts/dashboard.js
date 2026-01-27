@@ -587,6 +587,60 @@ window.setRoute = setRoute;
 window.setRouteFromMobile = setRouteFromMobile;
 window.setWeather = setWeather;
 
+// --- LOGIC: SIMULATION EVENTS ---
+function triggerSim(eventType) {
+    const map = document.getElementById('nav-map');
+    const overlay = document.getElementById('weather-fx');
+
+    // Reset Effects
+    if (map) map.classList.remove('map-shake');
+    if (overlay) overlay.className = "";
+
+    // 1. EARTHQUAKE: Seismic Shake + Red Alert
+    if (eventType === 'earthquake') {
+        if (map) {
+            void map.offsetWidth; // reflow
+            map.classList.add('map-shake');
+        }
+        if (overlay) {
+            overlay.className = "alert-overlay"; // Red Flash
+            setTimeout(() => { if(overlay.className === "alert-overlay") overlay.className = ""; }, 1500);
+        }
+        log("CRITICAL ALERT: SEISMIC ACTIVITY DETECTED. INFRASTRUCTURE UNSTABLE.", "warn");
+    } 
+    // 2. UNREST: Police Flash (Red/Blue) + No Shake
+    else if (eventType === 'unrest') {
+        if (overlay) {
+            overlay.className = "alert-unrest"; // Red/Blue Police Strobe
+            setTimeout(() => { if(overlay.className === "alert-unrest") overlay.className = ""; }, 2000);
+        }
+        log("ALERT: CIVIL UNREST IN SECTOR 4. AVOIDING CROWD ZONES.", "warn");
+    } 
+    // 3. FLOOD: Rain Weather Force + Blue Alert
+    else if (eventType === 'flood') {
+        if (overlay) {
+            overlay.className = "alert-flood"; // Blue Pulse
+            setTimeout(() => { if(overlay.className === "alert-flood") overlay.className = ""; }, 2000);
+        }
+        // Force Weather to Rain
+        setWeather('rain');
+        log("WARNING: FLASH FLOOD SENSORS TRIGGERED. HYDROPLANING RISK.", "warn");
+    }
+
+    // Auto-Recalculate to Resilience Mode (Scenic/Security)
+    // Only reroute if not already there
+    if (activeMode !== 'scenic') {
+        log("INITIATING EMERGENCY REROUTE... CALCULATING...", "info");
+        setTimeout(() => {
+            setRoute('scenic'); // Switch to Resilience
+            log("REROUTE COMPLETE: RESILIENCE PROFILE ENGAGED.", "info");
+        }, 1200);
+    } else {
+        log("SYSTEM STATUS: ALREADY IN RESILIENCE MODE. MAINTAINING COURSE.", "info");
+    }
+}
+window.triggerSim = triggerSim;
+
 // Legacy support - also initialize on DOMContentLoaded for embedded usage
 if (document.readyState !== "loading") {
   // DOM already loaded (shouldn't happen due to window.onload, but safety check)

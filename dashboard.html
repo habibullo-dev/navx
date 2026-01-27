@@ -98,7 +98,10 @@
       <!-- Card 1 -->
       <div class="route-card active" data-type="fastest" onclick="setRoute('fastest')">
         <div class="route-header">
-          <span class="route-name">FASTEST</span>
+          <div>
+            <span class="route-name">FASTEST</span>
+            <div style="font-size: 0.6rem; color: #666;">(RESPONSE)</div>
+          </div>
           <span class="route-time">12 min</span>
         </div>
         <div class="route-meta">
@@ -110,7 +113,10 @@
       <!-- Card 2 -->
       <div class="route-card" data-type="scenic" onclick="setRoute('scenic')">
         <div class="route-header">
-          <span class="route-name">SCENIC</span>
+          <div>
+            <span class="route-name">SCENIC</span>
+            <div style="font-size: 0.6rem; color: #666;">(RESILIENCE)</div>
+          </div>
           <span class="route-time">24 min</span>
         </div>
         <div class="route-meta">
@@ -122,7 +128,10 @@
       <!-- Card 3 -->
       <div class="route-card" data-type="comfort" onclick="setRoute('comfort')">
         <div class="route-header">
-          <span class="route-name">COMFORT</span>
+          <div>
+            <span class="route-name">COMFORT</span>
+            <div style="font-size: 0.6rem; color: #666;">(INCLUSIVE)</div>
+          </div>
           <span class="route-time">18 min</span>
         </div>
         <div class="route-meta">
@@ -208,6 +217,25 @@
       <div class="route-status-panel">
         <div class="route-status-title">ROUTE_STATUS</div>
         <div id="route-status" class="route-status-text">Initializing...</div>
+      </div>
+    </div>
+
+    <!-- Simulation Control Widget -->
+    <div class="hud-widget sim-control">
+      <div class="weather-header">
+        <span>EVENT_SIMULATION</span>
+        <span class="live-indicator" style="background: var(--accent-fast);"></span>
+      </div>
+      <div class="wx-btn-group" style="flex-wrap: wrap;">
+        <button class="wx-btn" onclick="triggerSim('earthquake')">
+          <i class="fas fa-house-damage"></i> QUAKE
+        </button>
+        <button class="wx-btn" onclick="triggerSim('unrest')">
+          <i class="fas fa-users-slash"></i> UNREST
+        </button>
+        <button class="wx-btn" onclick="triggerSim('flood')">
+          <i class="fas fa-water"></i> FLOOD
+        </button>
       </div>
     </div>
 
@@ -403,7 +431,7 @@
     </button>
     <button class="mobile-control-btn" data-route="comfort" onclick="setRouteFromMobile('comfort')">
       <i class="fas fa-car-side"></i>
-      <span>COMFORT</span>
+      <span>COMF</span>
     </button>
   </div>
 

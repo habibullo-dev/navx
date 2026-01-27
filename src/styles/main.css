@@ -928,6 +928,8 @@ footer {
   transition: all 0.3s ease;
   overflow: hidden;
   cursor: none;
+  display: flex;
+  flex-direction: column;
 }
 
 /* The "Bracket" corners for the cards */
