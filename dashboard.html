@@ -48,6 +48,12 @@
   <!-- CRT Scanline Overlay -->
   <div class="crt-overlay"></div>
 
+  <!-- Notification System Container -->
+  <div id="notification-area" class="notification-container"></div>
+
+  <!-- Tooltip Container -->
+  <div id="tooltip-display" class="nav-tooltip"></div>
+
   <!-- 1. PRELOADER -->
   <div id="preloader">
     <div class="loader-content">
@@ -96,7 +102,8 @@
       </div>
 
       <!-- Card 1 -->
-      <div class="route-card active" data-type="fastest" onclick="setRoute('fastest')">
+      <div class="route-card active" data-type="fastest" onclick="setRoute('fastest')"
+        data-tooltip="Priority Corridor. Optimized for T_min. High Risk Tolerance.">
         <div class="route-header">
           <div>
             <span class="route-name">FASTEST</span>
@@ -111,7 +118,8 @@
       </div>
 
       <!-- Card 2 -->
-      <div class="route-card" data-type="scenic" onclick="setRoute('scenic')">
+      <div class="route-card" data-type="scenic" onclick="setRoute('scenic')"
+        data-tooltip="Resilience Route. Maximize green-zone traversal. Low Risk.">
         <div class="route-header">
           <div>
             <span class="route-name">SCENIC</span>
@@ -126,7 +134,8 @@
       </div>
 
       <!-- Card 3 -->
-      <div class="route-card" data-type="comfort" onclick="setRoute('comfort')">
+      <div class="route-card" data-type="comfort" onclick="setRoute('comfort')"
+        data-tooltip="Stabilized Path. Low G-force turns for sensitive cargo.">
         <div class="route-header">
           <div>
             <span class="route-name">COMFORT</span>
@@ -147,20 +156,20 @@
         <i class="fas fa-satellite"></i> LIVE TELEMETRY
       </div>
       <div class="telemetry-grid">
-        <div class="tele-box">
+        <div class="tele-box" data-tooltip="Current velocity in km/h. Throttled by risk analysis.">
           <span class="tele-label">SPEED</span>
           <span class="tele-value" id="tele-speed">45</span>
           <span style="font-size: 0.7rem">km/h</span>
         </div>
-        <div class="tele-box">
+        <div class="tele-box" data-tooltip="State of Charge. Return-to-base threshold: 15%.">
           <span class="tele-label">BATTERY</span>
           <span class="tele-value" style="color: var(--accent-safe)">84%</span>
         </div>
-        <div class="tele-box">
+        <div class="tele-box" data-tooltip="Round-trip network signal time to Core Control.">
           <span class="tele-label">LATENCY</span>
           <span class="tele-value">12ms</span>
         </div>
-        <div class="tele-box">
+        <div class="tele-box" data-tooltip="Real-time hazard aggregation score (0-10). >7 triggers reroute.">
           <span class="tele-label">RISK INDEX</span>
           <span class="tele-value" id="tele-risk">4.2</span>
         </div>
@@ -201,16 +210,20 @@
         </div>
       </div>
       <div class="wx-btn-group">
-        <button class="wx-btn active" data-wx="sun" onclick="setWeather('sun')">
+        <button class="wx-btn active" data-wx="sun" onclick="setWeather('sun')"
+          data-tooltip="Default State. Optimal traction and visibility.">
           <i class="fas fa-sun"></i>
         </button>
-        <button class="wx-btn" data-wx="rain" onclick="setWeather('rain')">
+        <button class="wx-btn" data-wx="rain" onclick="setWeather('rain')"
+          data-tooltip="WEATHER: Force Heavy Precipitation. Tests traction loss logic.">
           <i class="fas fa-cloud-rain"></i>
         </button>
-        <button class="wx-btn" data-wx="fog" onclick="setWeather('fog')">
+        <button class="wx-btn" data-wx="fog" onclick="setWeather('fog')"
+          data-tooltip="WEATHER: Low Visibility. Engages Lidar-Only mode.">
           <i class="fas fa-smog"></i>
         </button>
-        <button class="wx-btn" data-wx="snow" onclick="setWeather('snow')">
+        <button class="wx-btn" data-wx="snow" onclick="setWeather('snow')"
+          data-tooltip="WEATHER: Sub-zero surface. Traction degradation: Moderate.">
           <i class="fas fa-snowflake"></i>
         </button>
       </div>
@@ -227,13 +240,16 @@
         <span class="live-indicator" style="background: var(--accent-fast);"></span>
       </div>
       <div class="wx-btn-group" style="flex-wrap: wrap;">
-        <button class="wx-btn" onclick="triggerSim('earthquake')">
+        <button class="wx-btn" onclick="triggerSim('earthquake')"
+          data-tooltip="SIMULATION: Trigger Seismic Event (Mag 5.0). Tests structural avoidance.">
           <i class="fas fa-house-damage"></i> QUAKE
         </button>
-        <button class="wx-btn" onclick="triggerSim('unrest')">
+        <button class="wx-btn" onclick="triggerSim('unrest')"
+          data-tooltip="SIMULATION: Trigger Civil Unrest. Tests crowd density avoidance.">
           <i class="fas fa-users-slash"></i> UNREST
         </button>
-        <button class="wx-btn" onclick="triggerSim('flood')">
+        <button class="wx-btn" onclick="triggerSim('flood')"
+          data-tooltip="SIMULATION: Trigger Flash Flood. Tests hydroplane logic.">
           <i class="fas fa-water"></i> FLOOD
         </button>
       </div>
@@ -421,15 +437,18 @@
 
   <!-- Mobile Control Strip (Bottom) -->
   <div class="mobile-control-strip">
-    <button class="mobile-control-btn active" data-route="fastest" onclick="setRouteFromMobile('fastest')">
+    <button class="mobile-control-btn active" data-route="fastest" onclick="setRouteFromMobile('fastest')"
+      data-tooltip="Switch to Fastest Route">
       <i class="fas fa-tachometer-alt"></i>
       <span>FAST</span>
     </button>
-    <button class="mobile-control-btn" data-route="scenic" onclick="setRouteFromMobile('scenic')">
+    <button class="mobile-control-btn" data-route="scenic" onclick="setRouteFromMobile('scenic')"
+      data-tooltip="Switch to Scenic Route">
       <i class="fas fa-tree"></i>
       <span>SCENIC</span>
     </button>
-    <button class="mobile-control-btn" data-route="comfort" onclick="setRouteFromMobile('comfort')">
+    <button class="mobile-control-btn" data-route="comfort" onclick="setRouteFromMobile('comfort')"
+      data-tooltip="Switch to Comfort Route">
       <i class="fas fa-car-side"></i>
       <span>COMF</span>
     </button>

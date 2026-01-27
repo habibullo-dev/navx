@@ -1369,10 +1369,7 @@ body.weather-rain #weather-fx {
     display: block;
   }
 
-  /* Adjust viewBox on mobile to show full route including start/target markers */
-  svg#nav-map {
-    /* This will be overridden by inline attribute, so we need JS or different approach */
-  }
+
   
   main svg {
     max-width: 100%;
@@ -1762,4 +1759,144 @@ body.weather-rain #weather-fx {
   background: white;
   transform: translate(-50%, -50%);
   border-radius: 50%;
+}
+
+/* --- NOTIFICATION SYSTEM (TOASTS) --- */
+.notification-container {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 90%;
+  max-width: 400px;
+  pointer-events: none; /* Let clicks pass through */
+}
+
+.toast {
+  background: rgba(10, 15, 20, 0.95);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--text-muted);
+  padding: 1rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
+  color: white;
+  font-family: "Space Mono", monospace;
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: auto;
+}
+
+.toast.toast-warn {
+  border-left-color: var(--accent-fast);
+  box-shadow: 0 5px 20px rgba(255, 47, 109, 0.15);
+}
+
+.toast.toast-info {
+  border-left-color: var(--accent-scenic);
+}
+
+.toast.toast-success {
+  border-left-color: var(--accent-safe);
+}
+
+.toast-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.toast-body {
+  font-size: 0.8rem;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  width: 100%;
+}
+
+.toast-progress-bar {
+  height: 100%;
+  background: white;
+  width: 100%;
+  transform-origin: left;
+  animation: progressBar linear forwards;
+}
+
+.toast-warn .toast-progress-bar { background: var(--accent-fast); }
+.toast-info .toast-progress-bar { background: var(--accent-scenic); }
+.toast-success .toast-progress-bar { background: var(--accent-safe); }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideOut {
+  to { opacity: 0; transform: translateY(-20px) scale(0.95); }
+}
+
+@keyframes progressBar {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+/* --- TOOLTIP SYSTEM --- */
+.nav-tooltip {
+  position: fixed;
+  padding: 8px 12px;
+  background: rgba(5, 10, 15, 0.95);
+  border: 1px solid var(--accent-scenic);
+  color: #fff;
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  pointer-events: none;
+  z-index: 10002; /* Above notifications/map */
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.1s ease-out;
+  transform: translate(10px, 10px);
+  box-shadow: 0 0 10px rgba(41, 179, 255, 0.2);
+  backdrop-filter: blur(4px);
+  border-radius: 2px;
+}
+
+.nav-tooltip::before {
+  content: "";
+  position: absolute;
+  top: -2px; left: -2px;
+  width: 6px; height: 6px;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+}
+
+.nav-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -2px; right: -2px;
+  width: 6px; height: 6px;
+  border-bottom: 2px solid white;
+  border-right: 2px solid white;
+}
+
+/* --- SIMULATION VISUALS --- */
+.map-blurred {
+  filter: blur(4px) brightness(0.8);
+  transition: filter 0.5s ease;
 }

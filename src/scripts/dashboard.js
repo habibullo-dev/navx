@@ -451,6 +451,12 @@ function animateAgentLoop() {
   const speedFactor = 0.0005;
 
   function step(timestamp) {
+    // Check pause flag
+    if (isMovementPaused) {
+        requestAnimationFrame(step);
+        return;
+    }
+
     const path = document.getElementById(routes[activeMode].id);
     if (!path) return;
     
@@ -588,56 +594,157 @@ window.setRouteFromMobile = setRouteFromMobile;
 window.setWeather = setWeather;
 
 // --- LOGIC: SIMULATION EVENTS ---
+// --- LOGIC: CONTROLLED SIMULATION SEQUENCE ---
+
+// Enhanced Notification System
+function showNotification(title, message, type = 'info', duration = 3000) {
+    const container = document.getElementById('notification-area');
+    if (!container) return;
+
+    // Create toast elements
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    
+    // Header
+    const header = document.createElement('div');
+    header.className = 'toast-header';
+    header.innerHTML = `<span>> ${title}</span> <span style="font-size:0.7rem; opacity:0.7">${new Date().toLocaleTimeString('en-US',{hour12:false})}</span>`;
+    
+    // Body
+    const body = document.createElement('div');
+    body.className = 'toast-body';
+    body.innerText = message;
+    
+    // Progress Bar
+    const progress = document.createElement('div');
+    progress.className = 'toast-progress';
+    const bar = document.createElement('div');
+    bar.className = 'toast-progress-bar';
+    bar.style.animationDuration = `${duration}ms`;
+    
+    progress.appendChild(bar);
+    toast.appendChild(header);
+    toast.appendChild(body);
+    toast.appendChild(progress);
+    
+    // Add to container
+    container.appendChild(toast);
+    
+    // Play sound effect (optional/stub)
+    // playNotificationSound();
+
+    // Remove after duration
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        setTimeout(() => {
+            if (toast.parentElement) toast.parentElement.removeChild(toast);
+        }, 500);
+    }, duration);
+}
+
+// Global flag to prevent overlapping sims
+let isSimRunning = false;
+let isMovementPaused = false; // New flag for visual pause
+
 function triggerSim(eventType) {
+    if (isSimRunning) {
+        log("SIMULATION ENGINE BUSY. PLEASE WAIT.", "warn");
+        return;
+    }
+    isSimRunning = true;
+
     const map = document.getElementById('nav-map');
     const overlay = document.getElementById('weather-fx');
 
-    // Reset Effects
-    if (map) map.classList.remove('map-shake');
-    if (overlay) overlay.className = "";
-
-    // 1. EARTHQUAKE: Seismic Shake + Red Alert
+    // --- PHASE 1: INITIAL ALERT + FREEZE (0s - 3s) ---
+    // Immediate visual feedback
+    if (map) {
+        void map.offsetWidth; // Reflow
+        map.classList.add('map-shake');
+        
+        // Apply blur and pause movement
+        map.classList.add('map-blurred');
+        isMovementPaused = true;
+    }
+    
+    let alertTitle = "SYSTEM ALERT";
+    let alertMsg = "Anomaly detected.";
+    let alertType = "warn";
+    
     if (eventType === 'earthquake') {
-        if (map) {
-            void map.offsetWidth; // reflow
-            map.classList.add('map-shake');
-        }
-        if (overlay) {
-            overlay.className = "alert-overlay"; // Red Flash
-            setTimeout(() => { if(overlay.className === "alert-overlay") overlay.className = ""; }, 1500);
-        }
-        log("CRITICAL ALERT: SEISMIC ACTIVITY DETECTED. INFRASTRUCTURE UNSTABLE.", "warn");
-    } 
-    // 2. UNREST: Police Flash (Red/Blue) + No Shake
-    else if (eventType === 'unrest') {
-        if (overlay) {
-            overlay.className = "alert-unrest"; // Red/Blue Police Strobe
-            setTimeout(() => { if(overlay.className === "alert-unrest") overlay.className = ""; }, 2000);
-        }
-        log("ALERT: CIVIL UNREST IN SECTOR 4. AVOIDING CROWD ZONES.", "warn");
-    } 
-    // 3. FLOOD: Rain Weather Force + Blue Alert
-    else if (eventType === 'flood') {
-        if (overlay) {
-            overlay.className = "alert-flood"; // Blue Pulse
-            setTimeout(() => { if(overlay.className === "alert-flood") overlay.className = ""; }, 2000);
-        }
-        // Force Weather to Rain
+        if (overlay) overlay.className = "alert-overlay"; 
+        alertTitle = "SEISMIC ACTIVITY";
+        alertMsg = "Ground motion sensors triggered. Magnitude 5.4 detected in Sector 4.";
+    } else if (eventType === 'unrest') {
+        if (overlay) overlay.className = "alert-unrest";
+        alertTitle = "CIVIL UNREST";
+        alertMsg = "Crowd density critical. Police bands active in downtown grid.";
+    } else if (eventType === 'flood') {
+        if (overlay) overlay.className = "alert-flood";
+        alertTitle = "FLASH FLOOD";
+        alertMsg = "Water sensors triggered. Hydroplaning risk imminent.";
         setWeather('rain');
-        log("WARNING: FLASH FLOOD SENSORS TRIGGERED. HYDROPLANING RISK.", "warn");
     }
 
-    // Auto-Recalculate to Resilience Mode (Scenic/Security)
-    // Only reroute if not already there
-    if (activeMode !== 'scenic') {
-        log("INITIATING EMERGENCY REROUTE... CALCULATING...", "info");
-        setTimeout(() => {
-            setRoute('scenic'); // Switch to Resilience
-            log("REROUTE COMPLETE: RESILIENCE PROFILE ENGAGED.", "info");
-        }, 1200);
-    } else {
-        log("SYSTEM STATUS: ALREADY IN RESILIENCE MODE. MAINTAINING COURSE.", "info");
-    }
+    log(`[SIM] PHASE 1: ${alertTitle}`, "warn");
+    showNotification(alertTitle, alertMsg, "warn", 4000);
+
+    // Reset overlay after alert
+    setTimeout(() => { if(overlay) overlay.className = ""; }, 2000);
+
+    // --- PHASE 2: ANALYSIS (3s - 6s) ---
+    setTimeout(() => {
+        log("[SIM] PHASE 2: IMPACT ANALYSIS", "info");
+        
+        let analysisMsg = "Calculating impact on current trajectory...";
+        if (eventType === 'earthquake') analysisMsg = "Scanning for structural debris. Road blockage probability: 89%.";
+        if (eventType === 'unrest') analysisMsg = "Predicting crowd movement vectors. Direct routes compromised.";
+        if (eventType === 'flood') analysisMsg = "Mapping flood plains. Traction loss estimated at 60%.";
+
+        showNotification("ANALYZING DATA", analysisMsg, "info", 4000);
+    }, 4500);
+
+    // --- PHASE 3: ACTION / REROUTE (6s - 10s) ---
+    setTimeout(() => {
+        // Only reroute if not already in Scenic (Resilience) Mode
+        if (activeMode !== 'scenic') {
+            log("[SIM] PHASE 3: AUTOMATED RESPONSE", "info");
+            
+            showNotification(
+                "REROUTING", 
+                "Initiating 'RESILIENCE' protocol. Calculating optimal detour...", 
+                "success", 
+                4000
+            );
+
+            // Actual Reroute Action happens after user reads this
+            setTimeout(() => {
+                setRoute('scenic');
+                log("REROUTE COMPLETE: SYSTEM STABILIZED.", "success");
+                
+                // Resume normal state
+                isSimRunning = false;
+                isMovementPaused = false;
+                if (map) map.classList.remove('map-blurred');
+                
+            }, 3500);
+            
+        } else {
+            showNotification(
+                "SYSTEM STABLE", 
+                "Current 'RESILIENCE' profile is optimal. No route change required.", 
+                "success", 
+                4000
+            );
+            log("NO ACTION REQUIRED: ALREADY SUSTAINABLE.", "info");
+            
+            // Resume normal state
+            isSimRunning = false;
+            isMovementPaused = false;
+            if (map) map.classList.remove('map-blurred');
+        }
+
+    }, 9000);
 }
 window.triggerSim = triggerSim;
 
@@ -648,3 +755,58 @@ if (document.readyState !== "loading") {
     setTimeout(initDashboard, 100);
   }
 }
+// --- TOOLTIP LOGIC ---
+function initTooltips() {
+  const tooltip = document.getElementById('tooltip-display');
+  if (!tooltip) return;
+
+  const targets = document.querySelectorAll('[data-tooltip]');
+  
+  targets.forEach(target => {
+    // Mouse Enter: Show
+    target.addEventListener('mouseenter', (e) => {
+      const text = target.getAttribute('data-tooltip');
+      if (text) {
+        tooltip.textContent = text;
+        tooltip.style.opacity = '1';
+      }
+    });
+
+    // Mouse Leave: Hide
+    target.addEventListener('mouseleave', () => {
+      tooltip.style.opacity = '0';
+    });
+
+    // Mouse Move: Follow
+    target.addEventListener('mousemove', (e) => {
+      const tooltipWidth = tooltip.offsetWidth;
+      const windowWidth = window.innerWidth;
+      const edgeThreshold = windowWidth * 0.6; // If cursor is past 60% of screen width
+
+      let x = e.clientX + 15; // Default: Right side
+      const y = e.clientY + 15;
+
+      // If we are on the right side of the screen, show tooltip on the LEFT of cursor
+      if (e.clientX > edgeThreshold) {
+        x = e.clientX - tooltipWidth - 15;
+      }
+      
+      // Boundary checks (basic)
+      if (tooltip.style.opacity === '1') {
+        tooltip.style.transform = `translate(${x}px, ${y}px)`;
+      }
+    });
+  });
+}
+
+// Add to init chain
+const originalInit = window.initDashboard; // Hook into existing init if possible, or just append call
+// Since we are replacing the end of file, let's just add it to the window export or auto-init
+window.initTooltips = initTooltips;
+
+// Append to the initDashboard function we know exists above? 
+// No, simpler to just run it on load.
+document.addEventListener('DOMContentLoaded', () => {
+  // Wait a moment for dynamic elements
+  setTimeout(initTooltips, 600);
+});
